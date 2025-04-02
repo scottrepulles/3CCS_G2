@@ -1,9 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
-  <Options UIType="TabbedMDI"
-         RestoreTabbedMdiLayout="True"
-         ShowTabImage="True">
-  </Options>
   <NavigationItems NavigationStyle="Accordion">
+    <Items>
+      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="0" IsNewNode="True" />
+      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="1" IsNewNode="True" />
+      <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="2" IsNewNode="True" />
+      <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" IsNewNode="True" />
+      <Item Id="Default" Visible="False" Caption="System">
+        <Items>
+          <Item Id="Course_ListView" Removed="True" />
+          <Item Id="Document_ListView" Removed="True" />
+          <Item Id="Event_ListView" Visible="False" />
+          <Item Id="Program_ListView" Removed="True" />
+          <Item Id="Student_ListView" Removed="True" />
+          <Item Id="Teacher_ListView" Removed="True" />
+          <Item Id="Tenant_ListView" Visible="False" />
+        </Items>
+      </Item>
+      <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" IsNewNode="True" />
+      <Item Id="State Machine" Visible="False" />
+    </Items>
   </NavigationItems>
+  <Options UIType="TabbedMDI" RestoreTabbedMdiLayout="True" ShowTabImage="True" />
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="24.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SchedulerBlazorModule" Version="24.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SchedulerModuleBase" Version="24.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="24.2.6.0" IsNewNode="True" />
+  </SchemaModules>
 </Application>
