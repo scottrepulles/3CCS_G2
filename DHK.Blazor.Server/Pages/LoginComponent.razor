@@ -1,0 +1,62 @@
+﻿@page "/DKHLoginPage"
+@using DevExpress.ExpressApp.Blazor.Pages
+@using DevExpress.ExpressApp.Blazor.Templates
+@using DevExpress.ExpressApp.MultiTenancy
+@using DHK.Module.Enumerations
+@inherits LoginPage
+
+@inject IJSRuntime jSRuntime
+@inject IConfiguration configuration
+
+
+<style>
+.logon-main.card .card-header .xaf-language-switcher-text-container,
+.dxbl-btn.dxbl-btn-text-secondary.dxbl-dropdown-item {
+font-size: 1rem;}
+.logon-main.card .card-header .dxbl-toolbar.dxbl-toolbar-adaptive.dxbl-loaded {
+min-width: 220px !important;}
+
+</style>
+
+<div class="container-fluid dhk-login">
+    <div class="row align-items-center">
+        <div class="col-lg-4 col-spacer"></div>
+        <div class="col-lg-4 login-form">
+            <div class="login-logo">
+                <img src="/images/DKH_Logo_Main.png" class="img-fluid dhk-login-img" />
+            </div>
+            @{
+                base.BuildRenderTree(__builder);
+            }
+        </div>
+    </div>
+    @* <div class="video-wrap">
+        <video autoplay muted="" loop id="vid_stek">
+            <source src="images/lines-loop.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div> *@
+
+</div>
+<component type="typeof(DHK.Blazor.Server.Pages.DHKCookieComponent)" render-mode="Server" />
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // IsTenantInstance = !string.IsNullOrEmpty(GetTenantNameFromConfig());
+    }
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         await JSRuntime.InvokeVoidAsync(
+    //             "LoginAnimationHelper.startAnimation"
+    //         );
+    //     }
+    // }
+
+}

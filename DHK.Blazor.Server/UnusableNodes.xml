@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="Teacher_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="Teacher">
+              <LayoutItem Id="TeacherNumber" RelativeSize="38.20224719101124" />
+              <LayoutItem Id="Specialization" RelativeSize="32.58426966292135" Index="2" />
+              <LayoutItem Id="HireDate" RelativeSize="29.213483146067414" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="Teacher_ListView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="TeacherNumber" Index="0" />
+      </Columns>
+    </ListView>
+  </Views>
+</Application>

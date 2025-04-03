@@ -4,7 +4,8 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using DKH.Module.BusinessObjects;
+using DHK.Module.Converters;
+using DHK.Module.Enumerations;
 using DKH.Module.Constants;
 using DKH.Module.Interfaces;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.ComponentModel;
 namespace DHK.Module.BusinessObjects
 {
     [DefaultClassOptions]
+    [DefaultProperty(nameof(Title))]
     public class Course(Session session) : AuditedEntity(session), IImported, IAuditEvent
     {
         public override void AfterConstruction()
@@ -22,12 +24,14 @@ namespace DHK.Module.BusinessObjects
         string code;
         string title;
         Program program;
-        int yearLevel;
+        YearLevelType yearLevel;
 
         [NonCloneable]
         [RuleUniqueValue]
         [Indexed(Unique = true)]
         [Size(50)]
+        [ModelDefault(ModelDefaultProperties.EDIT_MASK_TYPE, Patterns.REGEX)]
+        [ModelDefault(ModelDefaultProperties.EDIT_MASK, Patterns.ALPHANUMERIC)]
         [ModelDefault(ModelDefaultProperties.PROPERTY_EDITOR_ALLOW_EDIT, ModelDefaultProperties.IS_FALSE)]
         public string Code
         {
@@ -69,7 +73,8 @@ namespace DHK.Module.BusinessObjects
             }
         }
 
-        public int YearLevel
+        [ValueConverter(typeof(GenericEnumConverter<YearLevelType>))]
+        public YearLevelType YearLevel
         {
             get => yearLevel;
             set => SetPropertyValue(nameof(YearLevel), ref yearLevel, value);

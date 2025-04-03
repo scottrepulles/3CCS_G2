@@ -1,27 +1,22 @@
-﻿using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using DHK.Module.BusinessObjects;
 using DHK.Module.Helper;
 using DHK.Module.Interfaces;
 using DKH.Module.Constants;
 using DKH.Module.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
-namespace DKH.Module.BusinessObjects
+namespace DHK.Module.BusinessObjects
 {
     [DefaultClassOptions]
+    [DefaultProperty(nameof(FormattedFullName))]
     public class Teacher(Session session) : AuditedUser(session), IAuditEvent, IImported, IGeneratedIdentifier
-    { 
+    {
         public override void AfterConstruction()
         {
             base.AfterConstruction();
@@ -29,25 +24,62 @@ namespace DKH.Module.BusinessObjects
 
         protected override void OnSaving()
         {
-            this.GenerateIdentifier(nameof(TeacherNumber));
+            this.GenerateIdentifier(nameof(EmployeeNumber));
             RoleHelper.AddUserRole(this, Session, RoleNames.STUDENTS);
             base.OnSaving();
         }
 
         DateTime? hireDate;
         string specialization;
-        string teacherNumber;
-
+        string employeeNumber;
+        string middleName;
+        string lastName;
+        string firstName;
 
         [NonCloneable]
         [RuleUniqueValue]
         [Indexed(Unique = true)]
         [Size(50)]
         [ModelDefault(ModelDefaultProperties.PROPERTY_EDITOR_ALLOW_EDIT, ModelDefaultProperties.IS_FALSE)]
-        public string TeacherNumber
+        public string EmployeeNumber
         {
-            get => teacherNumber;
-            set => SetPropertyValue(nameof(TeacherNumber), ref teacherNumber, value);
+            get => employeeNumber;
+            set => SetPropertyValue(nameof(EmployeeNumber), ref employeeNumber, value);
+        }
+
+        [VisibleInListView(false)]
+        [Size(SizeAttribute.DefaultStringMappingFieldSize)]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public string FirstName
+        {
+            get => firstName;
+            set => SetPropertyValue(nameof(FirstName), ref firstName, value);
+        }
+
+        [VisibleInListView(false)]
+        [Size(SizeAttribute.DefaultStringMappingFieldSize)]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public string LastName
+        {
+            get => lastName;
+            set => SetPropertyValue(nameof(LastName), ref lastName, value);
+        }
+
+        [VisibleInListView(false)]
+        [Size(SizeAttribute.DefaultStringMappingFieldSize)]
+        public string MiddleName
+        {
+            get => middleName;
+            set => SetPropertyValue(nameof(MiddleName), ref middleName, value);
+        }
+
+        [VisibleInListView(true)]
+        [VisibleInDetailView(false)]
+        [XafDisplayName("")]
+        [PersistentAlias($"CONCAT([{nameof(FirstName)}], ' ', [{nameof(LastName)}])")]
+        public string FormattedFullName
+        {
+            get => EvaluateAlias(nameof(FormattedFullName))?.ToString() ?? string.Empty;
         }
 
         [CollectionOperationSet(AllowAdd = false, AllowRemove = false)]

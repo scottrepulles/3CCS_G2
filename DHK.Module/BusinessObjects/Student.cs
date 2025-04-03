@@ -5,12 +5,15 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using DHK.Module.Converters;
+using DHK.Module.Enumerations;
 using DHK.Module.Helper;
 using DHK.Module.Interfaces;
 using DKH.Module.Constants;
 using DKH.Module.Converters;
 using DKH.Module.Enumerations;
 using DKH.Module.Interfaces;
+using Microsoft.VisualBasic;
 using System.ComponentModel;
 
 namespace DHK.Module.BusinessObjects
@@ -20,7 +23,7 @@ namespace DHK.Module.BusinessObjects
     public class Student(Session session) : AuditedUser(session), IAuditEvent, IImported, IGeneratedIdentifier
     {
         string studentNumber;
-        int yearLevel;
+        YearLevelType yearLevel;
         DateTime? birthday;
         DateTime? enrollmentDate;
         GenderType gender;
@@ -28,6 +31,7 @@ namespace DHK.Module.BusinessObjects
         string middleName;
         string lastName;
         string firstName;
+        Program program;
 
         protected override void OnSaving()
         {
@@ -57,7 +61,8 @@ namespace DHK.Module.BusinessObjects
             set => SetPropertyValue(nameof(StudentNumber), ref studentNumber, value);
         }
 
-        public int YearLevel
+        [ValueConverter(typeof(GenericEnumConverter<YearLevelType>))]
+        public YearLevelType YearLevel
         {
             get => yearLevel;
             set => SetPropertyValue(nameof(YearLevel), ref yearLevel, value);
@@ -119,6 +124,12 @@ namespace DHK.Module.BusinessObjects
         public string FormattedFullName
         {
             get => EvaluateAlias(nameof(FormattedFullName))?.ToString() ?? string.Empty;
+        }
+
+        public Program Program
+        {
+            get => program;
+            set => SetPropertyValue(nameof(Program), ref program, value);
         }
     }
 }

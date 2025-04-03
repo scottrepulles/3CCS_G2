@@ -17,6 +17,7 @@ public class Program(Session session) : AuditedEntity(session), IImported, IAudi
     string code;
     string name;
     string description;
+    Student student;
 
     [NonCloneable]
     [RuleUniqueValue]
@@ -65,5 +66,4 @@ public class Program(Session session) : AuditedEntity(session), IImported, IAudi
             return GetCollection<Course>(nameof(Courses));
         }
     }
-    
 }

@@ -35,8 +35,7 @@ public class Updater : ModuleUpdater {
 
 #if !RELEASE
         if (TenantName == null) {
-            _ = CreateTenant("company1.com", "DHK_company1");
-            _ = CreateTenant("company2.com", "DHK_company2");
+            _ = CreateTenant("cict", "cict");
             ObjectSpace.CommitChanges();
         }
 #endif
