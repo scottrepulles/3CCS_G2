@@ -10,6 +10,10 @@ using DHK.Blazor.Server.Services;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.ExpressApp.MultiTenancy;
 using Microsoft.Extensions.DependencyInjection;
+using DHK.Module.Enumerations;
+using DHK.Module.BusinessObjects;
+using DHK.Module;
+using DHK.Module.Models;
 
 namespace DHK.Blazor.Server;
 
@@ -23,104 +27,135 @@ public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
+
+        string environment = Configuration["ASPNETCORE_ENVIRONMENT"];
+        string connectionString = null;
+
+        bool isLocalDeployment = ApplicationEnvironmentType.Development.ToString().Equals(environment, StringComparison.InvariantCultureIgnoreCase);
+        var tenantName = Configuration["Services:Tenant"];
+        if (isLocalDeployment)
+        {
+            connectionString = Configuration["ConnectionStrings:LocalConnectionString"];
+            tenantName = Configuration["Services:LocalTenant"];
+        }
+        else
+        {
+            connectionString = Configuration["ConnectionStrings:ConnectionString"];
+        }
+        bool isTenantInstance = !string.IsNullOrEmpty(tenantName);
+
         services.AddSingleton(typeof(Microsoft.AspNetCore.SignalR.HubConnectionHandler<>), typeof(ProxyHubConnectionHandler<>));
 
         services.AddRazorPages();
         services.AddServerSideBlazor();
         services.AddHttpContextAccessor();
         services.AddScoped<CircuitHandler, CircuitHandlerProxy>();
-        services.AddXaf(Configuration, builder => {
+        services.AddXaf(Configuration, builder =>
+        {
             builder.UseApplication<DHKBlazorApplication>();
             builder.Modules
                 .AddAuditTrailXpo()
                 .AddCloningXpo()
                 .AddConditionalAppearance()
-                .AddDashboards(options => {
+                .AddDashboards(options =>
+                {
                     options.DashboardDataType = typeof(DevExpress.Persistent.BaseImpl.DashboardData);
                 })
                 .AddFileAttachments()
                 .AddNotifications()
                 .AddOffice()
-                .AddReports(options => {
+                .AddReports(options =>
+                {
                     options.EnableInplaceReports = true;
                     options.ReportDataType = typeof(DevExpress.Persistent.BaseImpl.ReportDataV2);
                     options.ReportStoreMode = DevExpress.ExpressApp.ReportsV2.ReportStoreModes.XML;
                 })
                 .AddScheduler()
-                .AddStateMachine(options => {
+                .AddStateMachine(options =>
+                {
                     options.StateMachineStorageType = typeof(DevExpress.ExpressApp.StateMachine.Xpo.XpoStateMachine);
                 })
-                .AddValidation(options => {
+                .AddValidation(options =>
+                {
                     options.AllowValidationDetailsAccess = false;
                 })
                 .AddViewVariants()
-                .Add<DHK.Module.DHKModule>()
+                .Add<DHK.Module.DHKModule>()    
                 .Add<DHKBlazorModule>();
 
             builder.AddMultiTenancy()
-                .WithHostDatabaseConnectionString(Configuration.GetConnectionString("ConnectionString"))
-#if EASYTEST
-                .WithHostDatabaseConnectionString(Configuration.GetConnectionString("EasyTestConnectionString"))
-#endif
-                .WithMultiTenancyModelDifferenceStore(options => {
+                .WithCustomTenantType<BaseTenant>()
+                .WithHostDatabaseConnectionString(connectionString)
+                .WithMultiTenancyModelDifferenceStore(options =>
+                {
 #if !RELEASE
                     options.UseTenantSpecificModel = false;
 #endif
                 })
-                .WithTenantResolver<TenantByEmailResolver>();
-
+                .WithTenantResolver<BaseTenantResolver>();
             builder.ObjectSpaceProviders
-                .AddSecuredXpo((serviceProvider, options) => {
-                    string connectionString = serviceProvider.GetRequiredService<IConnectionStringProvider>().GetConnectionString();
-                    options.ConnectionString = connectionString;
+                .AddSecuredXpo((serviceProvider, options) =>
+                {
+                    string multiTenantConnectionSting = serviceProvider.GetRequiredService<IConnectionStringProvider>()
+                                                                       .GetConnectionString();
+                    ArgumentNullException.ThrowIfNull(multiTenantConnectionSting);
+                    options.ConnectionString = multiTenantConnectionSting;
                     options.ThreadSafe = true;
                     options.UseSharedDataStoreProvider = true;
                 })
                 .AddNonPersistent();
             builder.Security
-                .UseIntegratedMode(options => {
+                .UseIntegratedMode(options =>
+                {
                     options.Lockout.Enabled = true;
-
                     options.RoleType = typeof(PermissionPolicyRole);
-                    // ApplicationUser descends from PermissionPolicyUser and supports the OAuth authentication. For more information, refer to the following topic: https://docs.devexpress.com/eXpressAppFramework/402197
-                    // If your application uses PermissionPolicyUser or a custom user type, set the UserType property as follows:
-                    options.UserType = typeof(DHK.Module.BusinessObjects.ApplicationUser);
-                    // ApplicationUserLoginInfo is only necessary for applications that use the ApplicationUser user type.
-                    // If you use PermissionPolicyUser or a custom user type, comment out the following line:
-                    options.UserLoginInfoType = typeof(DHK.Module.BusinessObjects.ApplicationUserLoginInfo);
+                    options.UserType = typeof(ApplicationUser);
+                    options.UserLoginInfoType = typeof(ApplicationUserLoginInfo);
                     options.UseXpoPermissionsCaching();
-                    options.Events.OnSecurityStrategyCreated += securityStrategy => {
-                        // Use the 'PermissionsReloadMode.NoCache' option to load the most recent permissions from the database once
-                        // for every Session instance when secured data is accessed through this instance for the first time.
-                        // Use the 'PermissionsReloadMode.CacheOnFirstAccess' option to reduce the number of database queries.
-                        // In this case, permission requests are loaded and cached when secured data is accessed for the first time
-                        // and used until the current user logs out.
-                        // See the following article for more details: https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.PermissionsReloadMode.
+                    options.Events.OnSecurityStrategyCreated += securityStrategy =>
+                    {
                         ((SecurityStrategy)securityStrategy).PermissionsReloadMode = PermissionsReloadMode.NoCache;
+                        ((SecurityStrategy)securityStrategy).AssociationPermissionsMode = AssociationPermissionsMode.Manual;
                     };
                 })
-                .AddPasswordAuthentication(options => {
+                .AddPasswordAuthentication(options =>
+                {
                     options.IsSupportChangePassword = true;
-                });
-        });
-        var authentication = services.AddAuthentication(options => {
-            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        });
-        authentication.AddCookie(options => {
-            options.LoginPath = "/DKHLoginPage";
+                    if (isLocalDeployment)
+                    {
+                        options.LogonParametersType = typeof(MultiTenantLogonParametersModel);
+                    }
+                    else
+                    {
+                        options.LogonParametersType = typeof(CustomLogonParametersForStandardAuthenticationModel);
+                    }
+                })
+            .AddAuthenticationProvider<DKHAuthenticationProvider>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/DKHLoginPage";
+            });
         });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-        if(env.IsDevelopment()) {
+        bool isLocalDeployment = env.IsDevelopment();
+
+        var tenantName = Configuration["Services:Tenant"];
+        if (isLocalDeployment)
+        {
             app.UseDeveloperExceptionPage();
+            tenantName = Configuration["Services:LocalTenant"];
         }
-        else {
+        else
+        {
             app.UseExceptionHandler("/Error");
             // The default HSTS value is 30 days. To change this for production scenarios, see: https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+        bool isTenantInstance = !string.IsNullOrEmpty(tenantName);
         app.UseHttpsRedirection();
         app.UseRequestLocalization();
         app.UseStaticFiles();

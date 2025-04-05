@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Program>
+		<Code>BSIT</Code>
+		<Description>Bachelor of Science in Information Technology</Description>
+		<Name>Bachelor of Science in Information Technology</Name>
+	</Program>
+	<Program>
+		<Code>BSCS</Code>
+		<Description>Bachelor of Science in Computer Science</Description>
+		<Name>Bachelor of Science in Computer Science</Name>
+	</Program>
+</Programs>

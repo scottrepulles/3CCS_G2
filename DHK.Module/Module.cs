@@ -13,6 +13,7 @@ using DevExpress.ExpressApp.Model.DomainLogics;
 using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.BaseImpl.MultiTenancy;
 
 namespace DHK.Module;
 
@@ -32,6 +33,7 @@ public sealed class DHKModule : ModuleBase {
         AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.Event));
         AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.Resource));
         AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.HCategory));
+        AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.MultiTenancy.Tenant));
         RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.SystemModule.SystemModule));
         RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Security.SecurityModule));
         RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.AuditTrail.AuditTrailModule));

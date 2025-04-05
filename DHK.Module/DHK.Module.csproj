@@ -14,29 +14,33 @@
   <ItemGroup>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp" />
-    <PackageReference Include="DevExpress.ExpressApp.AuditTrail.Xpo" />
-    <PackageReference Include="DevExpress.ExpressApp.CloneObject.Xpo" />
-    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" />
-    <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" />
-    <PackageReference Include="DevExpress.ExpressApp.Dashboards" />
-    <PackageReference Include="DevExpress.ExpressApp.MultiTenancy.Xpo" />
-    <PackageReference Include="DevExpress.ExpressApp.Notifications" />
-    <PackageReference Include="DevExpress.ExpressApp.Objects" />
-    <PackageReference Include="DevExpress.ExpressApp.Office" />
-    <PackageReference Include="DevExpress.ExpressApp.ReportsV2" />
-    <PackageReference Include="DevExpress.ExpressApp.Scheduler" />
-    <PackageReference Include="DevExpress.ExpressApp.Security" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" />
-    <PackageReference Include="DevExpress.ExpressApp.StateMachine" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" />
-    <PackageReference Include="DevExpress.ExpressApp.ViewVariantsModule" />
-    <PackageReference Include="DevExpress.ExpressApp.Xpo" />
-    <PackageReference Include="DevExpress.Persistent.Base" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" />
-    <PackageReference Include="Azure.Identity" />
-    <PackageReference Include="Microsoft.Data.SqlClient" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DevExpress.ExpressApp" />
+		<PackageReference Include="DevExpress.ExpressApp.AuditTrail.Xpo" />
+		<PackageReference Include="DevExpress.ExpressApp.CloneObject.Xpo" />
+		<PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" />
+		<PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" />
+		<PackageReference Include="DevExpress.ExpressApp.Dashboards" />
+		<PackageReference Include="DevExpress.ExpressApp.MultiTenancy.Xpo" />
+		<PackageReference Include="DevExpress.ExpressApp.Notifications" />
+		<PackageReference Include="DevExpress.ExpressApp.Objects" />
+		<PackageReference Include="DevExpress.ExpressApp.Office" />
+		<PackageReference Include="DevExpress.ExpressApp.ReportsV2" />
+		<PackageReference Include="DevExpress.ExpressApp.Scheduler" />
+		<PackageReference Include="DevExpress.ExpressApp.Security" />
+		<PackageReference Include="DevExpress.ExpressApp.Security.Xpo" />
+		<PackageReference Include="DevExpress.ExpressApp.StateMachine" />
+		<PackageReference Include="DevExpress.ExpressApp.Validation" />
+		<PackageReference Include="DevExpress.ExpressApp.ViewVariantsModule" />
+		<PackageReference Include="DevExpress.ExpressApp.Xpo" />
+		<PackageReference Include="DevExpress.Persistent.Base" />
+		<PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" />
+		<PackageReference Include="Azure.Identity" />
+		<PackageReference Include="Microsoft.Data.SqlClient" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="DatabaseUpdate\SeedData\Program.xml" />
+		<EmbeddedResource Include="DatabaseUpdate\SeedData\Program.xml" />
+	</ItemGroup>
 </Project>

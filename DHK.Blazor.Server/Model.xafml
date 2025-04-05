@@ -6,11 +6,13 @@
       <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="1" IsNewNode="True" />
       <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="2" ImageName="BO_Folder" IsNewNode="True" />
       <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" IsNewNode="True" />
-      <Item Id="Default" Visible="False" Caption="System">
+      <Item Id="Default" Visible="True" Caption="Administrator">
         <Items>
+          <Item Id="BaseTenant_ListView" Caption="Tenant" />
           <Item Id="Course_ListView" Removed="True" />
           <Item Id="Document_ListView" Removed="True" />
           <Item Id="Event_ListView" Visible="False" />
+          <Item Id="MyDetails" Visible="False" />
           <Item Id="Program_ListView" Removed="True" />
           <Item Id="Student_ListView" Removed="True" />
           <Item Id="Teacher_ListView" Removed="True" />
@@ -64,17 +66,7 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="100">
-            <LayoutGroup Id="Document" RelativeSize="100">
-              <LayoutGroup Id="Document_col1" RelativeSize="49.91721854304636">
-                <LayoutItem Id="File" RelativeSize="6.7669172932330826" />
-                <LayoutItem Id="Viewer" RelativeSize="4.887218045112782" />
-                <LayoutItem Id="Course" RelativeSize="88.34586466165413" />
-              </LayoutGroup>
-              <LayoutGroup Id="Document_col2" RelativeSize="50.08278145695364">
-                <LayoutItem Id="ExpirationDate" Index="0" RelativeSize="6.7669172932330826" />
-                <LayoutItem Id="Visible" Index="1" RelativeSize="93.23308270676692" />
-              </LayoutGroup>
-            </LayoutGroup>
+            <LayoutGroup Id="Document" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
