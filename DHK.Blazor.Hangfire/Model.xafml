@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <NavigationItems NavigationStyle="Accordion" />
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="23.2.5.0" IsNewNode="True" />
+    <SchemaModule Name="SchedulerModuleBase" Version="23.2.5.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="23.2.5.0" IsNewNode="True" />
+  </SchemaModules>
+  <Views DefaultListEditor="DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor">
+    <DetailView Id="Company_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="46.567717996289424">
+            <LayoutGroup Id="Company">
+              <TabbedGroup Id="@5cddbca7-9588-42ac-ab4e-5813c804dba2">
+                <LayoutGroup Id="tab1">
+                  <LayoutGroup Id="Logo">
+                    <LayoutItem Id="Logo" RelativeSize="23.63261093911249" />
+                    <LayoutGroup Id="Item1" RelativeSize="76.36738906088752">
+                      <LayoutGroup Id="Autoc3142c7e-be01-4fa5-91c5-c823bd7274c5" RelativeSize="65.04854368932038">
+                        <LayoutGroup Id="Autod7251bca-9aff-45ef-acdf-3a3b07983b94" RelativeSize="51.891891891891895">
+                          <LayoutItem Id="Name" RelativeSize="23.880597014925375" />
+                          <LayoutItem Id="Address" RelativeSize="17.91044776119403" />
+                          <LayoutItem Id="Geocoder" RelativeSize="17.91044776119403" />
+                          <LayoutItem Id="Currency" RelativeSize="17.91044776119403" />
+                          <LayoutItem Id="TimeZone" ViewItem="TimeZone" Index="4" RelativeSize="22.388059701492537" IsNewNode="True" />
+                        </LayoutGroup>
+                        <LayoutGroup Id="Auto6cd7c1ec-3c9a-4da3-b295-57857e02044b" RelativeSize="48.108108108108105">
+                          <LayoutItem Id="Code" RelativeSize="23.880597014925375" />
+                          <LayoutItem Id="Email" RelativeSize="17.91044776119403" />
+                          <LayoutItem Id="OwnershipType" RelativeSize="17.91044776119403" />
+                          <LayoutItem Id="WebSite" RelativeSize="40.298507462686565" />
+                        </LayoutGroup>
+                      </LayoutGroup>
+                      <LayoutItem Id="ConnectionString" RelativeSize="4.854368932038835" />
+                      <LayoutItem Id="Description" RelativeSize="30.097087378640776" />
+                    </LayoutGroup>
+                  </LayoutGroup>
+                </LayoutGroup>
+                <LayoutGroup Id="tab2">
+                  <LayoutItem Id="TwilioAccountSid" RelativeSize="15.533980582524272" />
+                  <LayoutItem Id="TwilioAuthToken" RelativeSize="11.650485436893204" />
+                  <LayoutItem Id="TwilioPhoneNumber" RelativeSize="72.81553398058253" />
+                </LayoutGroup>
+                <LayoutGroup Id="tab3">
+                  <LayoutGroup Id="Auto2a60970c-c9f5-4da6-8435-68753a58fc58" RelativeSize="16.990291262135923">
+                    <LayoutItem Id="EmailApiKey" RelativeSize="50.25799793601651" />
+                    <LayoutItem Id="EmailDomainName" RelativeSize="49.74200206398349" />
+                  </LayoutGroup>
+                  <LayoutGroup Id="Autof578a88c-71a6-452a-92f3-ff36836e1245" RelativeSize="83.00970873786407">
+                    <LayoutGroup Id="Auto33bec33b-b9ae-47f7-8da6-12fec606af3c" RelativeSize="19.29824561403509">
+                      <LayoutItem Id="EmailSenderAddress" RelativeSize="50.25799793601651" />
+                      <LayoutItem Id="EmailUsername" RelativeSize="49.74200206398349" />
+                    </LayoutGroup>
+                    <LayoutGroup Id="Auto4fae0853-8753-4fbf-8e88-d9f3e091561d" RelativeSize="80.70175438596492">
+                      <LayoutGroup Id="Auto38f3ebc9-3a6a-4c69-a568-c9c169b128eb" RelativeSize="59.42028985507246">
+                        <LayoutGroup Id="Auto00f9778a-55af-41a9-98a3-e7d30915c9b9" RelativeSize="50.25799793601651" />
+                        <LayoutGroup Id="Auto091afcf2-21c4-47ea-bdb6-aac1c8431f4e" RelativeSize="49.74200206398349">
+                          <LayoutGroup Id="EmptyGroup">
+                            <LayoutItem Id="Ssl" RelativeSize="40.04149377593361" />
+                            <LayoutGroup Id="SSLPArent" RelativeSize="59.95850622406639" />
+                          </LayoutGroup>
+                        </LayoutGroup>
+                      </LayoutGroup>
+                      <LayoutGroup Id="Auto9e6f9664-3204-45ab-b104-653f278b1469" RelativeSize="40.57971014492754">
+                        <LayoutGroup Id="Auto19d2809f-3bcf-47a8-a5de-7503e9db558d" RelativeSize="64.28571428571429">
+                          <LayoutItem Id="EmailSmtpHost" RelativeSize="50.56759545923632" />
+                          <LayoutItem Id="Item2" RelativeSize="49.43240454076368" />
+                        </LayoutGroup>
+                        <LayoutGroup Id="Autoff26c125-017a-4761-907a-326f1b1b047c" RelativeSize="35.714285714285715" />
+                      </LayoutGroup>
+                    </LayoutGroup>
+                  </LayoutGroup>
+                </LayoutGroup>
+              </TabbedGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" RelativeSize="21.89239332096475" />
+          <LayoutGroup Id="Processes_Group" Direction="Vertical" RelativeSize="31.539888682745826">
+            <LayoutItem Id="Processes" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="Customer_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="40.96601073345259">
+            <TabbedGroup Id="Item1" CaptionLocation="Top" Index="0" RelativeSize="100" IsNewNode="True">
+              <LayoutGroup Id="Customer" ShowCaption="True" Direction="Horizontal" Index="0" RelativeSize="100" IsNewNode="True">
+                <LayoutGroup Id="Customer_col1" ShowCaption="False" Index="0" RelativeSize="66.63844199830652" Direction="Horizontal" Caption="Customer_col1" IsNewNode="True">
+                  <LayoutItem Id="Photo" ViewItem="Photo" Index="0" RelativeSize="49.936467598475225" IsNewNode="True" />
+                  <LayoutGroup Id="Auto7588ab69-04c5-4dfd-af4d-8af8f8dd8919" ShowCaption="False" Caption="Auto7588ab69-04c5-4dfd-af4d-8af8f8dd8919(7)" Index="1" RelativeSize="50.063532401524775" IsNewNode="True">
+                    <LayoutItem Id="AccountName" ViewItem="AccountName" Index="0" RelativeSize="17.391304347826086" IsNewNode="True" />
+                    <LayoutItem Id="AccountNumber" ViewItem="AccountNumber" Index="1" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="PhoneNumber" ViewItem="PhoneNumber" Index="2" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="BillingAddress" ViewItem="BillingAddress" Index="3" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="ShippingAddress" ViewItem="ShippingAddress" Index="4" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="PrimarySender" ViewItem="PrimarySender" Index="5" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="PrimaryReceiver" ViewItem="PrimaryReceiver" Index="6" RelativeSize="17.391304347826086" IsNewNode="True" />
+                  </LayoutGroup>
+                </LayoutGroup>
+                <LayoutGroup Id="Autoda33a29e-d9b8-4f7e-a9e1-9dc95a8af5b0" ShowCaption="False" Caption="Autoda33a29e-d9b8-4f7e-a9e1-9dc95a8af5b0(15)" Index="1" RelativeSize="33.36155800169348" IsNewNode="True">
+                  <LayoutItem Id="Currency" ViewItem="Currency" Index="0" RelativeSize="17.391304347826086" IsNewNode="True" />
+                  <LayoutItem Id="TimeFormatType" ViewItem="TimeFormatType" Index="1" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="Email" ViewItem="Email" Index="2" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="UserName" ViewItem="UserName" Index="3" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="ChangePasswordOnFirstLogon" ViewItem="ChangePasswordOnFirstLogon" Index="4" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="IsActive" ViewItem="IsActive" Index="5" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="FixedETA" ViewItem="FixedETA" Index="6" RelativeSize="17.391304347826086" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+              <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Direction="Horizontal" Index="1" Caption="Business Hours" RelativeSize="100" IsNewNode="True">
+                <LayoutGroup Id="Auto478a877c-e1b0-4446-8f84-66950867b97d" ShowCaption="False" Caption="Auto478a877c-e1b0-4446-8f84-66950867b97d(24)" Index="0" RelativeSize="33.27688399661304" IsNewNode="True">
+                  <LayoutItem Id="MondayStartTime" ViewItem="MondayStartTime" Index="0" RelativeSize="17.391304347826086" IsNewNode="True" />
+                  <LayoutItem Id="TuesdayStartTime" ViewItem="TuesdayStartTime" Index="1" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="WednesdayStartTime" ViewItem="WednesdayStartTime" Index="2" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="ThursdayStartTime" ViewItem="ThursdayStartTime" Index="3" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="FridayStartTime" ViewItem="FridayStartTime" Index="4" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="SaturdayStartTime" ViewItem="SaturdayStartTime" Index="5" RelativeSize="13.043478260869565" IsNewNode="True" />
+                  <LayoutItem Id="SundayStartTime" ViewItem="SundayStartTime" Index="6" RelativeSize="17.391304347826086" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="Autoc51dc245-e430-4f37-9b41-2aa96cdcbd8a" ShowCaption="False" Caption="Autoc51dc245-e430-4f37-9b41-2aa96cdcbd8a(32)" Direction="Horizontal" Index="1" RelativeSize="66.72311600338696" IsNewNode="True">
+                  <LayoutGroup Id="Auto3f0a2b49-e768-4296-a4c1-b17db089cb19" ShowCaption="False" Caption="Auto3f0a2b49-e768-4296-a4c1-b17db089cb19(33)" Index="0" RelativeSize="50" IsNewNode="True">
+                    <LayoutItem Id="MondayEndTime" ViewItem="MondayEndTime" Index="0" RelativeSize="17.391304347826086" IsNewNode="True" />
+                    <LayoutItem Id="TuesdayEndTime" ViewItem="TuesdayEndTime" Index="1" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="WednesdayEndTime" ViewItem="WednesdayEndTime" Index="2" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="ThursdayEndTime" ViewItem="ThursdayEndTime" Index="3" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="FridayEndTime" ViewItem="FridayEndTime" Index="4" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="SaturdayEndTime" ViewItem="SaturdayEndTime" Index="5" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="SundayEndTime" ViewItem="SundayEndTime" Index="6" RelativeSize="17.391304347826086" IsNewNode="True" />
+                  </LayoutGroup>
+                  <LayoutGroup Id="Autoe0fa5fe2-e720-484f-838a-0ae80ae156a8" ShowCaption="False" Caption="Autoe0fa5fe2-e720-484f-838a-0ae80ae156a8(41)" Index="1" RelativeSize="50" IsNewNode="True">
+                    <LayoutItem Id="MondayRestDay" ViewItem="MondayRestDay" Index="0" RelativeSize="17.391304347826086" IsNewNode="True" />
+                    <LayoutItem Id="TuesdayRestDay" ViewItem="TuesdayRestDay" Index="1" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="WednesdayRestDay" ViewItem="WednesdayRestDay" Index="2" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="ThursdayRestDay" ViewItem="ThursdayRestDay" Index="3" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="FridayRestDay" ViewItem="FridayRestDay" Index="4" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="SaturdayRestDay" ViewItem="SaturdayRestDay" Index="5" RelativeSize="13.043478260869565" IsNewNode="True" />
+                    <LayoutItem Id="SundayRestDay" ViewItem="SundayRestDay" Index="6" RelativeSize="17.391304347826086" IsNewNode="True" />
+                  </LayoutGroup>
+                </LayoutGroup>
+              </LayoutGroup>
+            </TabbedGroup>
+            <LayoutGroup Id="ApplicationUser" RelativeSize="35.294117647058826" Index="1" Caption="ApplicationUser" Removed="True">
+              <LayoutItem Id="Email" RelativeSize="52.63157894736842" Index="0" Removed="True" />
+              <LayoutItem Id="EmailConfirmed" RelativeSize="100" Index="0" Removed="True" />
+              <LayoutItem Id="PhoneNumber" RelativeSize="34.61538461538461" Index="0" Removed="True" />
+              <LayoutItem Id="Photo" RelativeSize="26.470588235294116" Removed="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="AuditedUser" RelativeSize="26.08695652173913" Index="1" Caption="Time Format Type" Removed="True">
+              <LayoutItem Id="TimeFormatType" RelativeSize="100" Removed="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="PermissionPolicyUser" RelativeSize="42.966751918158565" Index="1" Caption="PermissionPolicyUser" Removed="True">
+              <LayoutItem Id="IsActive" RelativeSize="100" Index="0" Removed="True" />
+              <LayoutItem Id="ChangePasswordOnFirstLogon" RelativeSize="47.36842105263158" Removed="True" />
+              <LayoutItem Id="UserName" RelativeSize="29.62962962962963" Removed="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Customer" Removed="True" />
+          </LayoutGroup>
+          <TabbedGroup Id="Tabs" RelativeSize="59.03398926654741">
+            <LayoutGroup Id="Contacts" RelativeSize="100">
+              <LayoutItem Id="Contacts" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="Holidays" RelativeSize="100">
+              <LayoutItem Id="Holidays" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="CustomerRoutingGroups" RelativeSize="100">
+              <LayoutItem Id="CustomerRoutingGroups" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="Roles" RelativeSize="100">
+              <LayoutItem Id="Roles" RelativeSize="100" />
+            </LayoutGroup>
+          </TabbedGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+</Application>

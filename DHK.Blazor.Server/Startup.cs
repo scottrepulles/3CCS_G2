@@ -14,6 +14,9 @@ using DHK.Module.Enumerations;
 using DHK.Module.BusinessObjects;
 using DHK.Module;
 using DHK.Module.Models;
+using Hangfire;
+using Hangfire.Console;
+using DHK.Blazor.Module.Hangfire;
 
 namespace DHK.Blazor.Server;
 
@@ -33,10 +36,12 @@ public class Startup {
 
         bool isLocalDeployment = ApplicationEnvironmentType.Development.ToString().Equals(environment, StringComparison.InvariantCultureIgnoreCase);
         var tenantName = Configuration["Services:Tenant"];
+        var hangfireConnectionString = Configuration["ConnectionStrings:TenantHangfire"];
         if (isLocalDeployment)
         {
-            connectionString = Configuration["ConnectionStrings:LocalConnectionString"];
             tenantName = Configuration["Services:LocalTenant"];
+            hangfireConnectionString = Configuration["ConnectionStrings:LocalTenantHangfire"];
+            connectionString = Configuration["ConnectionStrings:LocalConnectionString"];
         }
         else
         {
@@ -137,6 +142,14 @@ public class Startup {
                 options.LoginPath = "/DKHLoginPage";
             });
         });
+        services.AddHangfire((serviceProvider, config) =>
+        {
+            config
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(hangfireConnectionString)
+                .UseConsole();
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -169,5 +182,16 @@ public class Startup {
             endpoints.MapFallbackToPage("/_Host");
             endpoints.MapControllers();
         });
+        //Hangfire
+        if (isTenantInstance)
+        {
+            app.UseHangfireDashboard(
+                "/hangfire",
+                new DashboardOptions
+                {
+                    Authorization = [new HangfireAuthFilter()]
+                }
+            );
+        }
     }
 }

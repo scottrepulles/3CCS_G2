@@ -1,0 +1,141 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: sprinttek-{{.Release.Name}}
+   namespace: sprinttek-sandbox
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: sprinttek-{{.Release.Name}}
+   template:
+     metadata:
+       labels:
+         app: sprinttek-{{.Release.Name}}
+     spec:
+       nodeSelector:
+          "kubernetes.azure.com/mode": "user"
+       terminationGracePeriodSeconds: 360
+       containers:
+         - name: sprinttek-{{.Release.Name}}
+           image: sprintteksandboxv2.azurecr.io/{{ .Values.image.name }}:{{ .Values.image.tag }}
+           ports:
+             - containerPort: 80  
+           env:
+             - name: "ASPNETCORE_ENVIRONMENT"
+               value: "Production"
+             - name: "ASPNETCORE_URLS"
+               value: http://+:80             
+             - name: ASPNETCORE_HOSTINGSTARTUPASSEMBLIES
+               value: Microsoft.Azure.SignalR
+             - name: Azure__SignalR__ConnectionString
+               value: {{ .Values.signalREndPoint }}
+             - name: KeyVaultURL
+               value: {{ .Values.keyVaultUrl }}
+             - name: ClientCredentials__AppId
+               value: {{ .Values.appId }}
+             - name: ClientCredentials__SecretValue
+               value: {{ .Values.secretValue }}
+             - name: ClientCredentials__TenantId
+               value: {{ .Values.tenantId }}
+             - name: APIURL
+               value: {{.Values.services.tenant}}.{{.Values.dns.api}}/
+             - name: DomainURL
+               value: {{.Values.services.tenant}}.{{.Values.dns.server}}/
+             - name: Services__Tenant
+               value: {{.Values.services.tenant}}
+             - name: Services__Password
+               value: {{.Values.services.***REMOVED***}}  
+             - name: ConnectionStrings__TenantHangfire
+               value: Server=tcp:{{ .Values.connectionString.sqlServer }}.database.windows.net,1433;Initial Catalog={{ .Values.connectionString.initialCatalog }};User ID={{ .Values.connectionString.dbUserName }};Password={{ .Values.connectionString.dbPassword }};MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+             - name: ConnectionStrings__ReportConnectionString
+               value: Server=tcp:{{ .Values.reportConnectionString.sqlServer }}.database.windows.net,1433;Initial Catalog={{ .Values.reportConnectionString.initialCatalog }};User ID={{ .Values.reportConnectionString.dbUserName }};Password={{ .Values.reportConnectionString.dbPassword }};MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+           resources:
+             requests:
+               cpu: "0"
+               memory: "64Mi"
+             limits: 
+               cpu: "100m"
+               memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: sprinttek-{{.Release.Name}}-service
+   namespace: sprinttek-sandbox
+   annotations:
+    #service.beta.kubernetes.io/azure-load-balancer-tcp-idle-timeout: "10"
+    #service.beta.kubernetes.io/azure-load-balancer-ipv4 : 52.152.89.101
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      name: sprinttek-{{.Release.Name}}
+      #nodePort: 30020
+      port: 80
+      protocol: TCP
+  selector:
+      app: sprinttek-{{.Release.Name}}
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 600
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sprinttek-{{.Release.Name}}
+  namespace: sprinttek-sandbox
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: "cookie"    
+    nginx.ingress.kubernetes.io/session-cookie-name: "affinity"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "14400"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "14400"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"    
+spec:
+ ingressClassName: nginx  
+ rules:   
+   - host: {{ .Values.hostName }}
+     http:
+      paths:
+      - backend:
+          service:
+            name: sprinttek-{{.Release.Name}}-service            
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+ name: sprinttek-{{.Release.Name}}-hpa
+ namespace: sprinttek-sandbox
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sprinttek-{{.Release.Name}}    
+  minReplicas: 1
+  maxReplicas: 3
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 60
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: 750Mi
+
+ 

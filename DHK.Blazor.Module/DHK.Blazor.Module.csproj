@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<Deterministic>false</Deterministic>
+		<AssemblyVersion>1.0.*</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<Configurations>Debug;Release;EasyTest</Configurations>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="TempReports\**" />
+		<EmbeddedResource Remove="TempReports\**" />
+		<None Remove="TempReports\**" />
+
+		<PackageReference Include="DevExpress.ExpressApp.CodeAnalysis">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Model.DesignedDiffs.xafml" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Model.DesignedDiffs.xafml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Azure.Search.Documents" />
+		<PackageReference Include="Azure.Security.KeyVault.Secrets" />
+		<PackageReference Include="Azure.Storage.Blobs" />
+		<PackageReference Include="Azure.Storage.Common" />
+		<PackageReference Include="DevExpress.ExpressApp" />
+		<PackageReference Include="DevExpress.ExpressApp.AspNetCore" />
+		<PackageReference Include="DevExpress.ExpressApp.Blazor" />
+		<PackageReference Include="DevExpress.ExpressApp.Xpo" />
+		<PackageReference Include="DevExpress.Persistent.Base" />
+		<PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" />
+		<PackageReference Include="DevExpress.Spreadsheet.Core" />
+		<PackageReference Include="FluentFTP" />
+		<PackageReference Include="Hangfire.AspNetCore" />
+		<PackageReference Include="Hangfire.Console" />
+		<PackageReference Include="Hangfire.Core" />
+		<PackageReference Include="MathNet.Numerics.Signed" />
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="SSH.NET" />
+		<PackageReference Include="System.Reactive.Linq" />
+		<PackageReference Include="WinSCP" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DHK.Module\DHK.Module.csproj" />
+	</ItemGroup>
+</Project>

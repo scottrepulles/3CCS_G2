@@ -107,9 +107,9 @@ namespace DHK.Module
 
         public Guid? GetLoginTenantId()
         {
-            if (security.LogonParameters is MultiTenantLogonParametersModel multiTenantLogonParameters)
+            if (security.LogonParameters is MultiTenantLogonParametersModel)
             {
-                string tenantName = multiTenantLogonParameters.Company;
+                string tenantName = "cict";
                 if (!string.IsNullOrEmpty(tenantName))
                 {
                     return TenantIdByName(tenantName);

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <Deterministic>false</Deterministic>
     <AssemblyVersion>1.0.*</AssemblyVersion>
@@ -13,6 +13,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
+	<EmbeddedResource Include="DatabaseUpdate\SeedData\ImportMapping.xml" />
+	<EmbeddedResource Include="DatabaseUpdate\SeedData\ImportMappingProperty.xml" />
+	<EmbeddedResource Include="DatabaseUpdate\SeedData\Program.xml" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="DevExpress.ExpressApp" />
@@ -36,11 +39,15 @@
 		<PackageReference Include="DevExpress.Persistent.Base" />
 		<PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" />
 		<PackageReference Include="Azure.Identity" />
+		<PackageReference Include="DevExpress.Spreadsheet.Core" />
 		<PackageReference Include="Microsoft.Data.SqlClient" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+		<PackageReference Include="HtmlAgilityPack" />
+		<PackageReference Include="Mail.dll" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="DatabaseUpdate\SeedData\Program.xml" />
-		<EmbeddedResource Include="DatabaseUpdate\SeedData\Program.xml" />
+		<None Remove="DatabaseUpdate\SeedData\ImportMapping.xml" />
+		<None Remove="DatabaseUpdate\SeedData\ImportMappingProperty.xml" />
 	</ItemGroup>
 </Project>

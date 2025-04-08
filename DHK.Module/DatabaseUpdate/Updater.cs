@@ -1,30 +1,32 @@
 ﻿using DevExpress.ExpressApp;
-using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.MultiTenancy;
-using DevExpress.ExpressApp.Security.Strategy;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.BaseImpl.MultiTenancy;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DHK.Module.BusinessObjects;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
-using System;
 using DHK.Module.Constants;
 using DKH.Module.Constants;
+using DHK.Module.Enumerations;
+using Microsoft.Extensions.Configuration;
+using DHK.Module.Converters;
 
 namespace DHK.Module.DatabaseUpdate;
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Updating.ModuleUpdater
 public class Updater : ModuleUpdater {
 
-    private Program FindProgram(string code) => ObjectSpace.FirstOrDefault<Program>(t => t.Code == code, true);
-
+    private BusinessObjects.Program FindProgram(string code) => ObjectSpace.FirstOrDefault<BusinessObjects.Program>(t => t.Code == code, true);
+    private ImportMappingProperty FindImportMappingProperty(ImportMapping importMapping, string propertyName, string childrenProperty, string childrenPropertyType)
+            => ObjectSpace.FirstOrDefault<ImportMappingProperty>(i => i.ImportMapping == importMapping
+            && i.Property == propertyName
+            && i.ChildrenProperty == childrenProperty
+            && i.ChildrenPropertyType == childrenPropertyType, true);
+    private ImportMapping FindImportMapping(string entity) => ObjectSpace.FirstOrDefault<ImportMapping>(i => i.Entity == entity, true);
 
     public Updater(IObjectSpace objectSpace, Version currentDBVersion) :
         base(objectSpace, currentDBVersion) {
@@ -175,20 +177,40 @@ public class Updater : ModuleUpdater {
         }
         PermissionPolicyRole teacherRole = this.CreateTeacherRole();
         teacher.Roles.Add(teacherRole);
+        var configuration = ObjectSpace.ServiceProvider.GetRequiredService<IConfiguration>();
+        string environment = configuration["ASPNETCORE_ENVIRONMENT"];
+        bool isLocalDeployment = ApplicationEnvironmentType.Development.ToString().Equals(environment, StringComparison.InvariantCultureIgnoreCase);
+        var serviceUserName = configuration["Services:UserName"];
+        var servicePassword = configuration["Services:Password"];
+        Teacher servicesUser = FindUserByName<Teacher>("Services");
+        if (servicesUser == null)
+        {
+            servicesUser = ObjectSpace.CreateObject<Teacher>();
+            servicesUser.UserName = serviceUserName;
+            servicesUser.FirstName = "Background";
+            servicesUser.LastName = "Services";
+            // Set a ***REMOVED*** if the standard authentication type is used
+            servicesUser.SetPassword(servicePassword);
+
+            // The UserLoginInfo object requires a user object Id (Oid).
+            // Commit the user object to the database before you create a UserLoginInfo object. This will correctly initialize the user key property.
+            ObjectSpace.CommitChanges(); //This line persists created object(s).
+            ((ISecurityUserWithLoginInfo)servicesUser).CreateUserLoginInfo(SecurityDefaults.PasswordAuthentication, ObjectSpace.GetKeyValueAsString(servicesUser));
+        }
     }
     private void CreateProgram()
     {
-        DataTable timeZonesTable = GetDataTable($"{nameof(Program)}.xml", nameof(Program));
-        List<Program> result = [];
+        DataTable timeZonesTable = GetDataTable($"{nameof(BusinessObjects.Program)}.xml", nameof(Program));
+        List<BusinessObjects.Program> result = [];
         foreach (DataRow timeZoneData in timeZonesTable.Rows)
         {
-            string code = Convert.ToString(timeZoneData[nameof(Program.Code)]);
-            string description = Convert.ToString(timeZoneData[nameof(Program.Description)]);
-            string name = Convert.ToString(timeZoneData[nameof(Program.Name)]);
-            Program program = FindProgram(code);
+            string code = Convert.ToString(timeZoneData[nameof(BusinessObjects.Program.Code)]);
+            string description = Convert.ToString(timeZoneData[nameof(BusinessObjects.Program.Description)]);
+            string name = Convert.ToString(timeZoneData[nameof(BusinessObjects.Program.Name)]);
+            BusinessObjects.Program program = FindProgram(code);
             if (program == null)
             {
-                program = ObjectSpace.CreateObject<Program>();
+                program = ObjectSpace.CreateObject<BusinessObjects.Program>();
                 program.Code = code;
                 program.Description = description;
                 program.Name = name;
@@ -280,5 +302,81 @@ public class Updater : ModuleUpdater {
             teacherRole.AddTypePermission<Document>(SecurityOperations.FullAccess, SecurityPermissionState.Allow);
         }
         return teacherRole;
+    }
+
+    private void CreateImportMappings()
+    {
+        DataTable importMappingTable = GetDataTable($"{nameof(ImportMapping)}.xml", nameof(ImportMapping));
+        List<ImportMapping> result = [];
+        foreach (DataRow row in importMappingTable.Rows)
+        {
+            string entity = row.ConvertField<string>(nameof(ImportMapping.Entity));
+            ImportMapping importMapping = FindImportMapping(entity);
+            Type type = XafTypesInfo.Instance.FindTypeInfo(entity)?.Type;
+            string name = XafTypesInfo.Instance.FindTypeInfo(entity)?.Name;
+            if (!string.IsNullOrEmpty(name))
+            {
+                importMapping = ObjectSpace.CreateObject<ImportMapping>();
+                importMapping.EntityDataType = type;
+                importMapping.Entity = entity;
+                importMapping.Description = $"{name} Mapping";
+                importMapping.Code = $"{name.ToUpper()}MAPPING";
+                result.Add(importMapping);
+            }
+        }
+        ObjectSpace.CommitChanges();
+    }
+
+    private void CreateImportMappingProperties()
+    {
+        try
+        {
+            DataTable importMappingPropertyTable = GetDataTable($"{nameof(ImportMappingProperty)}.xml", nameof(ImportMappingProperty));
+            List<ImportMappingProperty> result = [];
+            foreach (DataRow row in importMappingPropertyTable.Rows)
+            {
+                try
+                {
+                    string entity = row.ConvertField<string>(nameof(ImportMappingProperty.ImportMapping));
+                    string property = row.ConvertField<string>(nameof(ImportMappingProperty.Property));
+                    string propertyType = row.ConvertField<string>(nameof(ImportMappingProperty.PropertyType));
+                    int sortOrder = row.ConvertField<int>(nameof(ImportMappingProperty.SortOrder));
+                    string childrenProperty = row.ConvertField<string>(nameof(ImportMappingProperty.ChildrenProperty));
+                    string childrenPropertyType = row.ConvertField<string>(nameof(ImportMappingProperty.ChildrenPropertyType));
+                    string sampleValue = row.ConvertField<string>(nameof(ImportMappingProperty.SampleValue));
+
+                    ImportMapping importMapping = FindImportMapping(entity);
+
+                    if (importMapping == null)
+                        continue;
+
+                    ImportMappingProperty importMappingProperty = FindImportMappingProperty(importMapping, property, childrenProperty, childrenPropertyType);
+
+                    if (importMappingProperty != null)
+                        continue;
+
+                    importMappingProperty = ObjectSpace.CreateObject<ImportMappingProperty>();
+                    importMappingProperty.ImportMapping = importMapping;
+                    importMappingProperty.Property = property;
+                    importMappingProperty.PropertyType = propertyType;
+                    importMappingProperty.ChildrenProperty = childrenProperty;
+                    importMappingProperty.ChildrenPropertyType = childrenPropertyType;
+                    importMappingProperty.SortOrder = sortOrder;
+                    importMappingProperty.Required = false;
+                    importMappingProperty.MapTo = String.IsNullOrEmpty(childrenProperty) ? property : $"{property}.{childrenProperty}";
+                    importMappingProperty.SampleValue = sampleValue;
+                    result.Add(importMappingProperty);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            ObjectSpace.CommitChanges();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }

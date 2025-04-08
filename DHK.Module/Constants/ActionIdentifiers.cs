@@ -1,0 +1,124 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DHK.Module.Constants
+{
+    public static class ActionIdentifier
+    {
+        public const string KANBAN_ACTION = @"KanbanAction";
+        public const string VIEW_VARIANT_IS_UNIQUE = @"RuleFromBoolProperty_ViewVariantParameterObject.IsUniqueCaption";
+        public const string VIEW_VARIANT_CAPTION = "RuleRequiredField_ViewVariantParameterObject.Caption";
+        public const string ADD_VIEW_VARIANT_CONTEXT = @"AddViewVariantContext";
+        public const string LIST_VIEW_ACTION = @"ListViewAction";
+        public const string REPORT_ACTION = @"ReportAction";
+        public const string ORDER_INCIDENT_FILTER_ID = @"OrderIncidentFilterId";
+        public const string EMPLOYEE_INCIDENT_FILTER_ID = @"EmployeeIncidentFilterId";
+        public const string DRIVER_INCIDENT_FILTER_ID = @"DriverIncidentFilterId";
+        public const string LOCATOR_FILTER_DATE_ID = @"LocatorDateFilter";
+        public const string LOCATOR_FILTER_ID = @"LocatorFilterId";
+        public const string LOCATOR_REFRESH_RATE_ID = @"LocatorRefreshRateId";
+        public const string LOCATOR_FLYOUT_ID = @"LocatorFlyOutId";
+        public const string SET_DRIVER_ACTION_ID = @"SetDriverActionId";
+        public const string SET_EMPLOYEE_ACTION_ID = @"SetEmployeeActionId";
+        public const string SET_ROUTING_RULE_CODE = @"DEFAULTROUTINGGROUP";
+        public const string EMAIL_TEMPLATE_SEND_TEST_EMAIL_CAPTION = "Send Test Email";
+        public const string AUDIT_EVENT_CAPTION = "Audit Event";
+        public const string LOCATOR_BUILD_ROUTE_ID = "LocatorBuildRouteId";
+        public const string LOCATOR_REFRESH_ID = "LocatorRefreshId";
+        public const string NEW_ORDER_ID = "NewOrderId";
+        public const string NEW_ORDER = "NewOrder";
+        public const string ALLOW_EDIT = "EDIT";
+        public const string SET_PICKUP_SCHEDULE_ACTION_ID = @"SetPickupScheduleActionId";
+        public const string PICKUP_SCHEDULE_ID = @"PickupScheduleId";
+        public const string DELIVERY_SCHEDULE_ID = @"DeliveryScheduleId";
+        public const string POPUP_PICKUP_SCHEDULE_ID = @"PopupPickupSchedule";
+        public const string POPUP_DELIVERY_SCHEDULE_ID = @"PopupDeliverySchedule";
+        public const string HIDE_STAGE_ID = @"HideStageId";
+        public const string SHOW_PICKUP_SCHEDULE = @"ShowPickupSchedule";
+        public const string SHOW_DELIVERY_SCHEDULE = @"ShowDeliverySchedule";
+        public const string HIDE_ACTION = @"HideAction";
+        public const string DISPATCH_ACTION = @"DispatchAction";
+        public const string TIME_ADJUSTMENT_ACTION = @"TimeAdjustmentAction";
+        public const string ADJUSTMENT_ACTION = @"AdjustmentAction";
+        public const string MARK_AS_DELIVERED_ACTION = @"MarkAsDelivered";
+        public const string UNMARK_AS_DELIVERED_ACTION = @"UnMarkAsDelivered";
+        public const string CANCEL_ROUTE_ACTION = @"CancelRoute";
+        public const string UN_CANCEL_ROUTE_ACTION = @"UnCancelRoute";
+        public const string UNLOCK_DRIVER_ACTION = @"UnLockDriver";
+        public const string DRIVER_MOBILE_CONFIG = @"DriverMobileConfig";
+        public const string GENERATE_LABEL = "Generate Label";
+        public const string SHOW_DETAIL_MAP_VIEW_ACTION = "OrderListViewController.ShowDetailMapViewAction";
+        public const string BATCH_UPDATE_ACTION = "OrderListViewController.BatchUpdateAction";
+        public const string EXECUTE = "Execute";
+        public const string DISPATCH_FILTER_ID = @"DispatchFilterId";
+        public const string DASHBOARD_REFRESH = @"DashboardRefresh";
+        public const string DASHBOARD_RELOAD_JS = "xafBlazorDashboardUserScriptCustom.reloadDashboardData";
+        public const string PICKUP_SCHEDULE_VIEW = @"PickupScheduleView";
+        public const string DISPATCH_UNLOCK = @"DispatchUnlock";
+        public const string AUDIT_EVENT_ORDER_FREEZE = @"AuditEventOrderFreeze";
+        public const string AUDIT_CHANGE_HISTORY = @"BO_Audit_ChangeHistory";
+        public const string CLEAR_UNFREEZE = @"ClearUnfreeze";
+        public const string ACTION_DELETE = @"Action_Delete";
+        public const string FILTER_ACTION = @"Filter_Action";
+        public const string LOCATE_ACTION = @"LocateAction";
+        public const string UNLOCK_USER = @"Unlock_User";
+        public const string UNLOCK_USERS = @"Unlock_Users";
+        public const string BATCH_UPDATE = $"BatchUpdateViewController.BatchUpdateAction";
+        public const string SCHEDULER_TEST = @"Scheduler Test";
+        public const string HIDE_NEW_ROLE_BUTTON = @"HideNewRoleButton";
+        public const string DISABLE_EDIT_ROLE = @"DisableEditRole";
+        public const string BUILDER_DASHBOARD_SEARCH_ACTION = @"BuilderDashboardSearchAction";
+        public const string BUILDER_DASHBOARD_NEW_ACTION = @"BuilderDashboardNewAction";
+        public const string BUILDER_DASHBOARD_DUPLICATE_ACTION = @"BuilderDashboardDuplicateAction";
+        public const string BUILDER_DASHBOARD_ROUTING_GROUP_ACTION = @"BuilderDashboardRoutingGroupAction";
+        public const string BUILDER_DASHBOARD_SAVE_ACTION = @"BuilderDashboardSaveAction";
+        public const string BUILDER_DASHBOARD_REMOVE_ACTION = @"BuilderDashboardRemoveAction";
+        public const string BUILDER_DASHBOARD_OPTIMIZE_ACTION = @"BuilderDashboardOptimizeAction";
+        public const string BUILDER_DASHBOARD_ADD_ORDER_TEMPLATE_ACTION = @"BuilderDashboardAddOrderTemplateAction";
+        public const string ROUTE_OPTIMIZATION_EXECUTE_ACTION = @"RouteOptimizationExecuteAction";
+        public const string REPEAT_EXECUTE_ACTION = @"RepeatExecuteAction";
+        public const string REFRESH_DISPATCH = @"RefreshDispatch";
+        public const string TIME_INTERVAL_CHECK = "TimeIntervalCheck";
+        public const string IS_MODIFIED = "IsModified";
+        public const string ROUTE_BUILDER_FILTER_ID = @"RouteBuilderFilterId";
+        public const string ROUTE_BUILDER_EXPAND_ID = @"RouteBuilderExpandId";
+        public const string ROUTE_BUILDER_COLLAPSE_ID = @"RouteBuilderCollapseId";
+        public const string SHOW_ROUTING_GROUP_RULE = @"ShowROutingGroupRule";
+        public const string HIDE_ROUTING_GROUP_RULE = @"HideROutingGroupRule";
+        public const string LEAD_ACTIVITY_ACTION = @"LeadActivityAction";
+        public const string OPPORTUNITY_ACTIVITY_ACTION = @"OpportunityActivityAction";
+        public const string GO_BACK_ACTION = @"GoBack";
+        public const string HIDE_SEARCH = @"HideSearch";
+        public const string HIDE_EXPORT = @"HideExport";
+        public const string START_CALL = @"StartCall";
+        public const string GO_BACK_ORDER_LIST_VIEW_ACTION = @"GoBackOrderListView";
+        public const string GO_BACK_ORDER_DETAIL_VIEW_ACTION = @"GoBackOrderDetailView";
+        public const string ROUTE_BUILDER_REFRESH = @"RouteBuilder_Refresh";
+        public const string LOG_OFF_DEVICE = @"LogOffDevice";
+        public const string LOG_OFF_DEVICES = @"LogOffDevices";
+        public const string ACTION = "Action";
+        public const string TITLE = "Title";
+        public const string BODY = "Body";
+        public const string EXPAND_ACTION = @"ExpandAction";
+        public const string COLLAPSE_ACTION = @"CollapsedAction";
+
+        #region LeadActions
+        public const string LEAD_MARK_AS_COMPLETED_ACTION = @"MarkAsCompleted";
+        public const string LEAD_CONVERT_TO_CUSTOMER_ACTION = @"ConvertToCustomer";
+        #endregion
+
+        public const string SET_PICKUP_TIME_ACTION = @"SetPickupTimeAction";
+        public const string SET_DELIVERY_TIME_ACTION = @"SetDeliveryTimeAction";
+        public const string DISPATCH_SHOW_BACK_BUTTON = @"DispatchMapHelpers.ShowBackButton";
+        public const string CONFIRMATION_LABEL = @"ConfirmationLabel";
+        public const string REQUIRED_CHECKER = @"RequiredChecker";
+        public const string HIDE_POPUP_WINDOW_ACCEPT_REASON = @"HidePopupWindowAcceptReason";
+        public const string ENABLE_SHOW_PICKUP_ANALYSIS_ACTION_REASON = @"EnableShowPickupAnalysisActionReason";
+        public const string ENABLE_SHOW_DELIVERY_ANALYSIS_ACTION_REASON = @"EnableShowDeliveryAnalysisActionReason";
+        public const string CREATE_IMPORT_TEMPLATE = @"CreateImportTemplate";
+        public const string IMPORT_ENTITY = @"ImportEntity";
+    }
+}

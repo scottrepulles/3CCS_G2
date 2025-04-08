@@ -1,0 +1,41 @@
+# env controls
+signalREndPoint: "endpoint"
+keyVaultUrl: "https://sprinttek-sandbox-v2.vault.azure.net/"
+appId: "604722b7-0141-444e-aa0c-8ef1489a4808"
+secretValue: "***REMOVED***"
+tenantId: "1698f082-4f59-42ba-a1b9-0f27af851a06"
+apiUrl: "https://host.api.v2.sandbox.sprinttek.com/"
+domainUrl: "https://host.v2.sandbox.sprinttek.com/"
+
+# connection string controls
+connectionString: 
+  sqlServer: "server"
+  initialCatalog: "SprintTekv2"
+  dbUserName: "username"
+  dbPassword: "***REMOVED***"
+
+reportConnectionString: 
+  sqlServer: "server"
+  initialCatalog: "SprintTekv2"
+  dbUserName: "username"
+  dbPassword: "***REMOVED***"
+
+# host domain controls
+hostName: "host2.sandbox.sprinttek.com"
+
+# DNS constrols
+dns:
+   api: "api.sandbox.sprinttek.com"
+   server: "sandbox.sprinttek.com"
+
+# tenant controls
+services:
+  tenant: "host"  
+  ***REMOVED***: "***REMOVED***"
+
+# docker image controls
+image:
+  repository: sprintteksandboxv2.azurecr.io/
+  name: sprinttekblazor
+  tag: 14848
+  pullPolicy: IfNotPresent
