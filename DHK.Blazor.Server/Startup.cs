@@ -17,6 +17,8 @@ using DHK.Module.Models;
 using Hangfire;
 using Hangfire.Console;
 using DHK.Blazor.Module.Hangfire;
+using DHK.Blazor.Module.Interfaces;
+using DHK.Blazor.Module.Services;
 
 namespace DHK.Blazor.Server;
 
@@ -85,7 +87,8 @@ public class Startup {
                     options.AllowValidationDetailsAccess = false;
                 })
                 .AddViewVariants()
-                .Add<DHK.Module.DHKModule>()    
+                .Add<DHK.Module.DHKModule>()
+                .Add<DHK.Blazor.Module.ModuleModule>()
                 .Add<DHKBlazorModule>();
 
             builder.AddMultiTenancy()
@@ -109,6 +112,7 @@ public class Startup {
                     options.UseSharedDataStoreProvider = true;
                 })
                 .AddNonPersistent();
+            builder.Services.AddScoped<ILocalFileService, LocalFileService>();
             builder.Security
                 .UseIntegratedMode(options =>
                 {

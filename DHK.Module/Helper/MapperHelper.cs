@@ -147,6 +147,24 @@ public class MapperHelper
                     return timeOnly;
                 }
             }
+            else if (targetMemberInfo.MemberType == typeof(DateOnly))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    DateTime parsedDateTime = DateTime.Parse(columnValue.ToString());
+                    DateOnly dateOnly = DateOnly.FromDateTime(parsedDateTime);
+                    return dateOnly;
+                }
+            }
+            else if (targetMemberInfo.MemberType == typeof(DateOnly?))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    DateTime parsedDateTime = DateTime.Parse(columnValue.ToString());
+                    DateOnly? dateOnly = DateOnly.FromDateTime(parsedDateTime);
+                    return dateOnly;
+                }
+            }
         }
         return null;
     }

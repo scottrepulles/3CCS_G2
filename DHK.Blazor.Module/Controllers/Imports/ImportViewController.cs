@@ -11,11 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using DHK.Blazor.Module.Helpers.Globals;
 using DHK.Module.Constants;
-using DKH.Module.Interfaces;
 using DHK.Module.Enumerations;
 using DHK.Module.Helper;
 using DHK.Module.Interfaces;
 using DHK.Module.BusinessObjects;
+using System.Drawing;
+using DHK.Blazor.Module.Interfaces;
 
 
 namespace DHK.Blazor.Module.Controllers.Imports;
@@ -52,7 +53,7 @@ public partial class ImportViewController : ViewController
         }
         else if (args.SelectedChoiceActionItem.Data.ToString() == ActionImportType.CreateTemplate.ToString())
         {
-            //CreateTemplateAction_Execute();
+            CreateTemplateAction_Execute();
         }
     }
     private void ImportAction_Execute(SingleChoiceActionExecuteEventArgs args)
@@ -95,106 +96,60 @@ public partial class ImportViewController : ViewController
     {
         Type objectType = this.View.ObjectTypeInfo.Type;
         FileImportHelper.ShowPopupAuditLogs(Application, args, objectType);
-    } 
+    }
 
-    //private void CreateTemplateAction_Execute()
-    //{
-    //    IConfiguration configuration = Application.ServiceProvider.GetRequiredService<IConfiguration>();
-    //    string storageKey = configuration["Azure:Storage:AccountKey"];
-    //    string storageUri = configuration["Azure:Storage:AccountUri"];
-    //    string storageName = configuration["Azure:Storage:AccountName"];
-    //    StorageSharedKeyCredential sharedKeyCredential = new StorageSharedKeyCredential(storageName, storageKey);
+    private void CreateTemplateAction_Execute()
+    {
+        IObjectSpace objectSpace = View.ObjectSpace;
+        Type objectType = this.View.ObjectTypeInfo.Type;
 
-    //    BlobServiceClient blobServiceClient = new BlobServiceClient
-    //        (new Uri(storageUri), sharedKeyCredential);
+        string fileName = $"{objectType.Name}Template.xlsx";
+        string workSheetName = $"{objectType.Name}Template";
 
-    //    //Todo: dynamic container name per company for multilingual
-    //    BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("import-templates");
+        // Create a new workbook.
+        using Workbook workbook = new();
 
-    //    IObjectSpace objectSpace = View.ObjectSpace;
-    //    Type objectType = this.View.ObjectTypeInfo.Type;
-    //    string fileName = $"{objectType.Name}Template.xlsx";
-    //    string workSheetName = $"{objectType.Name}Template";
+        Worksheet worksheet = workbook.Worksheets[0];
+        worksheet.Name = workSheetName;
+        workbook.Unit = DevExpress.Office.DocumentUnit.Point;
 
-    //    //Create a new workbook.
-    //    using (Workbook workbook = new())
-    //    {
+        workbook.BeginUpdate();
 
-    //        Worksheet worksheet = new()
-    //        {
-    //            Name = workSheetName
-    //        };
-    //        workbook.Unit = DevExpress.Office.DocumentUnit.Point;
+        try
+        {
+            var importMappingProperties = objectSpace.GetObjectsQuery<ImportMappingProperty>()
+                .Where(o => o.ImportMapping.Entity == objectType.FullName).OrderBy(o => o.SortOrder).ToList();
 
-    //        workbook.BeginUpdate();
+            int ctr = 0;
+            foreach (ImportMappingProperty importMappingProperty in importMappingProperties)
+            {
+                bool alreadyExists = worksheet.Rows["1"].Any(cell => cell.Value?.ToString() == importMappingProperty.MapTo);
+                if (!alreadyExists)
+                {
+                    worksheet.Rows["1"][ctr].Value = importMappingProperty.MapTo;
+                    worksheet.Rows["2"][ctr].Value = importMappingProperty.SampleValue;
+                    ctr++;
+                }
+            }   
+            worksheet.Rows["1"].Font.Bold = true;
+            worksheet.GetDataRange().ColumnWidth = 100;
+        }
+        finally
+        {
+            workbook.EndUpdate();
+        }
 
-    //        try
-    //        {
-    //            IList<ImportMappingProperty> importMappingProperties = objectSpace.GetObjects<ImportMappingProperty>(CriteriaOperator.Parse(
-    //                $"{nameof(ImportMapping)}.Entity='{objectType}'")).OrderBy(o => o.SortOrder).ToList();
+        // Save to local storage
+        byte[] fileBytes = workbook.SaveDocument(DocumentFormat.OpenXml);
+        ILocalFileService localFileService = Application.ServiceProvider.GetRequiredService<ILocalFileService>();
+        string url = localFileService.SaveExcelTemplate(fileBytes, fileName);
 
-    //            int ctr = 0;
-    //            foreach (ImportMappingProperty importMappingProperty in importMappingProperties)
-    //            {
-    //                bool alreadyExists = false;
-    //                foreach (var cell in worksheet.Rows["1"])
-    //                {
-    //                    if (cell.Value != null && cell.Value.ToString() == importMappingProperty.MapTo)
-    //                    {
-    //                        alreadyExists = true;
-    //                        break;
-    //                    }
-    //                }
-    //                if (!alreadyExists)
-    //                {
-    //                    worksheet.Rows["1"][ctr].Value = $"{importMappingProperty.MapTo}";
-    //                    worksheet.Rows["2"][ctr].Value = $"{importMappingProperty.SampleValue}";
-    //                    ctr += 1;
-    //                }
-    //            }
+        // Open the file in a new tab
+        IJSRuntime JSRuntime = Application.ServiceProvider.GetRequiredService<IJSRuntime>();
+        _ = JSRuntime.InvokeAsync<object>("open", CancellationToken.None, url, "_blank");
+    }
 
-    //            worksheet.Rows["1"].Font.Bold = true;
-    //            CellRange tableRange = worksheet.GetDataRange();
-    //            tableRange.ColumnWidth = 100;
-    //        }
-    //        finally
-    //        {
-    //            workbook.EndUpdate();
-    //        }
-    //        byte[] array = workbook.SaveDocument(DocumentFormat.OpenXml);
-    //        Stream stream = new MemoryStream(array);
-    //        BlobClient blobClient = containerClient.GetBlobClient(fileName);
-    //        if (blobClient != null)
-    //        {
-    //            blobClient.Upload(stream, true);
-    //        }
-    //        else
-    //        {
-    //            containerClient.UploadBlob(fileName, stream);
-    //            blobClient = containerClient.GetBlobClient(fileName);
-    //        }
 
-    //        BlobSasBuilder sasBuilder = new BlobSasBuilder()
-    //        {
-    //            BlobContainerName = containerClient.Name,
-    //            BlobName = blobClient.Name,
-    //            Resource = "b",
-    //            StartsOn = DateTimeOffset.UtcNow,
-    //            ExpiresOn = DateTimeOffset.UtcNow.AddHours(1),
-    //        };
-
-    //        sasBuilder.SetPermissions(BlobSasPermissions.Read);
-    //        string sasToken = sasBuilder.ToSasQueryParameters(sharedKeyCredential).ToString();
-    //        Uri sasUri = new UriBuilder(blobClient.Uri)
-    //        {
-    //            Query = sasToken
-    //        }.Uri;
-
-    //        string url = sasUri.AbsoluteUri;
-    //        IJSRuntime JSRuntime = Application.ServiceProvider.GetRequiredService<IJSRuntime>();
-    //        _ = JSRuntime.InvokeAsync<object>("open", CancellationToken.None, url, "_blank");
-    //    }
-    //}
 
     public void ImportAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
     {

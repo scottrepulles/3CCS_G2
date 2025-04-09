@@ -2,9 +2,9 @@
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using DKH.Module.Interfaces;
 using DevExpress.ExpressApp;
 using System.ComponentModel;
+using DHK.Module.Interfaces;
 
 namespace DHK.Module.BusinessObjects
 {

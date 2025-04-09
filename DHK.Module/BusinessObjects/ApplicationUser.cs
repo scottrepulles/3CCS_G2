@@ -9,8 +9,11 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using DHK.Module.Constants;
 using DHK.Module.ValidationRules;
 using DKH.Module.Constants;
+using DKH.Module.Converters;
+using DKH.Module.Enumerations;
 
 namespace DHK.Module.BusinessObjects;
 
@@ -23,6 +26,9 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo,
     MediaDataObject photo;
     long? phoneNumber;
     string email;
+    DateOnly? birthday;
+    GenderType gender;
+    string address;
 
     public ApplicationUser(Session session) : base(session) { }
 
@@ -78,5 +84,23 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo,
     {
         get => emaiConfirmed;
         set => SetPropertyValue(nameof(EmailConfirmed), ref emaiConfirmed, value);
+    }
+
+    public DateOnly? Birthday
+    {
+        get => birthday;
+        set => SetPropertyValue(nameof(Birthday), ref birthday, value);
+    }
+
+    [ValueConverter(typeof(GenderRecordTypeConverter))]
+    public GenderType Gender
+    {
+        get => gender;
+        set => SetPropertyValue(nameof(Gender), ref gender, value);
+    }
+    public string Address
+    {
+        get => address;
+        set => SetPropertyValue(nameof(Address), ref address, value);
     }
 }

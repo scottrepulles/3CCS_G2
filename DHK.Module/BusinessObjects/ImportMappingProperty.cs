@@ -123,7 +123,7 @@ namespace DHK.Module.BusinessObjects
         }
 
         int sortOrder;
-        [Browsable(false)]
+        //[Browsable(false)]
         public int SortOrder
         {
             get => sortOrder;

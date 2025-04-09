@@ -10,12 +10,12 @@ namespace DHK.Module.Enumerations
     public enum YearLevelType
     {
         [XafDisplayName(@"1st Year")]
-        FIRST,
+        FIRST = 1,
         [XafDisplayName(@"2nd Year")]
-        SECOND,
+        SECOND = 2,
         [XafDisplayName(@"3rd Year")]
-        THIRD,
+        THIRD = 3,
         [XafDisplayName(@"4th Year")]
-        FOURTH,
+        FOURTH = 4,
     }
 }

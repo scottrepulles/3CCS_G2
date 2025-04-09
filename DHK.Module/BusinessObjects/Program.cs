@@ -4,8 +4,8 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using DKH.Module.Constants;
-using DKH.Module.Interfaces;
+using DHK.Module.Constants;
+using DHK.Module.Interfaces;
 using System.ComponentModel;
 
 namespace DHK.Module.BusinessObjects;

@@ -2,16 +2,29 @@
 <Application>
   <NavigationItems NavigationStyle="Accordion">
     <Items>
-      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="0" ImageName="BO_Employee" IsNewNode="True" />
-      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="1" IsNewNode="True" />
-      <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="2" ImageName="BO_Folder" IsNewNode="True" />
-      <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" IsNewNode="True" />
-      <Item Id="Default" Visible="True" Caption="Administrator">
+      <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="0" ImageName="BO_Folder" IsNewNode="True" />
+      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="1" ImageName="BO_Employee" IsNewNode="True" />
+      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="2" IsNewNode="True" />
+      <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" Index="3" IsNewNode="True" />
+      <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" ImageName="BO_Document" Index="4" IsNewNode="True" />
+      <Item Id="Reports" Index="5" />
+      <Item Id="System" Caption="System" Index="6" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="BaseHangfireJob_ListView" ViewId="BaseHangfireJob_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="FtpServer_ListView" ViewId="FtpServer_ListView" Visible="False" ObjectKey="" IsNewNode="True" />
+          <Item Id="ImportMapping_ListView" ViewId="ImportMapping_ListView" ObjectKey="" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Default" Visible="True" Caption="Administrator" Index="7">
         <Items>
-          <Item Id="BaseTenant_ListView" Caption="Tenant" />
+          <Item Id="BaseHangfireJob_ListView" Removed="True" />
+          <Item Id="BaseTenant_ListView" Caption="Tenant" Visible="False" />
           <Item Id="Course_ListView" Removed="True" />
+          <Item Id="CustomProperty_ListView" Visible="False" />
           <Item Id="Document_ListView" Removed="True" />
           <Item Id="Event_ListView" Visible="False" />
+          <Item Id="FtpServer_ListView" Visible="False" Removed="True" />
+          <Item Id="ImportMapping_ListView" Removed="True" />
           <Item Id="MyDetails" Visible="False" />
           <Item Id="Program_ListView" Removed="True" />
           <Item Id="Student_ListView" Removed="True" />
@@ -19,7 +32,6 @@
           <Item Id="Tenant_ListView" Visible="False" />
         </Items>
       </Item>
-      <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" ImageName="BO_Document" IsNewNode="True" />
       <Item Id="State Machine" Visible="False" />
     </Items>
   </NavigationItems>
@@ -71,6 +83,61 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="ImportMapping_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="15.339233038348082">
+            <LayoutGroup Id="ImportMapping" RelativeSize="38.46153846153846">
+              <LayoutItem Id="EntityDataType" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="AuditedType" RelativeSize="61.53846153846154">
+              <LayoutItem Id="Description" RelativeSize="46.875" />
+              <LayoutItem Id="Code" RelativeSize="53.125" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="84.66076696165192" IsNewNode="True">
+            <LayoutGroup Id="Item1" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Properties" IsNewNode="True">
+              <LayoutItem Id="Properties" ViewItem="Properties" Index="0" RelativeSize="100" IsNewNode="True" />
+            </LayoutGroup>
+          </TabbedGroup>
+          <LayoutGroup Id="Properties_Group" Removed="True" />
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ImportMapping_Properties_ListView">
+      <Columns>
+        <ColumnInfo Id="ChildrenPropertySelect" Index="-1" />
+        <ColumnInfo Id="MapTo" Index="1" />
+        <ColumnInfo Id="DefaultValue" Index="2" />
+        <ColumnInfo Id="SampleValue" Index="3" />
+        <ColumnInfo Id="SortOrder" Index="4" />
+        <ColumnInfo Id="Required" Index="5" />
+      </Columns>
+    </ListView>
+    <ListView Id="ImportMappingProperty_ListView">
+      <Columns>
+        <ColumnInfo Id="ChildrenPropertySelect" Index="-1" />
+        <ColumnInfo Id="ImportMapping" Index="0" />
+        <ColumnInfo Id="PropertySelect" Index="1" />
+        <ColumnInfo Id="MapTo" Index="2" />
+        <ColumnInfo Id="DefaultValue" Index="3" />
+        <ColumnInfo Id="SampleValue" Index="4" />
+        <ColumnInfo Id="SortOrder" Index="5" />
+        <ColumnInfo Id="Required" Index="6" />
+      </Columns>
+    </ListView>
+    <ListView Id="ImportMappingProperty_LookupListView">
+      <Columns>
+        <ColumnInfo Id="PropertySelect.PropertyName" Index="-1" />
+        <ColumnInfo Id="ImportMapping" PropertyName="ImportMapping" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="PropertySelect" PropertyName="PropertySelect" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="MapTo" PropertyName="MapTo" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="DefaultValue" PropertyName="DefaultValue" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="SampleValue" PropertyName="SampleValue" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="SortOrder" PropertyName="SortOrder" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="Required" PropertyName="Required" Index="6" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <ListView Id="Program_Courses_ListView">
       <Columns>
         <ColumnInfo Id="Code" Index="0" />

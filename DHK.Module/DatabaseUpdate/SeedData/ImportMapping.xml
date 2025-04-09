@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ImportMappings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ImportMapping>
-		<Entity>SprintTek.Module.BusinessObjects.Student</Entity>
+		<Entity>DHK.Module.BusinessObjects.Student</Entity>
 	</ImportMapping>
 	<ImportMapping>
-		<Entity>SprintTek.Module.BusinessObjects.Teacher</Entity>
+		<Entity>DHK.Module.BusinessObjects.Teacher</Entity>
 	</ImportMapping>
 	<ImportMapping>
-		<Entity>SprintTek.Module.BusinessObjects.Course</Entity>
+		<Entity>DHK.Module.BusinessObjects.Course</Entity>
 	</ImportMapping>
 </ImportMappings>

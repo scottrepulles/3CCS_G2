@@ -21,11 +21,9 @@ namespace DHK.Module.DatabaseUpdate;
 public class Updater : ModuleUpdater {
 
     private BusinessObjects.Program FindProgram(string code) => ObjectSpace.FirstOrDefault<BusinessObjects.Program>(t => t.Code == code, true);
-    private ImportMappingProperty FindImportMappingProperty(ImportMapping importMapping, string propertyName, string childrenProperty, string childrenPropertyType)
+    private ImportMappingProperty FindImportMappingProperty(ImportMapping importMapping, string propertyName)
             => ObjectSpace.FirstOrDefault<ImportMappingProperty>(i => i.ImportMapping == importMapping
-            && i.Property == propertyName
-            && i.ChildrenProperty == childrenProperty
-            && i.ChildrenPropertyType == childrenPropertyType, true);
+            && i.Property == propertyName, true);
     private ImportMapping FindImportMapping(string entity) => ObjectSpace.FirstOrDefault<ImportMapping>(i => i.Entity == entity, true);
 
     public Updater(IObjectSpace objectSpace, Version currentDBVersion) :
@@ -136,6 +134,14 @@ public class Updater : ModuleUpdater {
             // Create OidGenerators
             UpdateStatus("Programs", string.Empty, "Creating programs in the database...");
             this.CreateProgram();
+
+            // Create Import Mappings
+            UpdateStatus("CreateImportMappings", string.Empty, "Creating default import mappings in the database...");
+            this.CreateImportMappings();
+
+            // Create Import Mapping Properties
+            UpdateStatus("CreateImportMappingProperties", string.Empty, "Creating default import mapping properties in the database...");
+            this.CreateImportMappingProperties();
         }
         catch (Exception e)
         {
@@ -314,7 +320,7 @@ public class Updater : ModuleUpdater {
             ImportMapping importMapping = FindImportMapping(entity);
             Type type = XafTypesInfo.Instance.FindTypeInfo(entity)?.Type;
             string name = XafTypesInfo.Instance.FindTypeInfo(entity)?.Name;
-            if (!string.IsNullOrEmpty(name))
+            if (importMapping==null)
             {
                 importMapping = ObjectSpace.CreateObject<ImportMapping>();
                 importMapping.EntityDataType = type;
@@ -341,8 +347,6 @@ public class Updater : ModuleUpdater {
                     string property = row.ConvertField<string>(nameof(ImportMappingProperty.Property));
                     string propertyType = row.ConvertField<string>(nameof(ImportMappingProperty.PropertyType));
                     int sortOrder = row.ConvertField<int>(nameof(ImportMappingProperty.SortOrder));
-                    string childrenProperty = row.ConvertField<string>(nameof(ImportMappingProperty.ChildrenProperty));
-                    string childrenPropertyType = row.ConvertField<string>(nameof(ImportMappingProperty.ChildrenPropertyType));
                     string sampleValue = row.ConvertField<string>(nameof(ImportMappingProperty.SampleValue));
 
                     ImportMapping importMapping = FindImportMapping(entity);
@@ -350,7 +354,7 @@ public class Updater : ModuleUpdater {
                     if (importMapping == null)
                         continue;
 
-                    ImportMappingProperty importMappingProperty = FindImportMappingProperty(importMapping, property, childrenProperty, childrenPropertyType);
+                    ImportMappingProperty importMappingProperty = FindImportMappingProperty(importMapping, property);
 
                     if (importMappingProperty != null)
                         continue;
@@ -359,11 +363,9 @@ public class Updater : ModuleUpdater {
                     importMappingProperty.ImportMapping = importMapping;
                     importMappingProperty.Property = property;
                     importMappingProperty.PropertyType = propertyType;
-                    importMappingProperty.ChildrenProperty = childrenProperty;
-                    importMappingProperty.ChildrenPropertyType = childrenPropertyType;
                     importMappingProperty.SortOrder = sortOrder;
                     importMappingProperty.Required = false;
-                    importMappingProperty.MapTo = String.IsNullOrEmpty(childrenProperty) ? property : $"{property}.{childrenProperty}";
+                    importMappingProperty.MapTo = property;
                     importMappingProperty.SampleValue = sampleValue;
                     result.Add(importMappingProperty);
                 }

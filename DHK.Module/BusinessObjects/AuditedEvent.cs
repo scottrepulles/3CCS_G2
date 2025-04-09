@@ -6,6 +6,7 @@ using DevExpress.Xpo;
 using DevExpress.Xpo.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using DKH.Module.Constants;
+using DHK.Module.Constants;
 
 namespace DHK.Module.BusinessObjects
 {

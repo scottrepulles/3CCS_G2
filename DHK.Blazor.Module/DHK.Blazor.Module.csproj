@@ -12,6 +12,7 @@
 		<Compile Remove="TempReports\**" />
 		<EmbeddedResource Remove="TempReports\**" />
 		<None Remove="TempReports\**" />
+		<PackageReference Include="DevExpress.Document.Processor" />
 
 		<PackageReference Include="DevExpress.ExpressApp.CodeAnalysis">
 			<PrivateAssets>all</PrivateAssets>
