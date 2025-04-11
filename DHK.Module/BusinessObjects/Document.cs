@@ -27,20 +27,20 @@ namespace DHK.Module.BusinessObjects
             set => SetPropertyValue(nameof(File), ref file, value);
         }
 
-        //IFileData viewer;
-        //[EditorAlias("DocumentViewEditor")]
-        //public IFileData Viewer
-        //{
-        //    get
-        //    {
-        //        if (file != null)
-        //        {
-        //            return file;
-        //        }
-        //        return viewer;
-        //    }
-        //    set => SetPropertyValue(nameof(Viewer), ref viewer, value);
-        //}
+        IFileData viewer;
+        [EditorAlias("DocumentViewEditor")]
+        public IFileData Viewer
+        {
+            get
+            {
+                if (file != null)
+                {
+                    return file;
+                }
+                return viewer;
+            }
+            set => SetPropertyValue(nameof(Viewer), ref viewer, value);
+        }
 
         [CollectionOperationSet(AllowAdd = false, AllowRemove = false)]
         [Browsable(false)]

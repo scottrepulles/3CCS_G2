@@ -265,7 +265,7 @@ public class Updater : ModuleUpdater {
             //Navigation
             studentRole.AddNavigationPermission(@"Application/NavigationItems/Items/Document_ListView", SecurityPermissionState.Allow);
 
-            studentRole.AddObjectPermissionFromLambda<ApplicationUser>(SecurityOperations.Read, cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
+            studentRole.AddObjectPermissionFromLambda<ApplicationUser>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
             studentRole.AddMemberPermissionFromLambda<ApplicationUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
             studentRole.AddMemberPermissionFromLambda<ApplicationUser>(SecurityOperations.Write, "StoredPassword", cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
             studentRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);
@@ -276,8 +276,13 @@ public class Updater : ModuleUpdater {
             studentRole.AddTypePermission<AuditDataItemPersistent>(SecurityOperations.Read, SecurityPermissionState.Deny);
             studentRole.AddObjectPermissionFromLambda<AuditDataItemPersistent>(SecurityOperations.Read, a => a.UserId == CurrentUserIdOperator.CurrentUserId().ToString(), SecurityPermissionState.Allow);
             studentRole.AddTypePermission<AuditedObjectWeakReference>(SecurityOperations.Read, SecurityPermissionState.Allow);
-
             studentRole.AddTypePermission<Document>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<Course>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<Program>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<FileData>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddObjectPermissionFromLambda<Student>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
+
+
         }
         return studentRole;
     }
@@ -304,8 +309,14 @@ public class Updater : ModuleUpdater {
             teacherRole.AddTypePermission<AuditDataItemPersistent>(SecurityOperations.Read, SecurityPermissionState.Deny);
             teacherRole.AddObjectPermissionFromLambda<AuditDataItemPersistent>(SecurityOperations.Read, a => a.UserId == CurrentUserIdOperator.CurrentUserId().ToString(), SecurityPermissionState.Allow);
             teacherRole.AddTypePermission<AuditedObjectWeakReference>(SecurityOperations.Read, SecurityPermissionState.Allow);
-
+            teacherRole.AddObjectPermissionFromLambda<Document>(SecurityOperations.ReadOnlyAccess, o => o.CreatedBy.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
             teacherRole.AddTypePermission<Document>(SecurityOperations.FullAccess, SecurityPermissionState.Allow);
+            teacherRole.AddTypePermission<Course>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            teacherRole.AddTypePermission<Program>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            teacherRole.AddTypePermission<FileData>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            teacherRole.AddObjectPermissionFromLambda<Student>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
+            teacherRole.AddObjectPermissionFromLambda<Course>(SecurityOperations.ReadWriteAccess, cm => cm.Teachers.Max(o => o.Oid != (Guid)CurrentUserIdOperator.CurrentUserId()), SecurityPermissionState.Deny);
+
         }
         return teacherRole;
     }

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Components.Web;
+@using System.IO;
+@using Microsoft.AspNetCore.Components.Forms;
+@using DevExpress.Persistent.Base;
+@using DevExpress.Persistent.BaseImpl;
+@using Microsoft.JSInterop;
+@inject IJSRuntime jsruntime
+
+@if (!string.IsNullOrEmpty(pdfContent))
+{
+    <div style="height:100%">
+        <object data="@pdfContent" style="width:100%; height:100%; min-height:780px;"></object>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public FileDataModel ComponentModel { get; set; }
+
+    string pdfContent = "";
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        pdfContent = ComponentModel.Value;
+    }
+
+    public static RenderFragment Create(FileDataModel componentModel) =>
+    @<FileDataRenderer ComponentModel=@componentModel />;
+}

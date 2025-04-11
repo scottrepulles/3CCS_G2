@@ -109,6 +109,7 @@ namespace DHK.Module
         {
             if (security.LogonParameters is MultiTenantLogonParametersModel)
             {
+                //string tenantName = "cict";
                 string tenantName = "cict";
                 if (!string.IsNullOrEmpty(tenantName))
                 {
