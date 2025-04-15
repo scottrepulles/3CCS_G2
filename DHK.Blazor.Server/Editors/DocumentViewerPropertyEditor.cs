@@ -4,8 +4,12 @@ using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp;
 using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl;
 using DevExpress.XtraRichEdit;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using Aspose.Slides;
+using Aspose.Slides.Export;
+
 
 namespace DHK.Blazor.Server.Editors
 {
@@ -34,63 +38,97 @@ namespace DHK.Blazor.Server.Editors
         }
         protected string GetBase64String(IFileData file)
         {
-            string pdfContent = string.Empty;
+            if (file == null || string.IsNullOrEmpty(file.FileName))
+                return string.Empty;
 
-            if (file != null && !string.IsNullOrEmpty(file.FileName))
+            string fileExtension = Path.GetExtension(file.FileName)?.ToLower();
+            if (string.IsNullOrEmpty(fileExtension))
+                return string.Empty;
+
+            string mimeType;
+            byte[] fileBytes;
+
+            using (var fileStream = new MemoryStream())
             {
-                using (MemoryStream fileStream = new MemoryStream())
+                file.SaveToStream(fileStream);
+                fileStream.Position = 0;
+
+                if (new[] { ".doc", ".docx", ".rtf", ".xml", ".txt" }.Contains(fileExtension))
                 {
-                    file.SaveToStream(fileStream);
-                    fileStream.Position = 0;
-
-                    string filename = file.FileName;
-                    string fileExtension = System.IO.Path.GetExtension(filename ?? "").ToLower();
-                    if (!string.IsNullOrEmpty(fileExtension))
+                    using (var server = new RichEditDocumentServer())
+                    using (var pdfStream = new MemoryStream())
                     {
-                        if (new[] { ".doc", ".docx", ".rtf", ".xml", ".txt" }.Contains(fileExtension))
-                        {
-                            using (RichEditDocumentServer server = new RichEditDocumentServer())
-                            {
-                                using (MemoryStream stream = new MemoryStream())
-                                {
-                                    server.LoadDocument(fileStream, DocumentFormat.OpenXml);
-                                    server.ExportToPdf(stream);
-                                    stream.Position = 0;
-
-                                    string mimeType = "application/pdf";
-                                    pdfContent = string.Format("data:{0};base64,", mimeType);
-                                    pdfContent += System.Convert.ToBase64String(stream.ToArray());
-
-                                    stream.Dispose();
-                                }
-                            }
-                        }
-                        else if (new[] { ".jpg", ".jpeg", ".png", ".bmp" }.Contains(fileExtension))
-                        {
-                            using (MemoryStream stream = new MemoryStream())
-                            {
-                                file.SaveToStream(stream);
-                                stream.Position = 0;
-
-                                string mimeType = $"image/{fileExtension.TrimStart('.')}";
-                                pdfContent = $"data:{mimeType};base64," + Convert.ToBase64String(stream.ToArray());
-                            }
-                        }
-                        else
-                        {
-                            string mimeType = $"image/{fileExtension.TrimStart('.')}";
-                            pdfContent = string.Format("data:{0};base64,", mimeType);
-                            pdfContent += System.Convert.ToBase64String(fileStream.ToArray());
-                        }
+                        server.LoadDocument(fileStream, DocumentFormat.Undefined);
+                        server.ExportToPdf(pdfStream);
+                        fileBytes = pdfStream.ToArray();
+                        mimeType = "application/pdf";
                     }
                 }
+                else if (fileExtension == ".pptx")
+                {
+                    fileStream.Position = 0; // Just to be safe
+                    using Presentation presentation = new();
+                    using var pdfStream = new MemoryStream();
+                    presentation.Save(pdfStream, Aspose.Slides.Export.SaveFormat.Pdf);
+                    fileBytes = pdfStream.ToArray();
+                    mimeType = "application/pdf";
+                }
+                else
+                {
+                    fileBytes = fileStream.ToArray();
+                    mimeType = GetMimeType(file.FileName);
+                }
             }
-            return pdfContent;
+
+            return $"data:{mimeType};base64,{Convert.ToBase64String(fileBytes)}";
         }
+
+
+
 
         public void Setup(IObjectSpace objectSpace, XafApplication application)
         {
             Console.WriteLine("DocumentViewerPropertyEditor.Setup");
+        }
+
+        private byte[] compressimagesize(double scaleFactor, Stream sourcePath)
+        {
+#pragma warning disable CA1416 // Validate platform compatibility
+            using (var image = System.Drawing.Image.FromStream(sourcePath))
+            {
+                var imgnewwidth = (int)(image.Width * scaleFactor);
+                var imgnewheight = (int)(image.Height * scaleFactor);
+                var imgthumbnail = new Bitmap(imgnewwidth, imgnewheight);
+                var imgthumbgraph = Graphics.FromImage(imgthumbnail);
+                imgthumbgraph.CompositingQuality = CompositingQuality.HighQuality;
+                imgthumbgraph.SmoothingMode = SmoothingMode.HighQuality;
+                imgthumbgraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                var imageRectangle = new Rectangle(0, 0, imgnewwidth, imgnewheight);
+                var stm = new MemoryStream();
+                imgthumbgraph.DrawImage(image, imageRectangle);
+                imgthumbnail.Save(stm, image.RawFormat);
+#pragma warning restore CA1416 // Validate platform compatibility
+                return stm.ToArray();
+            }
+        }
+
+        private string GetMimeType(string fileName)
+        {
+            string ext = Path.GetExtension(fileName)?.ToLowerInvariant();
+            return ext switch
+            {
+                ".pdf" => "application/pdf",
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".bmp" => "image/bmp",
+                ".doc" => "application/msword",
+                ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ".txt" => "text/plain",
+                ".xml" => "application/xml",
+                ".rtf" => "application/rtf",
+                _ => "application/octet-stream",
+            };
         }
     }
 }

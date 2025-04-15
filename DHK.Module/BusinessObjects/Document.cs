@@ -39,7 +39,6 @@ namespace DHK.Module.BusinessObjects
                 }
                 return viewer;
             }
-            set => SetPropertyValue(nameof(Viewer), ref viewer, value);
         }
 
         [CollectionOperationSet(AllowAdd = false, AllowRemove = false)]

@@ -17,6 +17,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Aspose.Slides.NET" />
     <PackageReference Include="DevExpress.Drawing.Skia" />
     <PackageReference Include="DevExpress.ExpressApp.Blazor" />
     <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" />

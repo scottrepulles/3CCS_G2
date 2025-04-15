@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!--AIIntegration-->
+    <PackageVersion Include="Aspose.Slides.NET" Version="25.4.0" />
     <PackageVersion Include="DevExpress.AIIntegration.Blazor" Version="24.2.4" />
     <PackageVersion Include="DevExpress.AIIntegration.OpenAI" Version="24.2.4" />
     <PackageVersion Include="DevExpress.AIIntegration" Version="24.2.4" />
@@ -62,8 +63,8 @@
     <PackageVersion Include="DevExpress.ExpressApp.Xpo" Version="24.2.6" />
     <PackageVersion Include="DevExpress.Persistent.Base" Version="24.2.6" />
     <PackageVersion Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.6" />
-	<PackageVersion Include="HtmlAgilityPack" Version="1.12.0" />
-	<PackageVersion Include="Mail.dll" Version="3.0.25027.1333" />
+    <PackageVersion Include="HtmlAgilityPack" Version="1.12.0" />
+    <PackageVersion Include="Mail.dll" Version="3.0.25027.1333" />
     <!-- Firebase -->
     <PackageVersion Include="FirebaseAdmin" Version="3.1.0" />
     <!-- FluentFTP -->
