@@ -111,4 +111,14 @@ public class Student(Session session) : AuditedUser(session), IAuditEvent, IImpo
         get => program;
         set => SetPropertyValue(nameof(Program), ref program, value);
     }
+
+    [Association($"{nameof(Enrollment)}{nameof(Student)}")]
+    [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
+    public XPCollection<Enrollment> Enrollments
+    {
+        get
+        {
+            return GetCollection<Enrollment>(nameof(Enrollments));
+        }
+    }
 }

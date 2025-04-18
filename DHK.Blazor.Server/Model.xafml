@@ -2,14 +2,29 @@
 <Application>
   <NavigationItems NavigationStyle="Accordion">
     <Items>
-      <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="0" ImageName="BO_Folder" IsNewNode="True" />
-      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="1" ImageName="BO_Employee" IsNewNode="True" />
-      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="2" IsNewNode="True" />
-      <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" Index="3" IsNewNode="True" />
-      <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" ImageName="BO_Document" Index="4" IsNewNode="True" />
+      <Item Id="College_ListView" ViewId="College_ListView" ObjectKey="" Index="0" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="0" ImageName="BO_Folder" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" Index="3" IsNewNode="True">
+                <Items IsNewNode="True">
+                  <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" ImageName="BO_Document" Index="4" IsNewNode="True" />
+                </Items>
+              </Item>
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="1" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="Enrollment_ListView" ViewId="Enrollment_ListView" ObjectKey="" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="2" ImageName="BO_Employee" IsNewNode="True" />
       <Item Id="Reports" Index="5" />
       <Item Id="System" Caption="System" Index="6" IsNewNode="True">
         <Items IsNewNode="True">
+          <Item Id="AcademicYear_ListView" ViewId="AcademicYear_ListView" ObjectKey="" IsNewNode="True" />
           <Item Id="BaseHangfireJob_ListView" ViewId="BaseHangfireJob_ListView" ObjectKey="" IsNewNode="True" />
           <Item Id="FtpServer_ListView" ViewId="FtpServer_ListView" Visible="False" ObjectKey="" IsNewNode="True" />
           <Item Id="ImportMapping_ListView" ViewId="ImportMapping_ListView" ObjectKey="" IsNewNode="True" />
@@ -17,11 +32,14 @@
       </Item>
       <Item Id="Default" Visible="True" Caption="Administrator" Index="7">
         <Items>
+          <Item Id="AcademicYear_ListView" Removed="True" />
           <Item Id="BaseHangfireJob_ListView" Removed="True" />
           <Item Id="BaseTenant_ListView" Caption="Tenant" Visible="False" />
+          <Item Id="College_ListView" Removed="True" />
           <Item Id="Course_ListView" Removed="True" />
           <Item Id="CustomProperty_ListView" Visible="False" />
           <Item Id="Document_ListView" Removed="True" />
+          <Item Id="Enrollment_ListView" Removed="True" />
           <Item Id="Event_ListView" Visible="False" />
           <Item Id="FtpServer_ListView" Visible="False" Removed="True" />
           <Item Id="ImportMapping_ListView" Removed="True" />
@@ -161,11 +179,7 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="16.41025641025641">
-            <LayoutGroup Id="Program" RelativeSize="100">
-              <LayoutItem Id="Code" RelativeSize="37.5" />
-              <LayoutItem Id="Name" RelativeSize="27.083333333333332" />
-              <LayoutItem Id="Description" RelativeSize="35.416666666666664" />
-            </LayoutGroup>
+            <LayoutGroup Id="Program" RelativeSize="100" />
           </LayoutGroup>
           <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="83.58974358974359" IsNewNode="True">
             <LayoutGroup Id="Item1" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Courses" IsNewNode="True">
@@ -228,9 +242,6 @@
             </LayoutGroup>
             <LayoutGroup Id="ApplicationUser" Removed="True" />
             <LayoutGroup Id="Student" Removed="True" />
-          </LayoutGroup>
-          <LayoutGroup Id="Roles_Group" Direction="Vertical" RelativeSize="62.96296296296296" Removed="True">
-            <LayoutItem Id="Roles" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>

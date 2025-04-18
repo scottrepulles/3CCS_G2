@@ -26,6 +26,8 @@ namespace DHK.Module.BusinessObjects
         string title;
         Program program;
         YearLevelType yearLevel;
+        SemesterType semester;
+
 
         [NonCloneable]
         [RuleUniqueValue]
@@ -81,6 +83,13 @@ namespace DHK.Module.BusinessObjects
             set => SetPropertyValue(nameof(YearLevel), ref yearLevel, value);
         }
 
+        [ValueConverter(typeof(GenericEnumConverter<SemesterType>))]
+        public SemesterType Semester
+        {
+            get => semester;
+            set => SetPropertyValue(nameof(Semester), ref semester, value);
+        }
+
         [Association($"{nameof(Course)}{nameof(Document)}")]
         [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
         public XPCollection<Document> Documents
@@ -88,6 +97,16 @@ namespace DHK.Module.BusinessObjects
             get
             {
                 return GetCollection<Document>(nameof(Documents));
+            }
+        }
+
+        [Association($"{nameof(Enrollment)}{nameof(Course)}")]
+        [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
+        public XPCollection<Enrollment> Enrollments
+        {
+            get
+            {
+                return GetCollection<Enrollment>(nameof(Enrollments));
             }
         }
     }

@@ -6,8 +6,11 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using DHK.Module.Constants;
+using DHK.Module.Converters;
+using DHK.Module.Enumerations;
 using DHK.Module.Helper;
 using DHK.Module.Interfaces;
+using Limilabs.Client.IMAP;
 using System.ComponentModel;
 
 namespace DHK.Module.BusinessObjects
@@ -34,6 +37,7 @@ namespace DHK.Module.BusinessObjects
         string middleName;
         string lastName;
         string firstName;
+        EmploymentStatusType status;
 
         [NonCloneable]
         [RuleUniqueValue]
@@ -111,6 +115,13 @@ namespace DHK.Module.BusinessObjects
             {
                 return GetCollection<Course>(nameof(Courses));
             }
+        }
+
+        [ValueConverter(typeof(GenericEnumConverter<EmploymentStatusType>))]
+        public EmploymentStatusType Status
+        {
+            get => status;
+            set => SetPropertyValue(nameof(Status), ref status, value);
         }
     }
 }

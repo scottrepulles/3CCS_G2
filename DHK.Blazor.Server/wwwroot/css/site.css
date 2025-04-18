@@ -12,8 +12,8 @@
 }
 
 :root {
-    --primary: 35, 188, 251;
-    --secondary: 69, 139, 245;
+    --primary: 232, 17, 35;
+    --secondary: 227, 75, 88;
     /*--secondary: 20, 23, 26;*/
     --tertiary: 3, 64, 101;
     --default: 20, 23, 26;
@@ -94,7 +94,7 @@ app {
 .header-logo {
     flex-shrink: 0;
     background-color: currentColor;
-    background: url('../images/DKH_Logo_Main.png');
+    background: url('../images/DKH_LOGO_RED.png');
     background-position: left;
     background-repeat: no-repeat;
     background-size: contain;
@@ -140,7 +140,7 @@ app {
 .header-logo {
     flex-shrink: 0;
     background-color: currentColor;
-    background: url('../images/DKH_Logo_Main.png');
+    background: url('../images/DKH_LOGO_RED.png');
     background-position: left;
     background-repeat: no-repeat;
     background-size: contain;
@@ -199,7 +199,7 @@ html, body {
 .logon-template-header .header-logo {
     flex-shrink: 0;
     background-color: currentColor;
-    background: url('../images/DKH_Logo_Main.png');
+    background: url('../images/DKH_LOGO_RED.png');
     background-position: left;
     background-repeat: no-repeat;
     background-size: contain;
@@ -298,7 +298,7 @@ html, body {
 /*------LOGIN OVERRIDE------*/
 .dhk-login {
     height: 100vh;
-    background: url('../images/library-bg.jpg') 0 0 no-repeat;
+    background: url('../images/tcu.jpg') 0 0 no-repeat;
     background-size: cover;
 }
 

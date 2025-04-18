@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using DevExpress.DataAccess.DataFederation;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -17,6 +18,9 @@ public class Program(Session session) : AuditedEntity(session), IImported, IAudi
     string code;
     string name;
     string description;
+    College college;
+    int? duration;
+
 
     [NonCloneable]
     [RuleUniqueValue]
@@ -64,5 +68,19 @@ public class Program(Session session) : AuditedEntity(session), IImported, IAudi
         {
             return GetCollection<Course>(nameof(Courses));
         }
+    }
+
+    [RuleRequiredField(DefaultContexts.Save)]
+    public int? Duration
+    {
+        get => duration;
+        set => SetPropertyValue(nameof(Duration), ref duration, value);
+    }
+
+    [Association($"{nameof(College)}{nameof(Program)}")]
+    public College College
+    {
+        get => college;
+        set => SetPropertyValue(nameof(College), ref college, value);
     }
 }
