@@ -4,7 +4,10 @@ using DevExpress.Spreadsheet;
 using DevExpress.Xpo;
 using DevExpress.Xpo.Metadata;
 using DHK.Module.BusinessObjects;
+using DHK.Module.Enumerations;
 using DHK.Module.Models;
+using DKH.Module.Enumerations;
+using System;
 using System.Data;
 using System.Linq;
 namespace DHK.Module.Helper;
@@ -60,6 +63,29 @@ public class MapperHelper
             {
                 Course course = objectSpace.GetObjects<Course>(new BinaryOperator(nameof(Course.Code), columnValue)).FirstOrDefault();
                 return course;
+            }
+            else if (targetMemberInfo.ReferenceType.ClassType == typeof(Teacher))
+            {
+                Teacher teacher = objectSpace.GetObjects<Teacher>(new BinaryOperator(nameof(Teacher.EmployeeNumber), columnValue)).FirstOrDefault();
+                return teacher;
+            }
+            else if (targetMemberInfo.ReferenceType.ClassType == typeof(Student))
+            {
+                Student student = objectSpace.GetObjects<Student>(new BinaryOperator(nameof(Student.StudentNumber), columnValue)).FirstOrDefault();
+                return student;
+            }
+            else if (targetMemberInfo.ReferenceType.ClassType == typeof(AcademicYear))
+            {
+                AcademicYear academicYear = objectSpace.GetObjects<AcademicYear>(new BinaryOperator(nameof(AcademicYear.Year), columnValue)).FirstOrDefault();
+                return academicYear;
+            }
+            else if (targetMemberInfo.ReferenceType.ClassType == typeof(Section))
+            {
+                Attribute criteriaAttribute = targetMemberInfo.FindAttributeInfo("CriteriaOptionsAttribute");
+                if (criteriaAttribute != null)
+                    ParseCriteriaString(Convert.ToString(columnValue));
+                Section section = objectSpace.GetObjects<Section>().Where(o => o.Code == Convert.ToString(columnValue)).FirstOrDefault();
+                return section;
             }
         }
         else
@@ -163,6 +189,63 @@ public class MapperHelper
                     DateTime parsedDateTime = DateTime.Parse(columnValue.ToString());
                     DateOnly? dateOnly = DateOnly.FromDateTime(parsedDateTime);
                     return dateOnly;
+                }
+            }
+            else if (targetMemberInfo.MemberType == typeof(EmploymentStatusType))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    if (Enum.TryParse<EmploymentStatusType>(columnValue.ToString(), true, out var status))
+                    {
+                        // Successfully parsed
+                        return status;
+                    }
+                    return EmploymentStatusType.FULLTIME;
+                }
+            }
+            else if (targetMemberInfo.MemberType == typeof(GenderType))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    if (Enum.TryParse<GenderType>(columnValue.ToString(), true, out var status))
+                    {
+                        // Successfully parsed
+                        return status;
+                    }
+                    return GenderType.Male;
+                }
+            }
+            else if (targetMemberInfo.MemberType == typeof(EnrollmentStatusType))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    if (Enum.TryParse<EnrollmentStatusType>(columnValue.ToString(), true, out var status))
+                    {
+                        return status;
+                    }
+                    return EnrollmentStatusType.NOTTAKEN;
+                }
+            }
+            else if (targetMemberInfo.MemberType == typeof(SemesterType))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    if (Enum.TryParse<SemesterType>(columnValue.ToString(), true, out var status))
+                    {
+                        return status;
+                    }
+                    return SemesterType.First;
+                }
+            }
+            else if (targetMemberInfo.MemberType == typeof(YearLevelType))
+            {
+                if (columnValue.ToString() != "")
+                {
+                    if (Enum.TryParse<YearLevelType>(columnValue.ToString(), true, out var status))
+                    {
+                        return status;
+                    }
+                    return YearLevelType.FIRST;
                 }
             }
         }

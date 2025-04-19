@@ -50,12 +50,12 @@ namespace DHK.Blazor.Module.Helpers.Managers
         protected override Teacher GetMatchFromDb(IObjectSpace objectSpace, DataRow entityRow)
         {
             rowIndex += 1;
-            Teacher courier = objectSpace.GetObjects<Teacher>(new BinaryOperator(nameof(Teacher.Email), entityRow[nameof(Teacher.Email)]?.ToString())).FirstOrDefault();
-            if (courier == null)
+            Teacher teacher = objectSpace.GetObjects<Teacher>(new BinaryOperator(nameof(Teacher.UserName), entityRow[nameof(Teacher.UserName)]?.ToString())).FirstOrDefault();
+            if (teacher == null)
             {
                 return null;
             }
-            return courier;
+            return teacher;
         }
 
         protected override Teacher CreateNewRecord(IObjectSpace objectSpace, DataRow entityRow)
@@ -65,8 +65,9 @@ namespace DHK.Blazor.Module.Helpers.Managers
             {
                 return null;
             }
-
             Teacher newRecord = base.CreateNewRecord(objectSpace, entityRow);
+            newRecord.ChangePasswordOnFirstLogon = true;
+            AssignRolesAndParentRelationships(objectSpace, newRecord);
             return newRecord;
         }
 

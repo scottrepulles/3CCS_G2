@@ -9,4 +9,19 @@
 	<ImportMapping>
 		<Entity>DHK.Module.BusinessObjects.Course</Entity>
 	</ImportMapping>
+	<ImportMapping>
+		<Entity>DHK.Module.BusinessObjects.College</Entity>
+	</ImportMapping>
+	<ImportMapping>
+		<Entity>DHK.Module.BusinessObjects.Section</Entity>
+	</ImportMapping>
+	<ImportMapping>
+		<Entity>DHK.Module.BusinessObjects.Syllabus</Entity>
+	</ImportMapping>
+	<ImportMapping>
+		<Entity>DHK.Module.BusinessObjects.Enrollment</Entity>
+	</ImportMapping>
+	<ImportMapping>
+		<Entity>DHK.Module.BusinessObjects.Program</Entity>
+	</ImportMapping>
 </ImportMappings>

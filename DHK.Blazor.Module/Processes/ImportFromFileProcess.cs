@@ -37,21 +37,9 @@ namespace DHK.Blazor.Module.Processes
                 BaseHangfireJobParameterModel param = JsonSerializer.Deserialize<BaseHangfireJobParameterModel>(parameter);
                 Session session = ((XPObjectSpace)objectSpace).Session;
                 ImportMapping importMapping=null;
-                if (param.Mapping == null)
-                {
-                    //Company company = objectSpace.GetObjects<Company>().FirstOrDefault();
-                    //string propertyName = $"{typeof(T).Name}Mapping";
-                    //PropertyInfo propertyInfo = typeof(Company).GetProperty(propertyName);
-                    //object map = propertyInfo?.GetValue(company);
-                    //importMapping = map == null ? null : (ImportMapping)map;
-                }
-                else
-                {
-                    ImportMapping map = objectSpace.GetObjects<ImportMapping>(CriteriaOperator.Parse(
-                        $"Oid = '{param.Mapping}'")).FirstOrDefault();
-                    importMapping = map;
-                }
-
+                ImportMapping map = objectSpace.GetObjects<ImportMapping>(CriteriaOperator.Parse(
+                        $"Entity = '{typeof(T).FullName}'")).FirstOrDefault();
+                importMapping = map;
                 if (importMapping != null)
                 {
                     Type key = typeof(T);

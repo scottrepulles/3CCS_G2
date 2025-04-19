@@ -34,7 +34,7 @@ namespace DHK.Blazor.Server.Controllers
                 bool hasStudentRole = currentUser.Roles.Any(r => r.Name == RoleNames.STUDENTS);
                 if (hasStudentRole)
                 {
-                    objectCriteria = CriteriaOperator.Parse($"{nameof(Document.Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
+                    //objectCriteria = CriteriaOperator.Parse($"{nameof(Document.Syllabus)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
                     View.CollectionSource.Criteria["DocumentCriteria"] = objectCriteria;
                 }
             }

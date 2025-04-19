@@ -35,8 +35,13 @@ public static class JobProcessHelper
     private static List<Func<IHangfireJobData, bool>> parsers =
     [
         (job) => StartProcess<TeacherImportJob, ImportFromFileProcess<Teacher, TeacherImportJob>>(job),
-        (job) => StartProcess<StudentImportJob, ImportFromFileProcess<Student, TeacherImportJob>>(job),
-        (job) => StartProcess<CourseImportJob, ImportFromFileProcess<Course, TeacherImportJob>>(job),
+        (job) => StartProcess<StudentImportJob, ImportFromFileProcess<Student, StudentImportJob>>(job),
+        (job) => StartProcess<CourseImportJob, ImportFromFileProcess<Course, CourseImportJob>>(job),
+        (job) => StartProcess<CollegeImportJob, ImportFromFileProcess<College, CollegeImportJob>>(job),
+        (job) => StartProcess<ProgramImportJob, ImportFromFileProcess<Program, ProgramImportJob>>(job),
+        (job) => StartProcess<SectionImportJob, ImportFromFileProcess<Section, SectionImportJob>>(job),
+        (job) => StartProcess<SyllabusImportJob, ImportFromFileProcess<Syllabus, SyllabusImportJob>>(job),
+        (job) => StartProcess<EnrollmentImportJob, ImportFromFileProcess<Enrollment, EnrollmentImportJob>>(job),
     ];
 
     public static void ExecuteOnceFor(IHangfireJobData job)

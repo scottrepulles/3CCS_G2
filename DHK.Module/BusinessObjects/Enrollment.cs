@@ -1,32 +1,27 @@
-﻿using DevExpress.Persistent.Base;
+﻿using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
+using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using DHK.Module.Constants;
 using DHK.Module.Enumerations;
+using DHK.Module.Interfaces;
+using DKH.Module.Constants;
 
 namespace DHK.Module.BusinessObjects;
 
 [DefaultClassOptions]
-public class Enrollment(Session session) : AuditedEntity(session)
+public class Enrollment(Session session) : AuditedEntity(session), IImported
 {
     public override void AfterConstruction()
     {
         base.AfterConstruction();
     }
 
-    Course course;
     Student student;
-    AcademicYear academicYear;
-    SemesterType semester;
-    int grade;
+    decimal grade;
     EnrollmentStatusType status;
-
-
-    [Association($"{nameof(Enrollment)}{nameof(Course)}")]
-    public Course Course
-    {
-        get => course;
-        set => SetPropertyValue(nameof(Course), ref course, value);
-    }
+    Section section;
 
     [Association($"{nameof(Enrollment)}{nameof(Student)}")]
     public Student Student
@@ -35,19 +30,10 @@ public class Enrollment(Session session) : AuditedEntity(session)
         set => SetPropertyValue(nameof(Student), ref student, value);
     }
 
-    public AcademicYear AcademicYear
-    {
-        get => academicYear;
-        set => SetPropertyValue(nameof(AcademicYear), ref academicYear, value);
-    }
-
-    public SemesterType Semester
-    {
-        get => semester;
-        set => SetPropertyValue(nameof(Semester), ref semester, value);
-    }
-
-    public int Grade
+    [ModelDefault(ModelDefaultProperties.DISPLAY_FORMAT, Patterns.DECIMAL)]
+    [ModelDefault(ModelDefaultProperties.EDIT_MASK, ModelDefaultProperties.NUMBER)]
+    [RuleRange($"{ModelDefaultProperties.RULE_RANGE}{nameof(Enrollment)}{nameof(Grade)}", DefaultContexts.Save, 0, 5)]
+    public decimal Grade
     {
         get => grade;
         set => SetPropertyValue(nameof(Grade), ref grade, value);
@@ -57,5 +43,12 @@ public class Enrollment(Session session) : AuditedEntity(session)
     {
         get => status;
         set => SetPropertyValue(nameof(Status), ref status, value);
+    }
+
+    [Association($"{nameof(Enrollment)}{nameof(Section)}")]
+    public Section Section
+    {
+        get => section;
+        set => SetPropertyValue(nameof(Section), ref section, value);
     }
 }

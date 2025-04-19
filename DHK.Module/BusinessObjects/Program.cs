@@ -19,8 +19,7 @@ public class Program(Session session) : AuditedEntity(session), IImported, IAudi
     string name;
     string description;
     College college;
-    int? duration;
-
+    int duration;
 
     [NonCloneable]
     [RuleUniqueValue]
@@ -70,8 +69,7 @@ public class Program(Session session) : AuditedEntity(session), IImported, IAudi
         }
     }
 
-    [RuleRequiredField(DefaultContexts.Save)]
-    public int? Duration
+    public int Duration
     {
         get => duration;
         set => SetPropertyValue(nameof(Duration), ref duration, value);

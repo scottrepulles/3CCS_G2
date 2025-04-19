@@ -2,27 +2,20 @@
 <Application>
   <NavigationItems NavigationStyle="Accordion">
     <Items>
-      <Item Id="College_ListView" ViewId="College_ListView" ObjectKey="" Index="0" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="0" ImageName="BO_Folder" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" Index="3" IsNewNode="True">
-                <Items IsNewNode="True">
-                  <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" ImageName="BO_Document" Index="4" IsNewNode="True" />
-                </Items>
-              </Item>
-            </Items>
-          </Item>
-        </Items>
-      </Item>
-      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="1" IsNewNode="True">
+      <Item Id="College_ListView" ViewId="College_ListView" ObjectKey="" Index="0" IsNewNode="True" />
+      <Item Id="Program_ListView" ViewId="Program_ListView" ObjectKey="" Index="1" ImageName="BO_Folder" IsNewNode="True" />
+      <Item Id="Section_ListView" ViewId="Section_ListView" ObjectKey="" Index="2" IsNewNode="True" />
+      <Item Id="Student_ListView" ViewId="Student_ListView" ObjectKey="" Index="3" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="Enrollment_ListView" ViewId="Enrollment_ListView" ObjectKey="" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="2" ImageName="BO_Employee" IsNewNode="True" />
-      <Item Id="Reports" Index="5" />
-      <Item Id="System" Caption="System" Index="6" IsNewNode="True">
+      <Item Id="Course_ListView" ViewId="Course_ListView" ObjectKey="" ImageName="BO_Resources" Index="4" IsNewNode="True" />
+      <Item Id="Syllabus_ListView" ViewId="Syllabus_ListView" ObjectKey="" Index="5" IsNewNode="True" />
+      <Item Id="Document_ListView" ViewId="Document_ListView" ObjectKey="" ImageName="BO_Document" Index="6" IsNewNode="True" />
+      <Item Id="Reports" Index="7" />
+      <Item Id="Teacher_ListView" ViewId="Teacher_ListView" ObjectKey="" Index="7" ImageName="BO_Employee" IsNewNode="True" />
+      <Item Id="System" Caption="System" Index="8" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="AcademicYear_ListView" ViewId="AcademicYear_ListView" ObjectKey="" IsNewNode="True" />
           <Item Id="BaseHangfireJob_ListView" ViewId="BaseHangfireJob_ListView" ObjectKey="" IsNewNode="True" />
@@ -30,7 +23,7 @@
           <Item Id="ImportMapping_ListView" ViewId="ImportMapping_ListView" ObjectKey="" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Default" Visible="True" Caption="Administrator" Index="7">
+      <Item Id="Default" Visible="True" Caption="Administrator" Index="9">
         <Items>
           <Item Id="AcademicYear_ListView" Removed="True" />
           <Item Id="BaseHangfireJob_ListView" Removed="True" />
@@ -45,11 +38,14 @@
           <Item Id="ImportMapping_ListView" Removed="True" />
           <Item Id="MyDetails" Visible="False" />
           <Item Id="Program_ListView" Removed="True" />
+          <Item Id="Section_ListView" Removed="True" />
           <Item Id="Student_ListView" Removed="True" />
+          <Item Id="Syllabus_ListView" Removed="True" />
           <Item Id="Teacher_ListView" Removed="True" />
           <Item Id="Tenant_ListView" Visible="False" />
         </Items>
       </Item>
+      <Item Id="Automation" Visible="False" />
       <Item Id="State Machine" Visible="False" />
     </Items>
   </NavigationItems>
@@ -61,13 +57,43 @@
     <SchemaModule Name="SystemModule" Version="24.2.6.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
-    <DetailView Id="Course_DetailView" AllowNew="True" />
-    <ListView Id="Course_Documents_ListView">
-      <Columns>
-        <ColumnInfo Id="ExpirationDate" Index="2" />
-        <ColumnInfo Id="Visible" Index="3" />
-      </Columns>
-    </ListView>
+    <DetailView Id="College_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="10.590015128593041">
+            <LayoutGroup Id="College" RelativeSize="100">
+              <LayoutItem Id="Name" RelativeSize="51.42857142857143" />
+              <LayoutItem Id="Description" RelativeSize="48.57142857142857" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="89.40998487140696" IsNewNode="True">
+            <LayoutGroup Id="Item1" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Programs" IsNewNode="True">
+              <LayoutItem Id="Programs" ViewItem="Programs" Index="0" RelativeSize="100" IsNewNode="True" />
+            </LayoutGroup>
+          </TabbedGroup>
+          <LayoutGroup Id="Programs_Group" Removed="True" />
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="Course_DetailView" AllowNew="True">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="14.523449319213313">
+            <LayoutGroup Id="Course_col1" ShowCaption="False" Index="0" RelativeSize="49.95196926032661" IsNewNode="True">
+              <LayoutItem Id="Program" ViewItem="Program" Index="0" RelativeSize="37.5" IsNewNode="True" />
+              <LayoutItem Id="Code" ViewItem="Code" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+              <LayoutItem Id="Title" ViewItem="Title" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Course_col2" ShowCaption="False" Index="1" RelativeSize="50.04803073967339" IsNewNode="True">
+              <LayoutItem Id="YearLevel" ViewItem="YearLevel" Index="0" RelativeSize="37.5" IsNewNode="True" />
+              <LayoutItem Id="Semester" ViewItem="Semester" Index="1" RelativeSize="62.5" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Course" Removed="True" />
+          </LayoutGroup>
+          <TabbedGroup Id="Tabs" RelativeSize="85.47655068078669" />
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="Course_ListView">
       <Columns>
         <ColumnInfo Id="Code" Index="0" />
@@ -80,16 +106,6 @@
         <ColumnInfo Id="Title" Index="1" />
         <ColumnInfo Id="Program" PropertyName="Program" Index="2" IsNewNode="True" />
         <ColumnInfo Id="YearLevel" PropertyName="YearLevel" Index="3" IsNewNode="True" />
-      </Columns>
-    </ListView>
-    <ListView Id="Course_Teachers_ListView">
-      <Columns>
-        <ColumnInfo Id="EmployeeNumber" Index="0" />
-        <ColumnInfo Id="FormattedFullName" Index="1" />
-        <ColumnInfo Id="UserName" Index="2" />
-        <ColumnInfo Id="Specialization" Index="3" />
-        <ColumnInfo Id="HireDate" Index="4" />
-        <ColumnInfo Id="IsActive" Index="5" />
       </Columns>
     </ListView>
     <DetailView Id="Document_DetailView">
@@ -108,6 +124,24 @@
             </LayoutGroup>
             <LayoutItem Id="Viewer" ViewItem="Viewer" Index="1" RelativeSize="85.88235294117646" IsNewNode="True" />
             <LayoutGroup Id="Document" RelativeSize="100" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="Enrollment_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="100">
+            <LayoutGroup Id="Enrollment_col1" ShowCaption="False" Index="0" RelativeSize="49.88636363636363" IsNewNode="True">
+              <LayoutItem Id="Student" ViewItem="Student" Index="0" RelativeSize="9.366391184573002" IsNewNode="True" />
+              <LayoutItem Id="Section" ViewItem="Section" Index="1" RelativeSize="7.162534435261708" IsNewNode="True" />
+              <LayoutItem Id="Course" ViewItem="Course" Index="2" RelativeSize="83.47107438016529" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Enrollment_col2" ShowCaption="False" Index="1" RelativeSize="50.11363636363637" IsNewNode="True">
+              <LayoutItem Id="Grade" ViewItem="Grade" Index="0" RelativeSize="9.366391184573002" IsNewNode="True" />
+              <LayoutItem Id="Status" ViewItem="Status" Index="1" RelativeSize="90.633608815427" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Enrollment" Removed="True" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
@@ -178,15 +212,23 @@
     <DetailView Id="Program_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="16.41025641025641">
-            <LayoutGroup Id="Program" RelativeSize="100" />
+          <LayoutGroup Id="SimpleEditors" RelativeSize="14.523449319213313" Direction="Horizontal">
+            <LayoutGroup Id="Program_col1" ShowCaption="False" Index="0" RelativeSize="49.95539696699375" IsNewNode="True">
+              <LayoutItem Id="Code" ViewItem="Code" Index="0" RelativeSize="37.5" IsNewNode="True" />
+              <LayoutItem Id="Name" ViewItem="Name" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+              <LayoutItem Id="Description" ViewItem="Description" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Program_col2" ShowCaption="False" Index="1" RelativeSize="50.04460303300625" IsNewNode="True">
+              <LayoutItem Id="Duration" ViewItem="Duration" Index="0" RelativeSize="37.5" IsNewNode="True" />
+              <LayoutItem Id="College" ViewItem="College" Index="1" RelativeSize="62.5" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="Program" RelativeSize="100" Removed="True" />
           </LayoutGroup>
-          <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="83.58974358974359" IsNewNode="True">
+          <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="60.665658093797276" IsNewNode="True">
             <LayoutGroup Id="Item1" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Courses" IsNewNode="True">
               <LayoutItem Id="Courses" ViewItem="Courses" Index="0" RelativeSize="100" IsNewNode="True" />
             </LayoutGroup>
           </TabbedGroup>
-          <LayoutGroup Id="Courses_Group" Removed="True" />
         </LayoutGroup>
       </Layout>
     </DetailView>
@@ -194,7 +236,7 @@
       <Columns>
         <ColumnInfo Id="Code" Index="0" />
         <ColumnInfo Id="Name" Index="1" />
-        <ColumnInfo Id="CreatedBy" Index="3" />
+        <ColumnInfo Id="CreatedBy" Index="4" />
         <ColumnInfo Id="CreatedOn" Index="4" />
         <ColumnInfo Id="UpdatedBy" Index="5" />
         <ColumnInfo Id="UpdatedOn" Index="6" />
@@ -272,12 +314,6 @@
         <ColumnInfo Id="IsActive" PropertyName="IsActive" Index="6" IsNewNode="True" />
       </Columns>
     </ListView>
-    <ListView Id="Teacher_Courses_ListView">
-      <Columns>
-        <ColumnInfo Id="Code" Index="0" />
-        <ColumnInfo Id="Title" Index="1" />
-      </Columns>
-    </ListView>
     <DetailView Id="Teacher_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
@@ -325,9 +361,6 @@
             </LayoutGroup>
           </LayoutGroup>
           <TabbedGroup Id="Tabs" RelativeSize="55.77299412915851">
-            <LayoutGroup Id="Courses" RelativeSize="100">
-              <LayoutItem Id="Courses" RelativeSize="100" />
-            </LayoutGroup>
             <LayoutGroup Id="Roles" Removed="True" />
           </TabbedGroup>
         </LayoutGroup>

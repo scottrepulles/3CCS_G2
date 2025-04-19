@@ -14,7 +14,7 @@ namespace DHK.Module.BusinessObjects
     public class Document(Session session) : AuditedEntity(session), IImported, IAuditEvent
     {
         FileData file;
-        Course course;
+        Syllabus syllabus;
         bool visible;
         DateTime? expirationDate;
 
@@ -51,11 +51,11 @@ namespace DHK.Module.BusinessObjects
             }
         }
 
-        [Association($"{nameof(Course)}{nameof(Document)}")]
-        public Course Course
+        [Association($"{nameof(Syllabus)}{nameof(Document)}")]
+        public Syllabus Syllabus
         {
-            get => course;
-            set => SetPropertyValue(nameof(Course), ref course, value);
+            get => syllabus;
+            set => SetPropertyValue(nameof(Syllabus), ref syllabus, value);
         }
 
         public bool Visible

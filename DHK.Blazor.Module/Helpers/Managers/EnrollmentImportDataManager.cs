@@ -9,7 +9,7 @@ using System.Data;
 
 namespace DHK.Blazor.Module.Helpers.Managers;
 
-public class CourseImportDataManager : BaseImportDataManager<Course, FileImportJob>
+public class EnrollmentImportDataManager : BaseImportDataManager<Enrollment, FileImportJob>
 {
     private int rowIndex = 0;
     PermissionPolicyRole role = null;
@@ -18,7 +18,7 @@ public class CourseImportDataManager : BaseImportDataManager<Course, FileImportJ
     private readonly List<ImportMappingProperty> childrenProperty;
 
 
-    public CourseImportDataManager(
+    public EnrollmentImportDataManager(
         IServiceProvider serviceProvider,
         IObjectSpace objectSpace,
         PerformContext performContext,
@@ -30,35 +30,36 @@ public class CourseImportDataManager : BaseImportDataManager<Course, FileImportJ
     {
         importMapping = objectSpace.GetObjects<ImportMapping>(CriteriaOperator.Parse(
               $"{nameof(ImportMapping.Entity)} = ? ",
-              typeof(Course).FullName)).FirstOrDefault();
+              typeof(Enrollment).FullName)).FirstOrDefault();
         childrenProperty = importMapping.Properties.Where(x => !string.IsNullOrEmpty(x.ChildrenProperty))
             .ToList();
         parentProperty = childrenProperty.Select(x => x.PropertyType).Distinct().ToList();
     }
 
-    protected override Course GetMatchFromDb(IObjectSpace objectSpace, DataRow entityRow)
+    protected override Enrollment GetMatchFromDb(IObjectSpace objectSpace, DataRow entityRow)
     {
         rowIndex += 1;
-        Course Course = objectSpace.GetObjects<Course>(new BinaryOperator(nameof(Course.Code), entityRow[nameof(Course.Code)]?.ToString())).FirstOrDefault();
-        if (Course == null)
+        Enrollment Enrollment = objectSpace.GetObjects<Enrollment>().Where(o => o.Student.StudentNumber.Equals(entityRow[nameof(Enrollment.Student)]) 
+        && o.Section.Name.Equals(entityRow[nameof(Enrollment.Section)])).FirstOrDefault();
+        if (Enrollment == null)
         {
             return null;
         }
-        return Course;
+        return Enrollment;
     }
 
-    protected override Course CreateNewRecord(IObjectSpace objectSpace, DataRow entityRow)
+    protected override Enrollment CreateNewRecord(IObjectSpace objectSpace, DataRow entityRow)
     {
-        if (string.IsNullOrEmpty(entityRow[nameof(Course.Code)]?.ToString()))
+        if (string.IsNullOrEmpty(entityRow[nameof(Enrollment.Student)]?.ToString()) || string.IsNullOrEmpty(entityRow[nameof(Enrollment.Section)]?.ToString()))
         {
             return null;
         }
 
-        Course newRecord = base.CreateNewRecord(objectSpace, entityRow);
+        Enrollment newRecord = base.CreateNewRecord(objectSpace, entityRow);
         return newRecord;
     }
 
-    protected override Course MatchSubProperty(IObjectSpace objectSpace, DataRow entityRow, Course entity, MapperHelper mapper)
+    protected override Enrollment MatchSubProperty(IObjectSpace objectSpace, DataRow entityRow, Enrollment entity, MapperHelper mapper)
     {
 
         foreach (string parent in parentProperty.OrderBy(x => x))

@@ -21,7 +21,11 @@ public static class FileImportHelper
         { typeof(Teacher), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new TeacherImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
         { typeof(Student), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new StudentImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
         { typeof(Course), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new CourseImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
-
+        { typeof(College), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new CollegeImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
+        { typeof(Program), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new ProgramImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
+        { typeof(Section), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new SectionImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
+        { typeof(Syllabus), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new SyllabusImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
+        { typeof(Enrollment), (serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) => new EnrollmentImportDataManager(serviceProvider, objectSpace, performContext, backgroundJobId, parentObjectOid, parentObjectType, mappingId) },
     };
 
     private static Dictionary<Type, Action<XafApplication, IObjectSpace, CustomizePopupWindowParamsEventArgs, object>> DetailViewCustomizers = new Dictionary<Type, Action<XafApplication, IObjectSpace, CustomizePopupWindowParamsEventArgs, object>>()
@@ -29,6 +33,11 @@ public static class FileImportHelper
         { typeof(Teacher), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<TeacherImportJob>(application, objectSpace, popupWindowParams, currentObject) },
         { typeof(Student), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<StudentImportJob>(application, objectSpace, popupWindowParams, currentObject) },
         { typeof(Course), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<CourseImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(College), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<CollegeImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Program), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<ProgramImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Section), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<SectionImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Syllabus), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<SyllabusImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Enrollment), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<EnrollmentImportJob>(application, objectSpace, popupWindowParams, currentObject) },
     };
 
     private static Dictionary<Type, Action<XafApplication, IObjectSpace, SingleChoiceActionExecuteEventArgs, object>> ListViewCustomizers = new Dictionary<Type, Action<XafApplication, IObjectSpace, SingleChoiceActionExecuteEventArgs, object>>()
@@ -36,7 +45,11 @@ public static class FileImportHelper
         { typeof(Teacher), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<TeacherImportJob>(application, objectSpace, popupWindowParams, currentObject) },
         { typeof(Student), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<StudentImportJob>(application, objectSpace, popupWindowParams, currentObject) },
         { typeof(Course), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<CourseImportJob>(application, objectSpace, popupWindowParams, currentObject) },
-
+        { typeof(College), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<CollegeImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Program), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<ProgramImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Section), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<SectionImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Syllabus), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<SyllabusImportJob>(application, objectSpace, popupWindowParams, currentObject) },
+        { typeof(Enrollment), (application, objectSpace, popupWindowParams, currentObject) => CreateCustomPopupWindow<EnrollmentImportJob>(application, objectSpace, popupWindowParams, currentObject) },
     };
 
     private static Dictionary<Type, Action<XafApplication, SingleChoiceActionExecuteEventArgs>> AuditLogListViewCustomizers = new Dictionary<Type, Action<XafApplication, SingleChoiceActionExecuteEventArgs>>()
@@ -44,6 +57,11 @@ public static class FileImportHelper
         { typeof(Teacher), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<TeacherImportJob>(application, popupWindowParams) },
         { typeof(Student), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<StudentImportJob>(application, popupWindowParams) },
         { typeof(Course), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<CourseImportJob>(application, popupWindowParams) },
+        { typeof(College), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<CollegeImportJob>(application, popupWindowParams) },
+        { typeof(Program), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<ProgramImportJob>(application, popupWindowParams) },
+        { typeof(Section), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<SectionImportJob>(application, popupWindowParams) },
+        { typeof(Syllabus), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<SyllabusImportJob>(application, popupWindowParams) },
+        { typeof(Enrollment), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<EnrollmentImportJob>(application, popupWindowParams) },
     };
 
     private static Dictionary<Type, Action<XafApplication, CustomizePopupWindowParamsEventArgs>> AuditLogDetailViewCustomizers = new Dictionary<Type, Action<XafApplication, CustomizePopupWindowParamsEventArgs>>()
@@ -51,6 +69,11 @@ public static class FileImportHelper
         { typeof(Teacher), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<TeacherImportJob>(application, popupWindowParams) },
         { typeof(Student), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<StudentImportJob>(application, popupWindowParams) },
         { typeof(Course), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<CourseImportJob>(application, popupWindowParams) },
+        { typeof(College), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<CollegeImportJob>(application, popupWindowParams) },
+        { typeof(Program), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<ProgramImportJob>(application, popupWindowParams) },
+        { typeof(Section), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<SectionImportJob>(application, popupWindowParams) },
+        { typeof(Syllabus), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<SyllabusImportJob>(application, popupWindowParams) },
+        { typeof(Enrollment), (application, popupWindowParams) => CreateCustomPopupAuditLogsWindow<EnrollmentImportJob>(application, popupWindowParams) },
     };
 
     private static void CreateCustomPopupWindow<J>(

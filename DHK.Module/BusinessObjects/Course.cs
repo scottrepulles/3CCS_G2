@@ -66,16 +66,6 @@ namespace DHK.Module.BusinessObjects
             }
         }
 
-        [Association($"{nameof(Teacher)}{nameof(Course)}")]
-        [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
-        public XPCollection<Teacher> Teachers
-        {
-            get
-            {
-                return GetCollection<Teacher>(nameof(Teachers));
-            }
-        }
-
         [ValueConverter(typeof(GenericEnumConverter<YearLevelType>))]
         public YearLevelType YearLevel
         {
@@ -90,23 +80,23 @@ namespace DHK.Module.BusinessObjects
             set => SetPropertyValue(nameof(Semester), ref semester, value);
         }
 
-        [Association($"{nameof(Course)}{nameof(Document)}")]
+        [Association($"{nameof(Course)}{nameof(Syllabus)}")]
         [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
-        public XPCollection<Document> Documents
+        public XPCollection<Syllabus> Syllabus
         {
             get
             {
-                return GetCollection<Document>(nameof(Documents));
+                return GetCollection<Syllabus>(nameof(Syllabus));
             }
         }
 
-        [Association($"{nameof(Enrollment)}{nameof(Course)}")]
+        [Association($"{nameof(Course)}{nameof(Section)}")]
         [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
-        public XPCollection<Enrollment> Enrollments
+        public XPCollection<Section> Sections
         {
             get
             {
-                return GetCollection<Enrollment>(nameof(Enrollments));
+                return GetCollection<Section>(nameof(Sections));
             }
         }
     }

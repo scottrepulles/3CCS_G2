@@ -4,8 +4,8 @@ namespace DHK.Module.Enumerations;
 
 public enum EnrollmentStatusType
 {
-    [XafDisplayName(@"Taken")]
-    TAKEN,
+    [XafDisplayName(@"Completed")]
+    Completed,
     [XafDisplayName(@"Enrolled")]
     ENROLLED,
     [XafDisplayName(@"Not Taken")]

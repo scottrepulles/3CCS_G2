@@ -107,13 +107,13 @@ namespace DHK.Module.BusinessObjects
             set => SetPropertyValue(nameof(Specialization), ref specialization, value);
         }
 
-        [Association($"{nameof(Teacher)}{nameof(Course)}")]
+        [Association($"{nameof(Teacher)}{nameof(Section)}")]
         [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
-        public XPCollection<Course> Courses
+        public XPCollection<Section> Sections
         {
             get
             {
-                return GetCollection<Course>(nameof(Courses));
+                return GetCollection<Section>(nameof(Sections));
             }
         }
 

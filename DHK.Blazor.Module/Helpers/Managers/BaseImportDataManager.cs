@@ -85,181 +85,181 @@ public abstract class BaseImportDataManager<T, D>(
 
     public virtual void ImportData()
     {
-        //PerformContext.WriteLine(CustomMessages.STARTING_IMPORT);
-        //DateTime importStart = DateTime.UtcNow;
-        //HangfireJobData = ObjectSpace.GetObjectsQuery<D>()
-        //    .FirstOrDefault(job => job.BackgroundJobId == BackgroundJobId);
-        //FileData sourceImportFile = HangfireJobData.File;
-        //ImportDuplicateRecordType importDuplicateRecordType = HangfireJobData.ImportDuplicateRecordType;
+        PerformContext.WriteLine(CustomMessages.STARTING_IMPORT);
+        DateTime importStart = DateTime.UtcNow;
+        HangfireJobData = ObjectSpace.GetObjectsQuery<D>()
+            .FirstOrDefault(job => job.BackgroundJobId == BackgroundJobId);
+        FileData sourceImportFile = HangfireJobData.File;
+        ImportDuplicateRecordType importDuplicateRecordType = HangfireJobData.ImportDuplicateRecordType;
 
-        //if (sourceImportFile == null) return;
+        if (sourceImportFile == null) return;
 
-        //DevExpress.Spreadsheet.Workbook workbook = new DevExpress.Spreadsheet.Workbook();
+        DevExpress.Spreadsheet.Workbook workbook = new DevExpress.Spreadsheet.Workbook();
 
-        //// Load a workbook from the file.
-        //if (sourceImportFile.FileName.ToLowerInvariant().EndsWith(".csv"))
-        //{
-        //    workbook.LoadDocument(sourceImportFile.Content, DocumentFormat.Csv);
-        //}
-        //else
-        //{
-        //    workbook.LoadDocument(sourceImportFile.Content, DocumentFormat.Xlsx);
-        //}
+        // Load a workbook from the file.
+        if (sourceImportFile.FileName.ToLowerInvariant().EndsWith(".csv"))
+        {
+            workbook.LoadDocument(sourceImportFile.Content, DocumentFormat.Csv);
+        }
+        else
+        {
+            workbook.LoadDocument(sourceImportFile.Content, DocumentFormat.Xlsx);
+        }
 
-        //Session session = ((XPObjectSpace)ObjectSpace).Session;
-        //MapperHelper mapper = new(session);
+        Session session = ((XPObjectSpace)ObjectSpace).Session;
+        MapperHelper mapper = new(session);
 
-        //// Access a collection of rows.
-        //RowCollection rows = workbook.Worksheets[0].Rows;
-        //DevExpress.Spreadsheet.Worksheet worksheet = workbook.Worksheets[0];
-        //CellRange cellRange = rows[0].Worksheet.GetUsedRange();
+        // Access a collection of rows.
+        RowCollection rows = workbook.Worksheets[0].Rows;
+        DevExpress.Spreadsheet.Worksheet worksheet = workbook.Worksheets[0];
+        CellRange cellRange = rows[0].Worksheet.GetUsedRange();
 
-        //DataTable entityDataTable = worksheet.CreateDataTable(cellRange, true);
-        //foreach (DataColumn leadTemplateColumn in entityDataTable.Columns)
-        //{
-        //    leadTemplateColumn.DataType = Type.GetType("System.String");
-        //}
+        DataTable entityDataTable = worksheet.CreateDataTable(cellRange, true);
+        foreach (DataColumn leadTemplateColumn in entityDataTable.Columns)
+        {
+            leadTemplateColumn.DataType = Type.GetType("System.String");
+        }
 
-        ////map headers and default value
-        //List<ImportMappingProperty> importMappingProperty = ObjectSpace.FindObject<ImportMapping>(
-        //    CriteriaOperator.Parse($"{nameof(ImportMapping.Oid)}='{MappingId}'")).Properties.ToList();
-        //DataTableExporter exporter = worksheet.CreateDataTableExporter(cellRange, entityDataTable, true);
+        //map headers and default value
+        List<ImportMappingProperty> importMappingProperty = ObjectSpace.FindObject<ImportMapping>(
+            CriteriaOperator.Parse($"{nameof(ImportMapping.Oid)}='{MappingId}'")).Properties.ToList();
+        DataTableExporter exporter = worksheet.CreateDataTableExporter(cellRange, entityDataTable, true);
 
-        //// Handle value conversion errors.
-        //exporter.CellValueConversionError += Exporter_CellValueConversionError;
-        //exporter.Export();
-        //List<string> missingColumn = mapper.ValidateRequiredProperty(entityDataTable, importMappingProperty);
-        //if (missingColumn.Count > 0)
-        //{
-        //    PerformContext.WriteLine($"{string.Join(", ", missingColumn)} {CustomMessages.MISSING_COLUMN_MESSAGE}");
-        //    return;
-        //}
+        // Handle value conversion errors.
+        exporter.CellValueConversionError += Exporter_CellValueConversionError;
+        exporter.Export();
+        List<string> missingColumn = mapper.ValidateRequiredProperty(entityDataTable, importMappingProperty);
+        if (missingColumn.Count > 0)
+        {
+            PerformContext.WriteLine($"{string.Join(", ", missingColumn)} {CustomMessages.MISSING_COLUMN_MESSAGE}");
+            return;
+        }
 
-        //if (cellRange.ColumnCount != entityDataTable.Columns.Count)
-        //{
-        //    int rowCount = cellRange.RowCount;
-        //    int newColumnCount = entityDataTable.Columns.Count;
-        //    cellRange = cellRange.Resize(rowCount, newColumnCount);
-        //}
+        if (cellRange.ColumnCount != entityDataTable.Columns.Count)
+        {
+            int rowCount = cellRange.RowCount;
+            int newColumnCount = entityDataTable.Columns.Count;
+            cellRange = cellRange.Resize(rowCount, newColumnCount);
+        }
 
-        //IList<XPBaseObject> result = new List<XPBaseObject>();
-        //int invalidRecordCount = 0;
-        //XPBaseObject selectedObject = null;
-        //XPBaseObject entity = null;
-        //IProgressBar progressBar = PerformContext.WriteProgressBar();
-        //foreach (DataRow entityRow in entityDataTable.Rows.WithProgress(progressBar))
-        //{
-        //    if (entityRow.ItemArray.All(item => item == null || string.IsNullOrWhiteSpace(item.ToString())))
-        //    {
-        //        // Row is entirely empty, handle accordingly
-        //        continue;
-        //    }
+        IList<XPBaseObject> result = new List<XPBaseObject>();
+        int invalidRecordCount = 0;
+        XPBaseObject selectedObject = null;
+        XPBaseObject entity = null;
+        IProgressBar progressBar = PerformContext.WriteProgressBar();
+        foreach (DataRow entityRow in entityDataTable.Rows.WithProgress(progressBar))
+        {
+            if (entityRow.ItemArray.All(item => item == null || string.IsNullOrWhiteSpace(item.ToString())))
+            {
+                // Row is entirely empty, handle accordingly
+                continue;
+            }
 
-        //    try
-        //    {
-        //        T recordMatch = GetMatchFromDb(ObjectSpace, entityRow);
-        //        if (recordMatch != null)
-        //        {
-        //            if (importDuplicateRecordType == ImportDuplicateRecordType.Skip) continue;
-        //            else entity = recordMatch;
-        //        }
-        //        else
-        //        {
-        //            entity = CreateNewRecord(ObjectSpace, entityRow);
-        //            AfterObjectCreated?.Invoke(this, entity);
-        //        }
+            try
+            {
+                T recordMatch = GetMatchFromDb(ObjectSpace, entityRow);
+                if (recordMatch != null)
+                {
+                    if (importDuplicateRecordType == ImportDuplicateRecordType.Skip) continue;
+                    else entity = recordMatch;
+                }
+                else
+                {
+                    entity = CreateNewRecord(ObjectSpace, entityRow);
+                    AfterObjectCreated?.Invoke(this, entity);
+                }
 
-        //        DataColumnCollection entityDataTableColumns = entityDataTable.Columns;
-        //        foreach (DataColumn entityTemplateColumn in entityDataTableColumns)
-        //        {
-        //            SetProperty(ObjectSpace, entityTemplateColumn, entityRow, mapper, entity);
-        //        }
-        //        entity = MatchSubProperty(ObjectSpace, entityRow, (T)entity, mapper);
+                DataColumnCollection entityDataTableColumns = entityDataTable.Columns;
+                foreach (DataColumn entityTemplateColumn in entityDataTableColumns)
+                {
+                    SetProperty(ObjectSpace, entityTemplateColumn, entityRow, mapper, entity);
+                }
+                entity = MatchSubProperty(ObjectSpace, entityRow, (T)entity, mapper);
 
-        //        if (entity != null)
-        //        {
-        //            XPMemberInfo targetMemberInfo = entity.ClassInfo.FindMember(nameof(AuditedEntity.CreatedBy));
-        //            if (targetMemberInfo != null)
-        //            {
-        //                ApplicationUser createdBy = ObjectSpace.GetObject(HangfireJobData.CreatedBy);
-        //                targetMemberInfo.SetValue(entity, createdBy);
-        //            }
-        //            bool isValid = false;
-        //            IRuleSet ruleSet = Validator.GetService(ServiceProvider);
-        //            foreach (object obj in ObjectSpace.ModifiedObjects)
-        //            {
-        //                RuleSetValidationResult validationResult = ruleSet.ValidateTarget(ObjectSpace, obj, new ContextIdentifiers(DefaultContexts.Save.ToString()));
-        //                isValid = validationResult.State != ValidationState.Invalid;
-        //                if (!isValid)
-        //                {
-        //                    invalidRecordCount++;
+                if (entity != null)
+                {
+                    XPMemberInfo targetMemberInfo = entity.ClassInfo.FindMember(nameof(AuditedEntity.CreatedBy));
+                    if (targetMemberInfo != null)
+                    {
+                        ApplicationUser createdBy = ObjectSpace.GetObject(HangfireJobData.CreatedBy);
+                        targetMemberInfo.SetValue(entity, createdBy);
+                    }
+                    bool isValid = false;
+                    IRuleSet ruleSet = Validator.GetService(ServiceProvider);
+                    foreach (object obj in ObjectSpace.ModifiedObjects)
+                    {
+                        RuleSetValidationResult validationResult = ruleSet.ValidateTarget(ObjectSpace, obj, new ContextIdentifiers(DefaultContexts.Save.ToString()));
+                        isValid = validationResult.State != ValidationState.Invalid;
+                        if (!isValid)
+                        {
+                            invalidRecordCount++;
 
-        //                    if (invalidRecordCount == 1)
-        //                    {
-        //                        PerformContext.WriteLine(CustomMessages.DETAILS);
-        //                        PerformContext.WriteLine(Environment.NewLine);
-        //                    }
-        //                    IEnumerable<RuleSetValidationResultItem> invalidStateResults = validationResult.Results.Where(r => r.State == ValidationState.Invalid);
-        //                    foreach (RuleSetValidationResultItem validationResultItem in invalidStateResults)
-        //                    {
-        //                        PerformContext.WriteLine(CustomMessages.IMPORT_INVALID_MESSAGE, obj.GetType().FullName, validationResultItem.DisplayObjectName, validationResultItem.ErrorMessage);
-        //                    }
-        //                    IList modifiedObjects = ObjectSpace.ModifiedObjects;
+                            if (invalidRecordCount == 1)
+                            {
+                                PerformContext.WriteLine(CustomMessages.DETAILS);
+                                PerformContext.WriteLine(Environment.NewLine);
+                            }
+                            IEnumerable<RuleSetValidationResultItem> invalidStateResults = validationResult.Results.Where(r => r.State == ValidationState.Invalid);
+                            foreach (RuleSetValidationResultItem validationResultItem in invalidStateResults)
+                            {
+                                PerformContext.WriteLine(CustomMessages.IMPORT_INVALID_MESSAGE, obj.GetType().FullName, validationResultItem.DisplayObjectName, validationResultItem.ErrorMessage);
+                            }
+                            IList modifiedObjects = ObjectSpace.ModifiedObjects;
 
-        //                    // Roll back changes for each modified object
-        //                    foreach (object modifiedObject in modifiedObjects)
-        //                    {
-        //                        if (modifiedObject.GetType() != typeof(Address))
-        //                        {
-        //                            ObjectSpace.RemoveFromModifiedObjects(modifiedObject);
-        //                        }
-        //                    }
-        //                    break;
-        //                }
-        //            }
+                            // Roll back changes for each modified object
+                            foreach (object modifiedObject in modifiedObjects)
+                            {
+                                if (modifiedObject.GetType() != typeof(Address))
+                                {
+                                    ObjectSpace.RemoveFromModifiedObjects(modifiedObject);
+                                }
+                            }
+                            break;
+                        }
+                    }
 
-        //            if (isValid)
-        //            {
-        //                selectedObject ??= entity;
-        //                result.Add(entity);
-        //            }
-        //        }
-        //        ObjectSpace.CommitChanges();
-        //        if (ObjectSpace is XPObjectSpace xpObjectSpace)
-        //        {
-        //            xpObjectSpace.Session.CommitTransaction();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        IList modifiedObjects = ObjectSpace.ModifiedObjects;
-        //        foreach (object modifiedObject in modifiedObjects)
-        //        {
-        //            if (modifiedObject.GetType() != typeof(Address))
-        //            {
-        //                ObjectSpace.RemoveFromModifiedObjects(modifiedObject);
-        //            }
-        //        }
+                    if (isValid)
+                    {
+                        selectedObject ??= entity;
+                        result.Add(entity);
+                    }
+                }
+                ObjectSpace.CommitChanges();
+                if (ObjectSpace is XPObjectSpace xpObjectSpace)
+                {
+                    xpObjectSpace.Session.CommitTransaction();
+                }
+            }
+            catch (Exception ex)
+            {
+                IList modifiedObjects = ObjectSpace.ModifiedObjects;
+                foreach (object modifiedObject in modifiedObjects)
+                {
+                    if (modifiedObject.GetType() != typeof(Address))
+                    {
+                        ObjectSpace.RemoveFromModifiedObjects(modifiedObject);
+                    }
+                }
 
-        //        PerformContext.WriteLine(CustomMessages.IMPORT_ERROR_MESSAGE, entityDataTable.Rows.IndexOf(entityRow));
-        //        PerformContext.WriteLine(ex.Message);
-        //        PerformContext.WriteLine(ex.StackTrace);
-        //    }
+                PerformContext.WriteLine(CustomMessages.IMPORT_ERROR_MESSAGE, entityDataTable.Rows.IndexOf(entityRow));
+                PerformContext.WriteLine(ex.Message);
+                PerformContext.WriteLine(ex.StackTrace);
+            }
 
-        //}
+        }
 
-        //string message = string.Empty;
+        string message = string.Empty;
 
-        //if (invalidRecordCount == 0) message = string.Format("Finished! {0} data record(s) has/have been imported.", result.Count);
-        //else message = string.Format("Finished! {0} data record(s) has/have been imported. {1} data record(s) unable to import.", result.Count, invalidRecordCount);
+        if (invalidRecordCount == 0) message = string.Format("Finished! {0} data record(s) has/have been imported.", result.Count);
+        else message = string.Format("Finished! {0} data record(s) has/have been imported. {1} data record(s) unable to import.", result.Count, invalidRecordCount);
 
-        //ObjectSpace.CommitChanges();
+        ObjectSpace.CommitChanges();
 
-        //DateTime importEnd = DateTime.UtcNow;
-        //TimeSpan importTime = importEnd - importStart;
-        //PerformContext.WriteLine("Import took: {0:dd\\.hh\\:mm\\:ss}", importTime);
+        DateTime importEnd = DateTime.UtcNow;
+        TimeSpan importTime = importEnd - importStart;
+        PerformContext.WriteLine("Import took: {0:dd\\.hh\\:mm\\:ss}", importTime);
 
-        ////ShowImportMessage(message, invalidRecordCount);
+        //ShowImportMessage(message, invalidRecordCount);
     }
 
     private void Exporter_CellValueConversionError(object sender, CellValueConversionErrorEventArgs e)

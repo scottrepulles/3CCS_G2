@@ -1,12 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ImportMappingProperties>
+
+	<!--College-->
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.College</ImportMapping>
+		<Property>Name</Property>
+		<SortOrder>1</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>College of Information and Communication Technology</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.College</ImportMapping>
+		<Property>Code</Property>
+		<SortOrder>2</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>CICT</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.College</ImportMapping>
+		<Property>Description</Property>
+		<SortOrder>3</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>College of Information and Communication Technology</SampleValue>
+	</ImportMappingProperty>
+
+	<!--Program-->
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Program</ImportMapping>
+		<Property>Name</Property>
+		<SortOrder>1</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>Bachelor of Science in Computer Science</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Program</ImportMapping>
+		<Property>Code</Property>
+		<SortOrder>2</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>BSCS</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Program</ImportMapping>
+		<Property>Description</Property>
+		<SortOrder>3</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>BSCS</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Program</ImportMapping>
+		<Property>Duration</Property>
+		<SortOrder>4</SortOrder>
+		<PropertyType>System.Int32</PropertyType>
+		<SampleValue>4</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Program</ImportMapping>
+		<Property>College</Property>
+		<SortOrder>5</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.College</PropertyType>
+		<SampleValue>CICT</SampleValue>
+	</ImportMappingProperty>
+	
 	<!--Teacher-->
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Teacher</ImportMapping>
 		<Property>EmployeeNumber</Property>
 		<SortOrder>1</SortOrder>
 		<PropertyType>System.String</PropertyType>
-		<SampleValue>1</SampleValue>
+		<SampleValue>0000000001</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Teacher</ImportMapping>
@@ -71,6 +132,13 @@
 		<PropertyType>System.String</PropertyType>
 		<SampleValue>IT</SampleValue>
 	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Teacher</ImportMapping>
+		<Property>Status</Property>
+		<SortOrder>11</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>PARTTIME</SampleValue>
+	</ImportMappingProperty>
 	<!--Teacher-->
 	
 	<!--Student-->
@@ -93,14 +161,14 @@
 		<Property>LastName</Property>
 		<SortOrder>4</SortOrder>
 		<PropertyType>System.String</PropertyType>
-		<SampleValue>Teacher</SampleValue>
+		<SampleValue>Student</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Student</ImportMapping>
 		<Property>UserName</Property>
 		<SortOrder>5</SortOrder>
 		<PropertyType>System.String</PropertyType>
-		<SampleValue>sample.teacher</SampleValue>
+		<SampleValue>sample.student</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Student</ImportMapping>
@@ -114,7 +182,7 @@
 		<Property>Email</Property>
 		<SortOrder>7</SortOrder>
 		<PropertyType>System.String</PropertyType>
-		<SampleValue>sample.teacher@gmail.com</SampleValue>
+		<SampleValue>sample.student@gmail.com</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Student</ImportMapping>
@@ -169,15 +237,133 @@
 		<SampleValue>Operating System</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
-		<ImportMapping>DHK.Module.BusinessObjects.Student</ImportMapping>
+		<ImportMapping>DHK.Module.BusinessObjects.Course</ImportMapping>
 		<Property>Program</Property>
 		<SortOrder>3</SortOrder>
 		<PropertyType>DHK.Module.BusinessObjects.Program</PropertyType>
 		<SampleValue>BSCS</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
-		<ImportMapping>DHK.Module.BusinessObjects.Student</ImportMapping>
+		<ImportMapping>DHK.Module.BusinessObjects.Course</ImportMapping>
 		<Property>YearLevel</Property>
+		<SortOrder>4</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>FIRST</SampleValue>
+	</ImportMappingProperty>
+
+	<!--Section-->
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Name</Property>
+		<SortOrder>1</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>I-ABSCS</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Course</Property>
+		<SortOrder>2</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.Course</PropertyType>
+		<SampleValue>SDF</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Teacher</Property>
+		<SortOrder>3</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.Teacher</PropertyType>
+		<SampleValue>Teacher</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Schedule</Property>
+		<SortOrder>4</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>MWF</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Room</Property>
+		<SortOrder>5</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>101</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>AcademicYear</Property>
+		<SortOrder>6</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>2024-2025</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Semester</Property>
+		<SortOrder>7</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>First</SampleValue>
+	</ImportMappingProperty>
+
+	<!--Syllabus-->
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Syllabus</ImportMapping>
+		<Property>Name</Property>
+		<SortOrder>1</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>Week 1</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Syllabus</ImportMapping>
+		<Property>Content</Property>
+		<SortOrder>2</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>This is the content of syllabus</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Syllabus</ImportMapping>
+		<Property>Objective</Property>
+		<SortOrder>3</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>This is the objective of Syllabus</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Syllabus</ImportMapping>
+		<Property>Course</Property>
+		<SortOrder>4</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.Course</PropertyType>
+		<SampleValue>OS101</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Syllabus</ImportMapping>
+		<Property>AcademicYear</Property>
+		<SortOrder>5</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.AcademicYear</PropertyType>
+		<SampleValue>2024-2025</SampleValue>
+	</ImportMappingProperty>
+
+	<!--Enrollment-->	
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Enrollment</ImportMapping>
+		<Property>Student</Property>
+		<SortOrder>1</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.Student</PropertyType>
+		<SampleValue>Student</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Enrollment</ImportMapping>
+		<Property>Section</Property>
+		<SortOrder>2</SortOrder>
+		<PropertyType>DHK.Module.BusinessObjects.Section</PropertyType>
+		<SampleValue>	I-ABSCS</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Enrollment</ImportMapping>
+		<Property>Grade</Property>
+		<SortOrder>3</SortOrder>
+		<PropertyType>System.Decimal</PropertyType>
+		<SampleValue>1.25</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Enrollment</ImportMapping>
+		<Property>Status</Property>
 		<SortOrder>4</SortOrder>
 		<PropertyType>System.String</PropertyType>
 		<SampleValue>FIRST</SampleValue>

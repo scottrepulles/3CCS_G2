@@ -1,6 +1,5 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DHK.Blazor.Module.BusinessObjects.Globals;
 using DHK.Module.BusinessObjects;
 using DHK.Module.Helper;
@@ -9,16 +8,15 @@ using System.Data;
 
 namespace DHK.Blazor.Module.Helpers.Managers;
 
-public class CourseImportDataManager : BaseImportDataManager<Course, FileImportJob>
+public class SyllabusImportDataManager : BaseImportDataManager<Syllabus, FileImportJob>
 {
     private int rowIndex = 0;
-    PermissionPolicyRole role = null;
     private readonly List<string> parentProperty;
     private readonly ImportMapping importMapping;
     private readonly List<ImportMappingProperty> childrenProperty;
 
 
-    public CourseImportDataManager(
+    public SyllabusImportDataManager(
         IServiceProvider serviceProvider,
         IObjectSpace objectSpace,
         PerformContext performContext,
@@ -30,35 +28,34 @@ public class CourseImportDataManager : BaseImportDataManager<Course, FileImportJ
     {
         importMapping = objectSpace.GetObjects<ImportMapping>(CriteriaOperator.Parse(
               $"{nameof(ImportMapping.Entity)} = ? ",
-              typeof(Course).FullName)).FirstOrDefault();
+              typeof(Syllabus).FullName)).FirstOrDefault();
         childrenProperty = importMapping.Properties.Where(x => !string.IsNullOrEmpty(x.ChildrenProperty))
             .ToList();
         parentProperty = childrenProperty.Select(x => x.PropertyType).Distinct().ToList();
     }
 
-    protected override Course GetMatchFromDb(IObjectSpace objectSpace, DataRow entityRow)
+    protected override Syllabus GetMatchFromDb(IObjectSpace objectSpace, DataRow entityRow)
     {
         rowIndex += 1;
-        Course Course = objectSpace.GetObjects<Course>(new BinaryOperator(nameof(Course.Code), entityRow[nameof(Course.Code)]?.ToString())).FirstOrDefault();
-        if (Course == null)
+        Syllabus Syllabus = objectSpace.GetObjects<Syllabus>(new BinaryOperator(nameof(Syllabus.Name), entityRow[nameof(Syllabus.Name)]?.ToString())).FirstOrDefault();
+        if (Syllabus == null)
         {
             return null;
         }
-        return Course;
+        return Syllabus;
     }
 
-    protected override Course CreateNewRecord(IObjectSpace objectSpace, DataRow entityRow)
+    protected override Syllabus CreateNewRecord(IObjectSpace objectSpace, DataRow entityRow)
     {
-        if (string.IsNullOrEmpty(entityRow[nameof(Course.Code)]?.ToString()))
+        if (string.IsNullOrEmpty(entityRow[nameof(Syllabus.Name)]?.ToString()))
         {
             return null;
         }
-
-        Course newRecord = base.CreateNewRecord(objectSpace, entityRow);
+        Syllabus newRecord = base.CreateNewRecord(objectSpace, entityRow);
         return newRecord;
     }
 
-    protected override Course MatchSubProperty(IObjectSpace objectSpace, DataRow entityRow, Course entity, MapperHelper mapper)
+    protected override Syllabus MatchSubProperty(IObjectSpace objectSpace, DataRow entityRow, Syllabus entity, MapperHelper mapper)
     {
 
         foreach (string parent in parentProperty.OrderBy(x => x))

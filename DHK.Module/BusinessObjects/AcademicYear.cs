@@ -15,6 +15,7 @@ using System.Text;
 namespace DHK.Module.BusinessObjects
 {
     [DefaultClassOptions]
+    [DefaultProperty(nameof(Year))]
     public class AcademicYear(Session session) : AuditedEntity(session)
     {
         public override void AfterConstruction()

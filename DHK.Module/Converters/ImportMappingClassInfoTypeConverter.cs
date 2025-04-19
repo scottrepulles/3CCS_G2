@@ -15,9 +15,14 @@ namespace DHK.Module.Converters
         public override List<Type> GetSourceCollection(ITypeDescriptorContext context)
         {
             return [
+                typeof(College),
+                typeof(Course),
+                typeof(Enrollment),
+                typeof(Program),
+                typeof(Section),
                 typeof(Student),
-               typeof(Teacher),
-               typeof(Course),
+                typeof(Syllabus),
+                typeof(Teacher),
             ];
         }
     }
