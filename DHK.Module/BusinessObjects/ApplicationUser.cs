@@ -24,7 +24,7 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo,
     private DateTime lockoutEnd;
     bool emaiConfirmed;
     MediaDataObject photo;
-    long? phoneNumber;
+    string phoneNumber;
     string email;
     DateOnly? birthday;
     GenderType gender;
@@ -60,11 +60,11 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo,
         return result;
     }
 
-    [ModelDefault(ModelDefaultProperties.EDIT_MASK, Patterns.PHONE_EDIT_MASK)]
+    //[ModelDefault(ModelDefaultProperties.EDIT_MASK, Patterns.PHONE_EDIT_MASK)]
     [ModelDefault(ModelDefaultProperties.DISPLAY_FORMAT, Patterns.PHONE_DISPLAY_FORMAT)]
     [VisibleInLookupListView(true)]
     [RuleRequiredField(DefaultContexts.Save)]
-    public long? PhoneNumber
+    public string PhoneNumber
     {
         get => phoneNumber;
         set => SetPropertyValue(nameof(PhoneNumber), ref phoneNumber, value);

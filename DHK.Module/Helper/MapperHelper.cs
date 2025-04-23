@@ -52,7 +52,7 @@ public class MapperHelper
 
     public virtual object GetPropertyValue(XPMemberInfo targetMemberInfo, object columnValue, IObjectSpace objectSpace)
     {
-        if (targetMemberInfo.ReferenceType != null)
+        if (targetMemberInfo.ReferenceType != null && !string.IsNullOrEmpty(columnValue.ToString()))
         {
             if (targetMemberInfo.ReferenceType.ClassType == typeof(Program))
             {
@@ -79,12 +79,14 @@ public class MapperHelper
                 AcademicYear academicYear = objectSpace.GetObjects<AcademicYear>(new BinaryOperator(nameof(AcademicYear.Year), columnValue)).FirstOrDefault();
                 return academicYear;
             }
+            else if (targetMemberInfo.ReferenceType.ClassType == typeof(College))
+            {
+                College college = objectSpace.GetObjects<College>(new BinaryOperator(nameof(College.Code), columnValue)).FirstOrDefault();
+                return college;
+            }
             else if (targetMemberInfo.ReferenceType.ClassType == typeof(Section))
             {
-                Attribute criteriaAttribute = targetMemberInfo.FindAttributeInfo("CriteriaOptionsAttribute");
-                if (criteriaAttribute != null)
-                    ParseCriteriaString(Convert.ToString(columnValue));
-                Section section = objectSpace.GetObjects<Section>().Where(o => o.Code == Convert.ToString(columnValue)).FirstOrDefault();
+                Section section = objectSpace.GetObjects<Section>(new BinaryOperator(nameof(Section.Code), columnValue)).FirstOrDefault();
                 return section;
             }
         }
@@ -114,15 +116,24 @@ public class MapperHelper
             }
             else if (targetMemberInfo.MemberType == typeof(decimal))
             {
-                return Convert.ToDecimal(columnValue);
+                if (columnValue.ToString() != "")
+                {
+                    return Convert.ToDecimal(columnValue);
+                }
             }
             else if (targetMemberInfo.MemberType == typeof(double))
             {
-                return Convert.ToDouble(columnValue);
+                if (columnValue.ToString() != "")
+                {
+                    return Convert.ToDouble(columnValue);
+                }
             }
             else if (targetMemberInfo.MemberType == typeof(short))
             {
-                return Convert.ToInt16(columnValue);
+                if (columnValue.ToString() != "")
+                {
+                    return Convert.ToInt16(columnValue);
+                }
             }
             else if (targetMemberInfo.MemberType == typeof(int))
             {
@@ -131,7 +142,10 @@ public class MapperHelper
             }
             else if (targetMemberInfo.MemberType == typeof(long))
             {
-                return Convert.ToInt64(columnValue);
+                if (columnValue.ToString() != "")
+                {
+                    return Convert.ToInt64(columnValue);
+                }
             }
             else if (targetMemberInfo.MemberType == typeof(long?))
             {

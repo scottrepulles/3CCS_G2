@@ -31,6 +31,14 @@ namespace DHK.Module.BusinessObjects
         string objective;
         Course course;
         AcademicYear academicYear;
+        string code;
+
+
+        public string Code
+        {
+            get => code;
+            set => SetPropertyValue(nameof(Code), ref code, value);
+        }
 
         [RuleRequiredField(DefaultContexts.Save)]
         public string Name

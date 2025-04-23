@@ -245,8 +245,15 @@
 	</ImportMappingProperty>
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Course</ImportMapping>
-		<Property>YearLevel</Property>
+		<Property>Unit</Property>
 		<SortOrder>4</SortOrder>
+		<PropertyType>System.Int32</PropertyType>
+		<SampleValue>3</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Course</ImportMapping>
+		<Property>YearLevel</Property>
+		<SortOrder>5</SortOrder>
 		<PropertyType>System.String</PropertyType>
 		<SampleValue>FIRST</SampleValue>
 	</ImportMappingProperty>
@@ -258,6 +265,13 @@
 		<SortOrder>1</SortOrder>
 		<PropertyType>System.String</PropertyType>
 		<SampleValue>I-ABSCS</SampleValue>
+	</ImportMappingProperty>
+	<ImportMappingProperty>
+		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
+		<Property>Code</Property>
+		<SortOrder>1</SortOrder>
+		<PropertyType>System.String</PropertyType>
+		<SampleValue>I100</SampleValue>
 	</ImportMappingProperty>
 	<ImportMappingProperty>
 		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
@@ -293,13 +307,6 @@
 		<SortOrder>6</SortOrder>
 		<PropertyType>System.String</PropertyType>
 		<SampleValue>2024-2025</SampleValue>
-	</ImportMappingProperty>
-	<ImportMappingProperty>
-		<ImportMapping>DHK.Module.BusinessObjects.Section</ImportMapping>
-		<Property>Semester</Property>
-		<SortOrder>7</SortOrder>
-		<PropertyType>System.String</PropertyType>
-		<SampleValue>First</SampleValue>
 	</ImportMappingProperty>
 
 	<!--Syllabus-->

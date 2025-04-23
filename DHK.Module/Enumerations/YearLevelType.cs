@@ -17,5 +17,7 @@ namespace DHK.Module.Enumerations
         THIRD = 3,
         [XafDisplayName(@"4th Year")]
         FOURTH = 4,
+        [XafDisplayName(@"5th Year")]
+        FIFTH = 5,
     }
 }

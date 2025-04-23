@@ -6,6 +6,8 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using DHK.Module.Converters;
+using DHK.Module.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +27,7 @@ namespace DHK.Module.BusinessObjects
 
         string year;
         bool isCurrent;
+        SemesterType semester;
 
         public string Year
         {
@@ -36,6 +39,13 @@ namespace DHK.Module.BusinessObjects
         {
             get => isCurrent;
             set => SetPropertyValue(nameof(IsCurrent), ref isCurrent, value);
+        }
+
+        [ValueConverter(typeof(GenericEnumConverter<SemesterType>))]
+        public SemesterType Semester
+        {
+            get => semester;
+            set => SetPropertyValue(nameof(Semester), ref semester, value);
         }
     }
 }

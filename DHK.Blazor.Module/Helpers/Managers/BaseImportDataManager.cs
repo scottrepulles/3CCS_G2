@@ -157,7 +157,7 @@ public abstract class BaseImportDataManager<T, D>(
 
             try
             {
-                T recordMatch = GetMatchFromDb(ObjectSpace, entityRow);
+                T recordMatch = null;
                 if (recordMatch != null)
                 {
                     if (importDuplicateRecordType == ImportDuplicateRecordType.Skip) continue;

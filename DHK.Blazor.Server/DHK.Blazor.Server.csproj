@@ -38,4 +38,15 @@
 	<ProjectReference Include="..\DHK.Blazor.Hangfire\DHK.Blazor.Hangfire.csproj" />
 	<ProjectReference Include="..\DHK.Blazor.Module\DHK.Blazor.Module.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="UnusableNodes2.xml">
+      <DependentUpon>Model.xafml</DependentUpon>
+    </None>
+    <None Update="UnusableNodes3.xml">
+      <DependentUpon>Model.xafml</DependentUpon>
+    </None>
+    <None Update="UnusableNodes4.xml">
+      <DependentUpon>Model.xafml</DependentUpon>
+    </None>
+  </ItemGroup>
 </Project>

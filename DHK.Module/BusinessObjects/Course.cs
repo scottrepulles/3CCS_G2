@@ -22,11 +22,11 @@ namespace DHK.Module.BusinessObjects
             base.AfterConstruction();
         }
 
+        int unit;
         string code;
         string title;
         Program program;
         YearLevelType yearLevel;
-        SemesterType semester;
 
 
         [NonCloneable]
@@ -47,6 +47,12 @@ namespace DHK.Module.BusinessObjects
         {
             get => title;
             set => SetPropertyValue(nameof(Title), ref title, value);
+        }
+
+        public int Unit
+        {
+            get => unit;
+            set => SetPropertyValue(nameof(Unit), ref unit, value);
         }
 
         [Association($"{nameof(Program)}{nameof(Course)}")]
@@ -71,13 +77,6 @@ namespace DHK.Module.BusinessObjects
         {
             get => yearLevel;
             set => SetPropertyValue(nameof(YearLevel), ref yearLevel, value);
-        }
-
-        [ValueConverter(typeof(GenericEnumConverter<SemesterType>))]
-        public SemesterType Semester
-        {
-            get => semester;
-            set => SetPropertyValue(nameof(Semester), ref semester, value);
         }
 
         [Association($"{nameof(Course)}{nameof(Syllabus)}")]

@@ -48,14 +48,7 @@ namespace DHK.Module.BusinessObjects;
     public Course Course
     {
         get => course;
-        set
-        {
-            SetPropertyValue(nameof(Course), ref course, value);
-            if (!IsLoading && !IsSaving && value!=null)
-            {
-                Code = !string.IsNullOrEmpty(value.Code) ? name +"." +value?.Code : string.Empty;
-            }
-        }
+        set => SetPropertyValue(nameof(Course), ref course, value);
     }
 
     [Association($"{nameof(Teacher)}{nameof(Section)}")]
@@ -71,13 +64,6 @@ namespace DHK.Module.BusinessObjects;
         set => SetPropertyValue(nameof(AcademicYear), ref academicYear, value);
     }
 
-    [ValueConverter(typeof(GenericEnumConverter<SemesterType>))]
-    public SemesterType Semester
-    {
-        get => semester;
-        set => SetPropertyValue(nameof(Semester), ref semester, value);
-    }
-
     [Association($"{nameof(Enrollment)}{nameof(Section)}")]
     [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
     public XPCollection<Enrollment> Enrollments
@@ -88,8 +74,6 @@ namespace DHK.Module.BusinessObjects;
         }
     }
 
-    [VisibleInListView(true)]
-    [VisibleInDetailView(false)]
     public string Code
     {
         get => code;

@@ -37,7 +37,7 @@ public class SectionImportDataManager : BaseImportDataManager<Section, FileImpor
     protected override Section GetMatchFromDb(IObjectSpace objectSpace, DataRow entityRow)
     {
         rowIndex += 1;
-        Section Section = objectSpace.GetObjects<Section>(new BinaryOperator(nameof(Section.Name), entityRow[nameof(Section.Name)]?.ToString())).FirstOrDefault();
+        Section Section = objectSpace.GetObjects<Section>(new BinaryOperator(nameof(Section.Code), entityRow[nameof(Section.Code)]?.ToString())).FirstOrDefault();
         if (Section == null)
         {
             return null;
