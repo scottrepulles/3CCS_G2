@@ -29,3 +29,7 @@ app {
     height: 100%;
     z-index: 100001;
 }
+
+.login-form{
+    margin-top:8%;
+}

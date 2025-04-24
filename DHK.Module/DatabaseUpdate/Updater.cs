@@ -266,6 +266,7 @@ public class Updater : ModuleUpdater {
 
             //Navigation
             studentRole.AddNavigationPermission(@"Application/NavigationItems/Items/Document_ListView", SecurityPermissionState.Allow);
+            studentRole.AddNavigationPermission(@"Application/NavigationItems/Items/Syllabus_ListView", SecurityPermissionState.Allow);
 
             studentRole.AddObjectPermissionFromLambda<ApplicationUser>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
             studentRole.AddMemberPermissionFromLambda<ApplicationUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
@@ -282,6 +283,8 @@ public class Updater : ModuleUpdater {
             studentRole.AddTypePermission<Course>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             studentRole.AddTypePermission<Program>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             studentRole.AddTypePermission<FileData>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<Syllabus>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<AcademicYear>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             studentRole.AddObjectPermissionFromLambda<Student>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
 
 
@@ -299,7 +302,8 @@ public class Updater : ModuleUpdater {
 
             //Navigation
             teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Document_ListView", SecurityPermissionState.Allow);
-            teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Course_ListView", SecurityPermissionState.Allow);
+            teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Section_ListView", SecurityPermissionState.Allow);
+            teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Syllabus_ListView", SecurityPermissionState.Allow);
 
             teacherRole.AddObjectPermissionFromLambda<ApplicationUser>(SecurityOperations.Read, cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
             teacherRole.AddMemberPermissionFromLambda<ApplicationUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
@@ -316,9 +320,13 @@ public class Updater : ModuleUpdater {
             teacherRole.AddTypePermission<Document>(SecurityOperations.FullAccess, SecurityPermissionState.Allow);
             teacherRole.AddTypePermission<Course>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             teacherRole.AddTypePermission<Program>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
-            teacherRole.AddTypePermission<FileData>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
-            teacherRole.AddObjectPermissionFromLambda<Student>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
+            teacherRole.AddTypePermission<FileData>(SecurityOperations.FullAccess, SecurityPermissionState.Allow);
+            teacherRole.AddTypePermission<Section>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            teacherRole.AddTypePermission<Syllabus>(SecurityOperations.FullAccess, SecurityPermissionState.Allow);
+            teacherRole.AddTypePermission<AcademicYear>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            teacherRole.AddObjectPermissionFromLambda<Teacher>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
             teacherRole.AddObjectPermissionFromLambda<Section>(SecurityOperations.ReadWriteAccess, cm => cm.Teacher.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
+            teacherRole.AddObjectPermissionFromLambda<Course>(SecurityOperations.ReadWriteAccess, cm => cm.Sections.Min(o => o.Teacher.Oid != (Guid)CurrentUserIdOperator.CurrentUserId()), SecurityPermissionState.Deny);
         }
         return teacherRole;
     }

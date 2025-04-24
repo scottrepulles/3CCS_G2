@@ -19,6 +19,7 @@ using System.Text;
 namespace DHK.Module.BusinessObjects
 {
     [DefaultClassOptions]
+    [DefaultProperty(nameof(Name))]
     public class Syllabus(Session session) : AuditedEntity(session), IAuditEvent, IImported
     {
         public override void AfterConstruction()

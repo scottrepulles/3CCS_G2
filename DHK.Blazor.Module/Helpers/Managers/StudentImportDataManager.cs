@@ -58,6 +58,7 @@ public class StudentImportDataManager : BaseImportDataManager<Student, FileImpor
         }
 
         Student newRecord = base.CreateNewRecord(objectSpace, entityRow);
+        AssignRolesAndParentRelationships(objectSpace, newRecord);
         return newRecord;
     }
 

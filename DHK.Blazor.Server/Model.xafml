@@ -119,22 +119,34 @@
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="100" Direction="Vertical" Caption="SimpleEditors">
-            <LayoutGroup Id="Autoc7b6fba3-489c-41a5-87cf-39bc9383d55e" ShowCaption="False" Caption="Autoc7b6fba3-489c-41a5-87cf-39bc9383d55e(3)" Direction="Horizontal" Index="0" RelativeSize="11.139240506329115" IsNewNode="True">
-              <LayoutGroup Id="Auto943e0c08-8d6b-446b-afd3-bb0247732562" ShowCaption="False" Caption="Auto943e0c08-8d6b-446b-afd3-bb0247732562(4)" Index="0" RelativeSize="49.88636363636363" IsNewNode="True">
-                <LayoutItem Id="File" ViewItem="File" Index="0" RelativeSize="77.27272727272727" IsNewNode="True" />
+            <LayoutGroup Id="Autoc7b6fba3-489c-41a5-87cf-39bc9383d55e" ShowCaption="False" Caption="Autoc7b6fba3-489c-41a5-87cf-39bc9383d55e(3)" Direction="Horizontal" Index="0" RelativeSize="8.59375" IsNewNode="True">
+              <LayoutGroup Id="Auto943e0c08-8d6b-446b-afd3-bb0247732562" ShowCaption="False" Caption="Auto943e0c08-8d6b-446b-afd3-bb0247732562(4)" Index="0" RelativeSize="49.71623155505108" IsNewNode="True">
+                <LayoutGroup Id="Auto81528467-32d6-4d80-ae71-34ca61865f83" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="77.27272727272727" IsNewNode="True">
+                  <LayoutItem Id="File" ViewItem="File" Index="0" RelativeSize="50" IsNewNode="True" />
+                  <LayoutItem Id="Syllabus" ViewItem="Syllabus" Index="1" RelativeSize="50" IsNewNode="True" />
+                </LayoutGroup>
                 <LayoutItem Id="Course" ViewItem="Course" Index="1" RelativeSize="22.727272727272727" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutGroup Id="Auto91545f7b-62c2-4f02-8d73-1af0c0dcae17" ShowCaption="False" Caption="Auto91545f7b-62c2-4f02-8d73-1af0c0dcae17(7)" Index="1" RelativeSize="50.11363636363637" Direction="Horizontal" IsNewNode="True">
-                <LayoutItem Id="ExpirationDate" ViewItem="ExpirationDate" Index="0" RelativeSize="49.88662131519274" IsNewNode="True" />
-                <LayoutItem Id="Visible" ViewItem="Visible" Index="1" RelativeSize="50.11337868480726" IsNewNode="True" />
+              <LayoutGroup Id="Auto91545f7b-62c2-4f02-8d73-1af0c0dcae17" ShowCaption="False" Caption="Auto91545f7b-62c2-4f02-8d73-1af0c0dcae17(7)" Index="1" RelativeSize="50.28376844494892" Direction="Horizontal" IsNewNode="True">
+                <LayoutItem Id="ExpirationDate" ViewItem="ExpirationDate" Index="0" RelativeSize="49.66139954853273" IsNewNode="True" />
+                <LayoutItem Id="Visible" ViewItem="Visible" Index="1" RelativeSize="50.33860045146727" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
-            <LayoutItem Id="Viewer" ViewItem="Viewer" Index="1" RelativeSize="88.86075949367088" IsNewNode="True" />
+            <LayoutItem Id="Viewer" ViewItem="Viewer" Index="1" RelativeSize="91.40625" ShowCaption="False" IsNewNode="True" />
             <LayoutGroup Id="Document" RelativeSize="100" Removed="True" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="Document_ListView">
+      <Columns>
+        <ColumnInfo Id="Viewer" Index="-1" />
+        <ColumnInfo Id="Syllabus" Index="0" />
+        <ColumnInfo Id="File" Index="1" />
+        <ColumnInfo Id="ExpirationDate" Index="2" />
+        <ColumnInfo Id="Visible" Index="3" />
+      </Columns>
+    </ListView>
     <DetailView Id="Enrollment_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
@@ -371,19 +383,20 @@
     <DetailView Id="Syllabus_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="19.4331983805668">
-            <LayoutGroup Id="Syllabus_col1" ShowCaption="False" Index="0" RelativeSize="50" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Direction="Horizontal" RelativeSize="19.55193482688391">
+            <LayoutGroup Id="Syllabus_col1" ShowCaption="False" Index="0" RelativeSize="49.95458673932789" IsNewNode="True">
               <LayoutItem Id="Name" ViewItem="Name" Index="0" RelativeSize="37.5" IsNewNode="True" />
               <LayoutItem Id="Course" ViewItem="Course" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
               <LayoutItem Id="AcademicYear" ViewItem="AcademicYear" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="Syllabus_col2" ShowCaption="False" Index="1" RelativeSize="50" IsNewNode="True">
-              <LayoutItem Id="Content" ViewItem="Content" Index="0" RelativeSize="37.5" IsNewNode="True" />
-              <LayoutItem Id="Objective" ViewItem="Objective" Index="1" RelativeSize="62.5" IsNewNode="True" />
+            <LayoutGroup Id="Syllabus_col2" ShowCaption="False" Index="1" RelativeSize="50.04541326067211" IsNewNode="True">
+              <LayoutItem Id="Code" ViewItem="Code" Index="0" RelativeSize="37.5" IsNewNode="True" />
+              <LayoutItem Id="Content" ViewItem="Content" Index="1" RelativeSize="27.083333333333332" IsNewNode="True" />
+              <LayoutItem Id="Objective" ViewItem="Objective" Index="2" RelativeSize="35.416666666666664" IsNewNode="True" />
             </LayoutGroup>
             <LayoutGroup Id="Syllabus" Removed="True" />
           </LayoutGroup>
-          <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="80.56680161943319" IsNewNode="True">
+          <TabbedGroup Id="Item2" CaptionLocation="Top" Index="1" RelativeSize="80.44806517311609" IsNewNode="True">
             <LayoutGroup Id="Item1" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Documents" IsNewNode="True">
               <LayoutItem Id="Documents" ViewItem="Documents" Index="0" RelativeSize="100" IsNewNode="True" />
             </LayoutGroup>
@@ -396,10 +409,13 @@
     </DetailView>
     <ListView Id="Syllabus_ListView">
       <Columns>
-        <ColumnInfo Id="Content" Index="1" />
-        <ColumnInfo Id="Objective" Index="2" />
-        <ColumnInfo Id="Course" Index="3" />
-        <ColumnInfo Id="AcademicYear" Index="4" />
+        <ColumnInfo Id="Course" Index="0" />
+        <ColumnInfo Id="Code" Index="1" />
+        <ColumnInfo Id="Name" Index="2" />
+        <ColumnInfo Id="Content" Index="3" />
+        <ColumnInfo Id="Objective" Index="4" />
+        <ColumnInfo Id="AcademicYear" Index="5" />
+        <ColumnInfo Id="CreatedBy" Index="6" />
       </Columns>
     </ListView>
     <DetailView Id="Teacher_DetailView">

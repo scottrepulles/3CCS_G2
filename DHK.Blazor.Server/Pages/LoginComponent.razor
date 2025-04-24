@@ -6,28 +6,14 @@
 @inherits LoginPage
 
 @inject IJSRuntime jSRuntime
-@inject IConfiguration configuration
+@inject IConfiguration configuration;
 
-
-<style>
-.logon-main.card .card-header .xaf-language-switcher-text-container,
-.dxbl-btn.dxbl-btn-text-secondary.dxbl-dropdown-item {
-font-size: 1rem;}
-.logon-main.card .card-header .dxbl-toolbar.dxbl-toolbar-adaptive.dxbl-loaded {
-min-width: 220px !important;}
-#logon-template-component:not(.dhk-login #logon-template-component) {
-    background: none;
-}
-</style>
-
-<div class="container-fluid dhk-logins" style="height: 100vh;
-    background: url('../images/tcu.jpg') 0 0 no-repeat;
-    background-size: cover;">
+<div class="container-fluid dhk-login">
     <div class="row align-items-center">
         <div class="col-lg-4 col-spacer"></div>
         <div class="col-lg-4 login-form">
             <div class="login-logo">
-                <img src="/images/DKH_LOGO_RED.png" class="img-fluid dhk-login-img" />
+                <img src="/images/DKH_LOGO_WHITE.png" class="img-fluid dhk-login-img" />
             </div>
             @{
                 base.BuildRenderTree(__builder);

@@ -9,7 +9,7 @@ using Document = DHK.Module.BusinessObjects.Document;
 namespace DHK.Blazor.Server.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController.
-    public partial class DocumentListViewController : ObjectViewController<ListView, DHK.Module.BusinessObjects.Document>
+    public partial class DocumentListViewController : ObjectViewController<ListView, Document>
     {
         // Use CodeRush to create Controllers and Actions with a few keystrokes.
         // https://docs.devexpress.com/CodeRushForRoslyn/403133/
@@ -34,7 +34,7 @@ namespace DHK.Blazor.Server.Controllers
                 bool hasStudentRole = currentUser.Roles.Any(r => r.Name == RoleNames.STUDENTS);
                 if (hasStudentRole)
                 {
-                    //objectCriteria = CriteriaOperator.Parse($"{nameof(Document.Syllabus)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
+                    objectCriteria = CriteriaOperator.Parse($"{nameof(Document.Syllabus)}.{nameof(Syllabus.Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
                     View.CollectionSource.Criteria["DocumentCriteria"] = objectCriteria;
                 }
             }
