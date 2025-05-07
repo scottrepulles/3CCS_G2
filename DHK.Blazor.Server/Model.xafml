@@ -49,7 +49,7 @@
       <Item Id="State Machine" Visible="False" />
     </Items>
   </NavigationItems>
-  <Options UIType="TabbedMDI" RestoreTabbedMdiLayout="True" ShowTabImage="True" />
+  <Options UIType="SingleWindowSDI" RestoreTabbedMdiLayout="True" ShowTabImage="True" />
   <SchemaModules>
     <SchemaModule Name="CloneObjectModule" Version="24.2.6.0" IsNewNode="True" />
     <SchemaModule Name="SchedulerBlazorModule" Version="24.2.6.0" IsNewNode="True" />
@@ -168,7 +168,6 @@
     <ListView Id="Enrollment_ListView">
       <Columns>
         <ColumnInfo Id="Section" Index="1" />
-        <ColumnInfo Id="Grade" Index="2" />
         <ColumnInfo Id="Status" Index="3" />
       </Columns>
     </ListView>

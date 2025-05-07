@@ -285,6 +285,8 @@ public class Updater : ModuleUpdater {
             studentRole.AddTypePermission<FileData>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             studentRole.AddTypePermission<Syllabus>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             studentRole.AddTypePermission<AcademicYear>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<Enrollment>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
+            studentRole.AddTypePermission<Section>(SecurityOperations.ReadOnlyAccess, SecurityPermissionState.Allow);
             studentRole.AddObjectPermissionFromLambda<Student>(SecurityOperations.ReadWriteAccess, cm => cm.Oid != (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Deny);
 
 

@@ -237,7 +237,7 @@ public class MapperHelper
                     {
                         return status;
                     }
-                    return EnrollmentStatusType.NOTTAKEN;
+                    return EnrollmentStatusType.INACTIVE;
                 }
             }
             else if (targetMemberInfo.MemberType == typeof(SemesterType))

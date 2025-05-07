@@ -26,16 +26,33 @@ namespace DHK.Blazor.Server.Controllers
         protected override void OnViewControlsCreated()
         {
             base.OnViewControlsCreated();
-            // Access and customize the target View control.
-            CriteriaOperator objectCriteria = null;
             IObjectSpace objectSpace = Application.CreateObjectSpace<Student>();
             if (SecuritySystem.CurrentUser is Student currentUser)
             {
                 bool hasStudentRole = currentUser.Roles.Any(r => r.Name == RoleNames.STUDENTS);
                 if (hasStudentRole)
                 {
-                    objectCriteria = CriteriaOperator.Parse($"{nameof(Document.Syllabus)}.{nameof(Syllabus.Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
-                    View.CollectionSource.Criteria["DocumentCriteria"] = objectCriteria;
+                    //List<Enrollment> enrollments  = objectSpace.GetObjectsQuery<Enrollment>().Where(o => o.Status == DHK.Module.Enumerations.EnrollmentStatusType.ACTIVE &&
+                    //o.Student.Oid == currentUser.Oid).ToList();
+                    //List<Enrollment> enrollments_ = View.ObjectSpace.GetObjectsQuery<Enrollment>().ToList();
+                    //List<Guid> courseIds = [.. enrollments.Select(o => o.Section.Course.Oid)];
+                    //courseIds = [.. courseIds.GroupBy(x => x).Select(g => g.First())];
+                    CriteriaOperator courseCriteria = CriteriaOperator.Parse($"{nameof(Document.Syllabus)}.{nameof(Syllabus.Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
+
+                    // Filter by visibility
+                    CriteriaOperator visibilityCriteria = new BinaryOperator(nameof(Document.Visible), true);
+
+                    // Filter by expiration: either null or in the future
+                    CriteriaOperator expirationCriteria = new GroupOperator(GroupOperatorType.Or,
+                        new NullOperator(nameof(Document.ExpirationDate)),
+                        new BinaryOperator(nameof(Document.ExpirationDate), DateTime.Now, BinaryOperatorType.Greater)
+                    );
+                    CriteriaOperator finalCriteria = CriteriaOperator.And(
+                        courseCriteria,
+                        visibilityCriteria,
+                        expirationCriteria
+                    );
+                    View.CollectionSource.Criteria["DocumentCriteria"] = finalCriteria;
                 }
             }
             

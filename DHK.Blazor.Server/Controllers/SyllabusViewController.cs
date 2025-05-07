@@ -27,7 +27,7 @@ public partial class SyllabusViewController : ObjectViewController<ListView, Syl
             if (hasStudentRole)
             {
                 objectCriteria = CriteriaOperator.Parse($"{nameof(Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
-                View.CollectionSource.Criteria["DocumentCriteria"] = objectCriteria;
+                View.CollectionSource.Criteria["SyllabusCriteria"] = objectCriteria;
             }
         }
         if (SecuritySystem.CurrentUser is Teacher currentTeacher)
@@ -36,7 +36,7 @@ public partial class SyllabusViewController : ObjectViewController<ListView, Syl
             if (hasTeacherRole)
             {
                 objectCriteria = CriteriaOperator.Parse($"{nameof(Syllabus.CreatedBy)}.{nameof(Syllabus.CreatedBy.Oid)} = ?", currentTeacher.Oid);
-                View.CollectionSource.Criteria["DocumentCriteria"] = objectCriteria;
+                View.CollectionSource.Criteria["SyllabusCriteria"] = objectCriteria;
             }
         }
     }

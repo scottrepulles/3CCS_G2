@@ -30,14 +30,14 @@ public class Enrollment(Session session) : AuditedEntity(session), IImported
         set => SetPropertyValue(nameof(Student), ref student, value);
     }
 
-    [ModelDefault(ModelDefaultProperties.DISPLAY_FORMAT, Patterns.DECIMAL)]
-    [ModelDefault(ModelDefaultProperties.EDIT_MASK, ModelDefaultProperties.NUMBER)]
-    [RuleRange($"{ModelDefaultProperties.RULE_RANGE}{nameof(Enrollment)}{nameof(Grade)}", DefaultContexts.Save, 0, 5)]
-    public decimal Grade
-    {
-        get => grade;
-        set => SetPropertyValue(nameof(Grade), ref grade, value);
-    }
+    //[ModelDefault(ModelDefaultProperties.DISPLAY_FORMAT, Patterns.DECIMAL)]
+    //[ModelDefault(ModelDefaultProperties.EDIT_MASK, ModelDefaultProperties.NUMBER)]
+    //[RuleRange($"{ModelDefaultProperties.RULE_RANGE}{nameof(Enrollment)}{nameof(Grade)}", DefaultContexts.Save, 0, 5)]
+    //public decimal Grade
+    //{
+    //    get => grade;
+    //    set => SetPropertyValue(nameof(Grade), ref grade, value);
+    //}
 
     public EnrollmentStatusType Status
     {

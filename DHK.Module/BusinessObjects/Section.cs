@@ -1,8 +1,6 @@
 ﻿using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using DevExpress.Xpo;
-using DevExpress.XtraPrinting.Accessibility;
-using DHK.Module.Converters;
 using DHK.Module.Enumerations;
 using DHK.Module.Interfaces;
 
@@ -25,7 +23,7 @@ namespace DHK.Module.BusinessObjects;
     string room;
     string code;
 
-
+    [XafDisplayName("Section")]
     public string Name
     {
         get => name;

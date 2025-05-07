@@ -1,4 +1,5 @@
 ﻿using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -43,6 +44,7 @@ namespace DHK.Module.BusinessObjects
         }
 
         [RuleRequiredField(DefaultContexts.Save)]
+        [XafDisplayName("Subject Description")]
         public string Title
         {
             get => title;
