@@ -32,30 +32,54 @@ namespace DHK.Blazor.Server.Controllers
                 bool hasStudentRole = currentUser.Roles.Any(r => r.Name == RoleNames.STUDENTS);
                 if (hasStudentRole)
                 {
-                    //List<Enrollment> enrollments  = objectSpace.GetObjectsQuery<Enrollment>().Where(o => o.Status == DHK.Module.Enumerations.EnrollmentStatusType.ACTIVE &&
-                    //o.Student.Oid == currentUser.Oid).ToList();
-                    //List<Enrollment> enrollments_ = View.ObjectSpace.GetObjectsQuery<Enrollment>().ToList();
-                    //List<Guid> courseIds = [.. enrollments.Select(o => o.Section.Course.Oid)];
-                    //courseIds = [.. courseIds.GroupBy(x => x).Select(g => g.First())];
-                    CriteriaOperator courseCriteria = CriteriaOperator.Parse($"{nameof(Document.Syllabus)}.{nameof(Syllabus.Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
+                    var enrollments = objectSpace.GetObjectsQuery<Enrollment>()
+                        .Where(o => o.Status == DHK.Module.Enumerations.EnrollmentStatusType.ACTIVE &&
+                                    o.Student.Oid == currentUser.Oid)
+                        .ToList();
 
-                    // Filter by visibility
-                    CriteriaOperator visibilityCriteria = new BinaryOperator(nameof(Document.Visible), true);
+                    var courseIds = enrollments
+                        .Where(o => o.Section.HideSyllabus)
+                        .Select(o => o.Section.Course.Oid)
+                        .Distinct()
+                        .ToList();
 
-                    // Filter by expiration: either null or in the future
-                    CriteriaOperator expirationCriteria = new GroupOperator(GroupOperatorType.Or,
+                    var criteriaList = new List<CriteriaOperator>();
+
+                    // Always apply program filter
+                    criteriaList.Add(CriteriaOperator.Parse(
+                        $"{nameof(Document.Syllabus)}.{nameof(Syllabus.Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?",
+                        currentUser.Program?.Oid));
+
+                    // Always apply visibility filter
+                    criteriaList.Add(new BinaryOperator(nameof(Document.Visible), true));
+
+                    // Always apply expiration filter
+                    criteriaList.Add(new GroupOperator(GroupOperatorType.Or,
                         new NullOperator(nameof(Document.ExpirationDate)),
-                        new BinaryOperator(nameof(Document.ExpirationDate), DateTime.Now, BinaryOperatorType.Greater)
-                    );
-                    CriteriaOperator finalCriteria = CriteriaOperator.And(
-                        courseCriteria,
-                        visibilityCriteria,
-                        expirationCriteria
-                    );
+                        new BinaryOperator(nameof(Document.ExpirationDate), DateTime.Now, BinaryOperatorType.Greater)));
+
+                    // Optionally apply course ID filter if we have valid course IDs
+                    if (courseIds.Any())
+                    {
+                        criteriaList.Add(new UnaryOperator(UnaryOperatorType.Not, new InOperator(
+                            $"{nameof(Document.Syllabus)}.{nameof(Syllabus.Course)}.{nameof(Course.Oid)}", courseIds)));
+                    }
+
+                    // Combine all criteria
+                    CriteriaOperator finalCriteria = new GroupOperator(GroupOperatorType.And, criteriaList);
                     View.CollectionSource.Criteria["DocumentCriteria"] = finalCriteria;
                 }
             }
-            
+            if (SecuritySystem.CurrentUser is Teacher currentTeacher)
+            {
+                bool hasTeacherRole = currentTeacher.Roles.Any(r => r.Name == RoleNames.TEACHERS);
+                if (hasTeacherRole)
+                {
+                    var objectCriteria = CriteriaOperator.Parse($"{nameof(Syllabus.CreatedBy)}.{nameof(Syllabus.CreatedBy.Oid)} = ?", currentTeacher.Oid);
+                    View.CollectionSource.Criteria["DocumentTeacherCriteria"] = objectCriteria;
+                }
+            }
+
         }
         protected override void OnDeactivated()
         {

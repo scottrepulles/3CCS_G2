@@ -78,4 +78,11 @@ namespace DHK.Module.BusinessObjects;
         set => SetPropertyValue(nameof(Code), ref code, value);
     }
 
+    bool hideSyllabus;
+    public bool HideSyllabus
+    {
+        get => hideSyllabus;
+        set => SetPropertyValue(nameof(HideSyllabus), ref hideSyllabus, value);
+    }
+
 }

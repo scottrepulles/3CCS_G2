@@ -26,8 +26,30 @@ public partial class SyllabusViewController : ObjectViewController<ListView, Syl
 
             if (hasStudentRole)
             {
-                objectCriteria = CriteriaOperator.Parse($"{nameof(Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid);
-                View.CollectionSource.Criteria["SyllabusCriteria"] = objectCriteria;
+                var enrollments = objectSpace.GetObjectsQuery<Enrollment>()
+                        .Where(o => o.Status == DHK.Module.Enumerations.EnrollmentStatusType.ACTIVE &&
+                                    o.Student.Oid == currentUser.Oid)
+                        .ToList();
+
+                var courseIds = enrollments
+                    .Where(o => o.Section.HideSyllabus)
+                    .Select(o => o.Section.Course.Oid)
+                    .Distinct()
+                    .ToList();
+
+                var criteriaList = new List<CriteriaOperator>();
+
+                // Always apply program filter
+                criteriaList.Add(CriteriaOperator.Parse($"{nameof(Course)}.{nameof(Course.Program)}.{nameof(DHK.Module.BusinessObjects.Program.Oid)} = ?", currentUser.Program?.Oid));
+
+                if (courseIds.Any())
+                {
+                    criteriaList.Add(new UnaryOperator(UnaryOperatorType.Not, new InOperator(
+                        $"{nameof(Syllabus.Course)}.{nameof(Course.Oid)}", courseIds)));
+                }
+
+                CriteriaOperator finalCriteria = new GroupOperator(GroupOperatorType.And, criteriaList);
+                View.CollectionSource.Criteria["SyllabusCriteria"] = finalCriteria;;
             }
         }
         if (SecuritySystem.CurrentUser is Teacher currentTeacher)

@@ -9,7 +9,7 @@ using DHK.Module.Interfaces;
 namespace DHK.Module.BusinessObjects
 {
     [DefaultClassOptions]
-    [DefaultProperty(nameof(Course.Title))]
+    [DefaultProperty(nameof(File))]
 
     public class Document(Session session) : AuditedEntity(session), IImported, IAuditEvent
     {
@@ -67,6 +67,16 @@ namespace DHK.Module.BusinessObjects
         {
             get => expirationDate;
             set => SetPropertyValue(nameof(ExpirationDate), ref expirationDate, value);
+        }
+
+        [Association($"{nameof(Tracker)}{nameof(Document)}")]
+        [LookupEditorMode(LookupEditorMode.AllItemsWithSearch)]
+        public XPCollection<Tracker> Trackers
+        {
+            get
+            {
+                return GetCollection<Tracker>(nameof(Trackers));
+            }
         }
     }
 }

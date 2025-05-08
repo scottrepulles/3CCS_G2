@@ -306,6 +306,7 @@ public class Updater : ModuleUpdater {
             teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Document_ListView", SecurityPermissionState.Allow);
             teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Section_ListView", SecurityPermissionState.Allow);
             teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Syllabus_ListView", SecurityPermissionState.Allow);
+            teacherRole.AddNavigationPermission(@"Application/NavigationItems/Items/Syllabus_ListView", SecurityPermissionState.Allow);
 
             teacherRole.AddObjectPermissionFromLambda<ApplicationUser>(SecurityOperations.Read, cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
             teacherRole.AddMemberPermissionFromLambda<ApplicationUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
