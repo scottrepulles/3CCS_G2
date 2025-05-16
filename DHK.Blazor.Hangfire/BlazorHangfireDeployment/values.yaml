@@ -2,7 +2,6 @@
 signalREndPoint: "endpoint"
 keyVaultUrl: "https://sprinttek-sandbox-v2.vault.azure.net/"
 appId: "604722b7-0141-444e-aa0c-8ef1489a4808"
-secretValue: "***REMOVED***"
 tenantId: "1698f082-4f59-42ba-a1b9-0f27af851a06"
 apiUrl: "https://host.api.v2.sandbox.sprinttek.com/"
 domainUrl: "https://host.v2.sandbox.sprinttek.com/"
